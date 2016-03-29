@@ -1,7 +1,7 @@
 @extends('init')
 
 @section('css')
-    <title>菜單 - 菜單系統</title>
+    <title>帳號系統</title>
 @stop
 
 @section('js')
