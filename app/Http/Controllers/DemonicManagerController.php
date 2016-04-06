@@ -14,7 +14,13 @@ class DemonicManagerController extends Controller
     }
 
     public function menuMenu() {
-        return view('demonic.manager.menu.menu');
+        $menu = [
+            ['id'=>1, 'name'=>'春節菜單'],
+            ['id'=>2, 'name'=>'端午菜單']
+        ];
+
+        return view('demonic.manager.menu.menu')
+            ->with('menu', $menu);
     }
 
     public function menuExport() {
