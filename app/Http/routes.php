@@ -26,8 +26,8 @@ Route::group(['prefix'=>'manager'], function() {
     Route::get('fee', 'ManagerController@fee');
 
     Route::group(['prefix'=>'menu'], function() {
-        Route::get('element', 'ManagerController@menuElement');
         Route::get('menu', 'ManagerController@menuMenu');
         Route::get('export', 'ManagerController@menuExport');
+        Route::get('edit/{id}', 'ManagerController@menuEdit');
     });
 });

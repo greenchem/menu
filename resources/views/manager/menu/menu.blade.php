@@ -1,7 +1,8 @@
 @extends('init')
 
 @section('css')
-<title>菜單 - 菜單系統</title>
+<title>管理菜單</title>
+<link rel="stylesheet" href="{{url('assets/css/manager/menu.css')}}">
 @stop
 
 @section('js')
@@ -13,8 +14,13 @@
 
     <input type="hidden" id="currentMenu">
 
-    <h3 class="text-center">春節菜單</h3>
     <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3"></div>
+            <div class="col-lg-9 col-md-9 col-sm-9 text-center">
+                <h3>春節菜單</h3>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <ul class="nav nav-pills nav-stacked">
@@ -22,7 +28,7 @@
                     <li role="presentation"><a href="#">端午菜單</a></li>
                 </ul>
             </div>
-            <div class="col-lg-7 col-md-7 col-sm-7">
+            <div class="col-lg-9 col-md-9 col-sm-9">
                 <table class="table table-striped" id="menuTable">
                     <thead>
                         <tr>
@@ -41,6 +47,13 @@
                         @endfor
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3"></div>
+            <div class="col-lg-9 col-md-9 col-sm-9 text-center">
+                <button class="btn btn-primary edit" onclick="window.location='{{url('manager/menu/edit/1')}}'">編輯</button>
+                <button class="btn btn-danger">刪除</button>
             </div>
         </div>
     </div>

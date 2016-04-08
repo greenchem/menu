@@ -9,8 +9,12 @@ use App\Http\Requests;
 class ManagerController extends Controller
 {
     // Menu
-    public function menuElement() {
-        return view('manager.menu.element');
+    public function menuEdit($id) {
+        if(!$id) {
+            return view('manager.menu.menu');
+        }else {
+            return view('manager.menu.edit');
+        }
     }
 
     public function menuMenu() {

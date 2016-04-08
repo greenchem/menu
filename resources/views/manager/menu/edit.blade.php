@@ -21,6 +21,7 @@
                     <th>名稱</th>
                     <th>單位</th>
                     <th>數量</th>
+                    <th>價錢</th>
                     <th>#</th>
                 </tr>
             </thead>
@@ -29,6 +30,7 @@
                     <td>百事可樂</td>
                     <td>瓶</td>
                     <td>1</td>
+                    <td>100</td>
                     <td>
                         <button class="btn btn-primary">編輯</button>
                         <button class="btn btn-danger">刪除</button>
@@ -36,6 +38,9 @@
                 </tr>
             </tbody>
         </table>
+        <div class="row text-center">
+            <button type="button" class="btn btn-primary" onclick="window.location='{{url('manager/menu/menu')}}'">回到菜單列表</button>
+        </div>
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog">
