@@ -8,4 +8,5 @@
         </ul>
     </li>
     <li role="presentation"><a href="{{url('manager/fee')}}">津貼系統</a></li>
+    <li role="presentation"><a href="{{url('')}}">回首頁</a></li>
 </ul>

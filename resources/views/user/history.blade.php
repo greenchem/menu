@@ -31,16 +31,20 @@
                             <td>瓶</td>
                             <td>1</td>
                             <td>100</td>
-                            <td><button type="button" class="btn btn-danger">刪除</button></td>
+                            <td><button type="button" class="btn btn-warning" disabled>未核銷</button></td>
                         </tr>
                         @endfor
+                        <tr>
+                            <td>百事可樂</td>
+                            <td>瓶</td>
+                            <td>1</td>
+                            <td>100</td>
+                            <td><button type="button" class="btn btn-success" disabled>已銷帳</button></td>
+                        </tr>
                 </tbody>
                 </table>
             </div> <!-- col-lg-12 -->
-            <div class="col-lg-12 text-center">
-                <button class="btn btn-primary">確定送出</button>
-            </div>
         </div><!-- row -->
-    </div><!-- container -->
-@stop
+</div>
 
+@stop

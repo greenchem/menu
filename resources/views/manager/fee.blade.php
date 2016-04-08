@@ -97,7 +97,7 @@ $(function(){
     ¦   ¦   ¦   ¦   @for($j=0; $j<10; $j++)
     ¦   ¦   ¦   ¦       <option value="{{$j}}">江XX (A123123123)</option>
     ¦   ¦   ¦   ¦   @endfor
-                </select>
+            </select><br/>
                 <table class="table table-striped text-center" id="menuTable" >
                     <thead>
                         <tr align=center>

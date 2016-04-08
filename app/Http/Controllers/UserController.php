@@ -16,6 +16,10 @@ class UserController extends Controller
         return view('user.shoppingCart');
     }
 
+    public function history() {
+        return view('user.history');
+    }
+
     public function fee() {
         return view('user.fee');
     }
