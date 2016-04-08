@@ -40,8 +40,8 @@
             <div class="content">
                 <div class="title">Laravel 5</div>
             </div>
-            <p><a href="{{url('demonic/manager/account')}}">Demonic 管理者</a></p>
-            <p><a href="{{url('demonic/user/menu')}}">Demonic 使用者</a></p>
+            <p><a href="{{url('manager/account')}}">管理者</a></p>
+            <p><a href="{{url('user/menu')}}">使用者</a></p>
         </div>
     </body>
 </html>

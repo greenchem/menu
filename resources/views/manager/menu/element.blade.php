@@ -9,7 +9,7 @@
 @stop
 
 @section('content')
-    @include('demonic.manager.header')
+    @include('manager.header')
 
     <div class="container">
         <div class="row text-right">
