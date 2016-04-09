@@ -15,21 +15,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix'=>'demonic'], function() {
-    Route::group(['prefix'=>'user'], function() {
-        Route::get('menu', 'DemonicUserController@menu');
-        Route::get('fee', 'DemonicUserController@fee');
-    });
-
-    Route::group(['prefix'=>'manager'], function() {
-        Route::get('account', 'DemonicManagerController@account');
-        Route::get('fee', 'DemonicManagerController@fee');
-
-        Route::group(['prefix'=>'menu'], function() {
-            Route::get('element', 'DemonicManagerController@menuElement');
-            Route::get('menu', 'DemonicManagerController@menuMenu');
-            Route::get('export', 'DemonicManagerController@menuExport');
-        });
-    });
+Route::group(['prefix'=>'user'], function() {
+    Route::get('menu', 'UserController@menu');
+    Route::get('shoppingCart', 'UserController@shoppingCart');
+    Route::get('history', 'UserController@history');
+    Route::get('fee', 'UserController@fee');
 });
 
+Route::group(['prefix'=>'manager'], function() {
+    Route::get('account', 'ManagerController@account');
+    Route::get('fee', 'ManagerController@fee');
+
+    Route::group(['prefix'=>'menu'], function() {
+        Route::get('menu', 'ManagerController@menuMenu');
+        Route::get('export', 'ManagerController@menuExport');
+        Route::get('edit/{id}', 'ManagerController@menuEdit');
+    });
+});

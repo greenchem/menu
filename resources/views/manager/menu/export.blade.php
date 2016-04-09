@@ -9,6 +9,6 @@
 @stop
 
 @section('content')
-    @include('demonic.manager.header')
+    @include('manager.header')
 @stop
 
