@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-
+    <meta name="csrf-token" content="{{csrf_token()}}">
     @if(false)
     <!-- CDN-->
     <!-- Latest compiled and minified CSS -->
@@ -25,11 +25,13 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.2/lodash.min.js"></script>
     @else
     <!-- localhost -->
 <script src="{{url('assets/js/jquery-1.12.2.min.js')}}"></script>
 <script src="{{url('assets/js/bootstrap.min.js')}}"></script>
 <script src="{{url('assets/js/toastr.min.js')}}"></script>
+<script src="{{url('assets/js/lodash.min.js')}}"></script>
 @endif
     @yield('js')
 </body>

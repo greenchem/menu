@@ -5,7 +5,7 @@
 @stop
 
 @section('js')
-
+<script src="{{url('assets/js/manager/account.js')}}"></script>
 @stop
 
 @section('content')

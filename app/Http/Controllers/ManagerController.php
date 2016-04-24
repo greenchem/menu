@@ -9,6 +9,10 @@ use App\Http\Requests;
 class ManagerController extends Controller
 {
     // Menu
+    public function menuAdd() {
+        return view('manager.menu.add');
+    }
+
     public function menuEdit($id) {
         if(!$id) {
             return view('manager.menu.menu');
@@ -51,6 +55,7 @@ class ManagerController extends Controller
     public function feeParking() {
         return view('manager.fee.parking');
     }
+
     // Account
     public function account() {
         return view('manager.account');

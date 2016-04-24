@@ -1,8 +1,15 @@
 $(function() {
   faker();
   clickEvent();
-  console.log(menu);
 });
+
+var shoppingList;
+
+function init() {
+  if(sessionStorage.shoppingList != null) {
+    shoppingList = JSON.parse(sessionStorage.shoppingList);
+  }
+}
 
 function clickEvent() {
   $('.companyList').unbind('click');
@@ -25,6 +32,20 @@ function clickEvent() {
     $('.menuList').removeClass('active');
     $(this).addClass('active');
   });
+
+  $('#shoppingCartBtn').unbind('click');
+  $('#shoppingCartBtn').click(function()) {
+    var currentCompany = $('#currentCompany').val();
+    var currentMenu = $('#currentMenu').val();
+
+    if(_.trim(currentCompany)=='' || _.trim(currentMenu)=='') {
+      toastr['warning']('請先選擇公司跟菜單');
+      return;
+    }
+
+    var data = {};
+
+  };
 }
 
 function produceMenu(company) {
@@ -120,10 +141,6 @@ var productUnit = [
 ];
 
 function faker() {
-  fakerList();
-}
-
-function fakerList() {
   var i;
   var j;
   var k;
