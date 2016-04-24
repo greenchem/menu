@@ -1,6 +1,7 @@
 $(function() {
   faker();
   clickEvent();
+  console.log(menu);
 });
 
 function clickEvent() {
@@ -45,7 +46,7 @@ function produceMenu(company) {
   clickEvent();
 }
 
-function produceProduct(company, menu) {
+function produceProduct(company, menu_id) {
   var i;
   var j;
   var text = '';
@@ -53,26 +54,25 @@ function produceProduct(company, menu) {
   var unit;
   var price;
 
-  for(i=0; menu[company][menu]['list'][i]!=null; i++) {
-    console.log(i);
-    name = menu[company][menu]['list'][i]['name'];
-    unit = menu[company][menu]['list'][i]['unit'];
-    price = menu[company][menu]['list'][i]['price'];
+  for(i=0; i<menu[company][menu_id]['list'].length; i++) {
+    name = menu[company][menu_id]['list'][i]['name'];
+    unit = menu[company][menu_id]['list'][i]['unit'];
+    price = menu[company][menu_id]['list'][i]['price'];
 
     text += `<tr>`;
     text += `<td>${name}</td>`;
     text += `<td>${unit}</td>`;
     text += `<td>${price}</td>`;
-    text += `<select class="form-control ammount">`
+    text += `<td><select class="form-control amount">`
     for(j=0; j<10; j++) {
-      text += `<option>${j}</option`;
+      text += `<option>${j}</option>`;
     }
-    text += '</select>';
+    text += '</select></td>';
     text += '</tr>';
   }
 
   // append
-  $('#productTable tbody').append(text);
+  $('#productTable tbody').html(text);
   // rebind event
   clickEvent();
 }
@@ -102,7 +102,8 @@ var product = [
   '人參',
   '高麗菜',
   '鮑魚',
-  '蛋糕'
+  '蛋糕',
+  '西堤餐卷'
 ];
 var productUnit = [
   '一瓶',
@@ -114,7 +115,8 @@ var productUnit = [
   '一根',
   '一顆',
   '一尾',
-  '一塊'
+  '一塊',
+  '十二張'
 ];
 
 function faker() {
@@ -142,6 +144,7 @@ function fakerList() {
       for(k=0; k<temp; k++) {
         temp1 = Math.floor(Math.random()*10 + 1);
 
+        console.log(temp1);
         menu[i][j]['list'][k] = [];
         menu[i][j]['list'][k]['id'] = productId;
         menu[i][j]['list'][k]['name'] = product[temp1];

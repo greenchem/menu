@@ -9,12 +9,3 @@ table th{
   text-align: center;
 }
 
-#menuList button {
-  padding: 0;
-  margin: 0;
-}
-
-#menuList p {
-  line-height: 25px;
-  margin: 0;
-}
