@@ -6,28 +6,30 @@
 @stop
 
 @section('js')
+<script src="{{url('assets/js/user/menu.js')}}"></script>
 @stop
 
 @section('content')
+<input type="hidden" id="currentCompany">
+<input type="hidden" id="currentMenu">
+
 @include('user.header')
 <div class="container">
     <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3" id="menuListBG">
-            <div class="btn-group-vertical" role="group" id="menuList">
-                <button type="button" class="btn btn-default">春節禮品</button>
-                <button type="button" class="btn btn-default">端午禮品</button>
-                <button type="button" class="btn btn-default">春節禮品</button>
-                <button type="button" class="btn btn-default">端午禮品</button>
-                <button type="button" class="btn btn-default">春節禮品</button>
-                <button type="button" class="btn btn-default">春節禮品</button>
-                <button type="button" class="btn btn-default">春節禮品</button>
-                <button type="button" class="btn btn-default">端午禮品</button>
-                <button type="button" class="btn btn-default">端午禮品</button>
-                <button type="button" class="btn btn-default">端午禮品</button>
-            </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default companyList" data-company="0">生科</button>
+            <button type="button" class="btn btn-default companyList" data-company="1">優好</button>
+            <button type="button" class="btn btn-default companyList" data-company="2">良農</button>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3" id="menuBG">
+            <div class="btn-group-vertical" role="group" id="menuList"></div>
         </div>
         <div class="col-lg-9 col-md-9 col-sm-9">
-            <table class="table table-striped" id="menuTable">
+            <table class="table table-striped" id="productTable">
                 <thead>
                     <tr>
                         <th>名稱</th>
