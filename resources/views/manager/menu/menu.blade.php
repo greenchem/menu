@@ -6,15 +6,6 @@
 @stop
 
 @section('js')
-<script>
-$(function() {
-    $('#addModalTarget').unbind('click');
-    $('#addModalTarget').click(function() {
-        console.log('here');
-        $('#addMenu').modal('show');
-    });
-});
-</script>
 @stop
 
 @section('content')
@@ -25,7 +16,7 @@ $(function() {
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 text-center addMenuDiv">
-                <button class="btn btn-primary" id="addModalTarget">新增菜單</button>
+                <button class="btn btn-primary" onclick="window.location='{{url('manager/menu/add')}}'">新增菜單</button>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 text-center">
                 <h3>春節菜單</h3>

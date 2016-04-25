@@ -71,14 +71,16 @@ function produceProduct(company, menu_id) {
   var i;
   var j;
   var text = '';
+  var list;
   var name;
   var unit;
   var price;
 
   for(i=0; i<menu[company][menu_id]['list'].length; i++) {
-    name = menu[company][menu_id]['list'][i]['name'];
-    unit = menu[company][menu_id]['list'][i]['unit'];
-    price = menu[company][menu_id]['list'][i]['price'];
+    list = menu[company][menu_id]['list'][i];
+    name = list['name'];
+    unit = list['unit'];
+    price = list['price'];
 
     text += `<tr>`;
     text += `<td>${name}</td>`;

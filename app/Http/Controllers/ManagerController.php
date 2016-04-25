@@ -58,6 +58,6 @@ class ManagerController extends Controller
 
     // Account
     public function account() {
-        return view('manager.account');
+        return view('manager.account.account');
     }
 }

@@ -1,19 +1,33 @@
 @extends('init')
 
 @section('css')
-<title>菜單 - 新增元素系統</title>
+<title>菜單系統 - 新增菜單</title>
 @stop
 
 @section('js')
-
+<script src="{{url('assets/js/manager/menu/add.js')}}"></script>
 @stop
 
 @section('content')
     @include('manager.header')
+    @include('manager.menu.addModal')
+    @include('manager.menu.editModal')
 
+    <h3 class="text-center">新增菜單</h3>
     <div class="container">
+        <div class="row">
+            <label for="menuName">菜單名稱</label>
+            <input type="text" class="form-control" id="menuName">
+        </div>
+        <div class="row">
+            <label for="menu">繼承菜單</label>
+            <select class="form-control" id="menu">
+                <option value="-1">不繼承</option>
+            </select>
+        </div>
+        <br>
         <div class="row text-right">
-            <button class="btn btn-primary">新增元素</button>
+            <button class="btn btn-primary" id="addModalBtn">新增商品</button>
         </div>
         <table class="table table-striped" id="menuTable">
             <thead>
@@ -25,40 +39,12 @@
                     <th>#</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>百事可樂</td>
-                    <td>瓶</td>
-                    <td>1</td>
-                    <td>100</td>
-                    <td>
-                        <button class="btn btn-primary">編輯</button>
-                        <button class="btn btn-danger">刪除</button>
-                    </td>
-                </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
         <div class="row text-center">
-            <button type="button" class="btn btn-primary" onclick="window.location='{{url('manager/menu/menu')}}'">回到菜單列表</button>
+            <button type="button" class="btn btn-danger" onclick="window.location='{{url('manager/menu/menu')}}'">不新增，直接回到菜單列表</button>
+            <button type="button" class="btn btn-primary" id="addMenuBtn">確認，新增菜單</button>
         </div>
     </div>
-
-    <div class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <p>One fine body&hellip;</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">新增元素</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 @stop
 

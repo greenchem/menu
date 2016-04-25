@@ -23,26 +23,16 @@
                 <tr>
                     <th>編號</th>
                     <th>姓名</th>
-                    <th>公司</th>
-                    <th>單位</th>
+                    <th>公司 - 單位</th>
+                    <th>職位</th>
                     <th>#</th>
                 </tr>
             </thead>
-            <tbody>
-                @for($i=0; $i<5; $i++)
-                <tr>
-                    <td>{{md5($i)}}</td>
-                    <td>柯XX</td>
-                    <td>嘉良特化</td>
-                    <td>人事部</td>
-                    <td>
-                        <button class="btn btn-primary">編輯</button>
-                        <button class="btn btn-danger">刪除</button>
-                    </td>
-                </tr>
-                @endfor
-            </tbody>
+            <tbody></tbody>
         </table>
+        <nav class="text-center">
+            <ul class="pagination"></ul>
+        </nav>
     </div>
 @stop
 
