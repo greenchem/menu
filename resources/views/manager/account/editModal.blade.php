@@ -7,32 +7,40 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="addAccount">帳號</label>
-                    <input type="text" class="form-control" id="addAccount">
+                    <label for="editAccount">帳號</label>
+                    <input type="text" class="form-control" id="editAccount" disabled>
                 </div>
                 <div class="row">
-                    <label for="addPassword">密碼</label>
-                    <input type="text" class="form-control" id="addPassword">
+                    <label for="editEmail">信箱</label>
+                    <input type="text" class="form-control" id="editEmail">
                 </div>
                 <div class="row">
-                    <label for="employee_id">員工ID</label>
-                    <input type="text" class="form-control" id="addEmployeeId">
+                    <label for="editEmployeeId">員工ID</label>
+                    <input type="text" class="form-control" id="editEmployeeId">
                 </div>
                 <div class="row">
-                    <label for="addName">姓名</label>
-                    <input type="text" class="form-control" id="addName">
+                    <label for="editName">姓名</label>
+                    <input type="text" class="form-control" id="editName">
                 </div>
                 <div class="row">
-                    <label for="addCompany">公司</label>
-                    <select id="addCompany">
+                    <label for="editCompany">公司名稱</label>
+                    <select class="form-control" id="editCompany">
                         <option value=""></option>
                     </select>
                 </div>
                 <div class="row">
-                    <label for="addGroup">部門</label>
-                    <select id="addGroup">
+                    <label for="editGroup">單位</label>
+                    <select class="form-control" id="editGroup">
                         <option value=""></option>
                     </select>
+                </div>
+                <div class="row">
+                    <label for="editBeginDate">報到日期</label>
+                    <input type="date" class="form-control" id="editBeginDate">
+                </div>
+                <div class="row">
+                    <label for="editEndDate">離職日期</label>
+                    <input type="date" class="form-control" id="editEndDate">
                 </div>
             </div>
             <div class="modal-footer">

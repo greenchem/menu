@@ -8,6 +8,10 @@ use App\Http\Requests;
 
 class ManagerController extends Controller
 {
+    public function login() {
+        return view('manager.login');
+    }
+
     // Menu
     public function menuAdd() {
         return view('manager.menu.add');

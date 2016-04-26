@@ -12,17 +12,17 @@ var peoplePerPage = 10;
 function clickEvent() {
   $('#addModalBtn').unbind('click');
   $('#addModalBtn').click(function() {
-
+    $('#addAccount').modal('show');
   });
 
   $('#editBtn').unbind('click');
   $('#editBtn').click(function() {
-
+    return;
   });
 
   $('#addBtn').unbind('click');
   $('#addBtn').click(function() {
-
+    return;
   });
 }
 
@@ -40,10 +40,12 @@ function produceTable() {
   var levelName;
   var company;
   var group;
+  var index;
   var text = '';
 
   for(i=0, j=currentPage*peoplePerPage; i<peoplePerPage&&j<people.length; i++, j++) {
     person = people[j];
+    index = j;
     id = person['id'];
     name = person['name'];
     levelName = person['levelName'];
@@ -57,8 +59,15 @@ function produceTable() {
     text += `<td>${company} - ${group}</td>`;
     text += `<td>${levelName}</td>`;
     text += `<td>`;
-    text += `<button class="btn btn-primary">修改</button>`;
-    text += `<button class="btn btn-danger">刪除</button>`;
+    text += `<button class="btn btn-primary editModalBtn"`;
+    text += `data-employee_id="${employeeId}"`;// data attribute tag must be lower case letters
+    text += `data-name="${name}"`;
+    text += `data-company="${company}"`;
+    text += `data-group="${group}"`;
+    text += `data-level_name="${levelName}"`;
+    text += `data-id="${id}"`;
+    text += `>修改</button>`;
+    text += `<button class="btn btn-danger deleteBtn" data-index="${index}">刪除</button>`;
     text += `</td>`;
     text += `</tr>`;
   }
@@ -101,7 +110,10 @@ function producePage() {
 function tableEvent() {
   $('.deleteBtn').unbind('click');
   $('.deleteBtn').click(function() {
-
+    var index = $(this).data('index');
+    people.splice(index, 1);
+    finalPage = Math.floor(people.length/peoplePerPage);
+    getPeople();
     return;
     var data = {};
     $.ajax({
@@ -119,7 +131,15 @@ function tableEvent() {
 
   $('.editModalBtn').unbind('click');
   $('.editModalBtn').click(function() {
+    var name = $(this).data('name');
+    var company = $(this).data('company');
+    var group = $(this).data('group');
+    var employeeId = $(this).data('employee_id');
+    var id = $(this).data('id');
 
+    $('#editName').val(name);
+    $('#editEmployeeId').val(employeeId);
+    $('#editAccount').modal('show');
   });
 }
 

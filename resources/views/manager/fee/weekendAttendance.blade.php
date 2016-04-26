@@ -27,7 +27,7 @@ $(function(){
     <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-3"></div>
         <div class="col-lg-9 col-md-9 col-sm-9 text-center">
-            <h3>津貼系統</h3>
+            <h3>津貼系統 - 週末值班津貼</h3>
         </div>
     </div>
     <div class="row">

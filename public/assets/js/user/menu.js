@@ -43,8 +43,16 @@ function clickEvent() {
       return;
     }
 
-    var data = {};
+    $('.amount').each(function() {
+      var value = $(this).val();
+      if(value==0) {// not select
+        return;
+      }
 
+
+    });
+
+    toastr['success']('成功加入購物車');
   };
 }
 

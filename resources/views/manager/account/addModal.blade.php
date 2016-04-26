@@ -7,8 +7,44 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="name">菜單名稱</label>
-                    <input type="text" class="form-control" id="name">
+                    <label for="addAccount">帳號</label>
+                    <input type="text" class="form-control" id="addAccount">
+                </div>
+                <div class="row">
+                    <label for="addPassword">密碼</label>
+                    <input type="text" class="form-control" id="addPassword">
+                </div>
+                <div class="row">
+                    <label for="addEmail">信箱</label>
+                    <input type="text" class="form-control" id="addEmail">
+                </div>
+                <div class="row">
+                    <label for="addEmployeeId">員工ID</label>
+                    <input type="text" class="form-control" id="addEmployeeId">
+                </div>
+                <div class="row">
+                    <label for="addName">姓名</label>
+                    <input type="text" class="form-control" id="addName">
+                </div>
+                <div class="row">
+                    <label for="addCompany">公司名稱</label>
+                    <select class="form-control" id="addCompany">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="addGroup">單位</label>
+                    <select class="form-control" id="addGroup">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="addBeginDate">報到日期</label>
+                    <input type="date" class="form-control" id="addBeginDate">
+                </div>
+                <div class="row">
+                    <label for="addEndDate">離職日期</label>
+                    <input type="date" class="form-control" id="addEndDate">
                 </div>
             </div>
             <div class="modal-footer">

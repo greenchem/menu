@@ -10,12 +10,15 @@
 
 @section('content')
     @include('manager.header')
+    @include('manager.account.addModal')
+    @include('manager.account.editModal')
+
     <div class="container">
         <div class="row">
             <br>
 
             <div class="col-lg-12 text-right">
-                <button class="btn btn-primary">新增人員</button>
+                <button class="btn btn-primary" id="addModalBtn">新增帳號</button>
             </div>
         </div>
         <table class="table table-striped" id="menuTable">

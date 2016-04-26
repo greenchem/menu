@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix'=>'user'], function() {
+    Route::get('login', 'UserController@login');
     Route::get('menu', 'UserController@menu');
     Route::get('shoppingCart', 'UserController@shoppingCart');
     Route::get('history', 'UserController@history');
@@ -23,6 +24,7 @@ Route::group(['prefix'=>'user'], function() {
 });
 
 Route::group(['prefix'=>'manager'], function() {
+    Route::get('login', 'ManagerController@login');
     Route::get('account', 'ManagerController@account');
 
     Route::group(['prefix'=>'menu'], function() {

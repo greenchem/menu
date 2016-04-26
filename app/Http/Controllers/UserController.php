@@ -8,6 +8,10 @@ use App\Http\Requests;
 
 class UserController extends Controller
 {
+    public function login() {
+        return view('user.login');
+    }
+
     public function menu() {
         return view('user.menu');
     }
