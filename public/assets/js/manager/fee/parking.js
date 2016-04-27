@@ -1,6 +1,18 @@
 $(function() {
   faker();
+  clickEvent();
+  $('#feeClassBG li:first').click();
 });
+
+function clickEvent() {
+  $('#feeClassBG li').click(function(){
+    $(this).parent().find('.active').removeClass('active');
+    var targetClass = $(this).attr('class');
+    $(this).addClass('active');
+    $('#feeContentDiv .feeContent').css('display', 'none');
+    $('#feeContentDiv .feeContent.' + targetClass).css('display', 'block');
+  });
+}
 
 // faker data
 var people;

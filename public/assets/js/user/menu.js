@@ -1,5 +1,6 @@
 $(function() {
   faker();
+  init();
   clickEvent();
 });
 
@@ -8,6 +9,8 @@ var shoppingList;
 function init() {
   if(sessionStorage.shoppingList != null) {
     shoppingList = JSON.parse(sessionStorage.shoppingList);
+  }else {
+    shoppingList = {};
   }
 }
 
@@ -20,6 +23,9 @@ function clickEvent() {
     // active status
     $('.companyList').removeClass('active');
     $(this).addClass('active');
+    // flag
+    $('#currentCompany').val(company);
+    $('#currentMenu').val(null);
   });
 
   $('.menuList').unbind('click');
@@ -31,12 +37,15 @@ function clickEvent() {
     // active status
     $('.menuList').removeClass('active');
     $(this).addClass('active');
+    // flag
+    $('#currentMenu').val(menu);
   });
 
   $('#shoppingCartBtn').unbind('click');
-  $('#shoppingCartBtn').click(function()) {
+  $('#shoppingCartBtn').click(function() {
     var currentCompany = $('#currentCompany').val();
     var currentMenu = $('#currentMenu').val();
+    var accessFlag = 'not';
 
     if(_.trim(currentCompany)=='' || _.trim(currentMenu)=='') {
       toastr['warning']('請先選擇公司跟菜單');
@@ -48,12 +57,33 @@ function clickEvent() {
       if(value==0) {// not select
         return;
       }
+      accessFlag = 'yes';
+      var id = $(this).data('id');
+      var name = $(this).data('name');
+      var unit = $(this).data('unit');
+      var price = $(this).data('price');
 
-
+      if(shoppingList[id]!=null) {
+        shoppingList[id]['value'] += value;
+      }else {
+        shoppingList[id] = {};
+        shoppingList[id]['name'] = name;
+        shoppingList[id]['unit'] = unit;
+        shoppingList[id]['price'] = price;
+        shoppingList[id]['value'] = value;
+      }
+      console.log(id, name, unit, value);
+        console.log(shoppingList);
     });
 
-    toastr['success']('成功加入購物車');
-  };
+    // store sessionStorage
+    if(accessFlag == 'not') {
+      toastr['warning']('沒有選擇任何商品');
+    }else {
+      sessionStorage.shoppingList = JSON.stringify(shoppingList);
+      toastr['success']('成功加入購物車');
+    }
+  });
 }
 
 function produceMenu(company) {
@@ -80,12 +110,14 @@ function produceProduct(company, menu_id) {
   var j;
   var text = '';
   var list;
+  var id;
   var name;
   var unit;
   var price;
 
   for(i=0; i<menu[company][menu_id]['list'].length; i++) {
     list = menu[company][menu_id]['list'][i];
+    id = list['id'];
     name = list['name'];
     unit = list['unit'];
     price = list['price'];
@@ -94,10 +126,15 @@ function produceProduct(company, menu_id) {
     text += `<td>${name}</td>`;
     text += `<td>${unit}</td>`;
     text += `<td>${price}</td>`;
-    text += `<td><select class="form-control amount">`
-    for(j=0; j<10; j++) {
-      text += `<option>${j}</option>`;
-    }
+    text += `<td><select class="form-control amount"`;
+    text += `data-id="${id}"`;
+    text += `data-name="${name}"`;
+    text += `data-unit="${unit}"`;
+    text += `data-price="${price}"`;
+    text += `>`
+      for(j=0; j<10; j++) {
+        text += `<option>${j}</option>`;
+      }
     text += '</select></td>';
     text += '</tr>';
   }
@@ -171,7 +208,6 @@ function faker() {
       for(k=0; k<temp; k++) {
         temp1 = Math.floor(Math.random()*10 + 1);
 
-        console.log(temp1);
         menu[i][j]['list'][k] = [];
         menu[i][j]['list'][k]['id'] = productId;
         menu[i][j]['list'][k]['name'] = product[temp1];

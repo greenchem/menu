@@ -45,7 +45,7 @@
   <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-3"></div>
     <div class="col-lg-9 col-md-9 col-sm-9 text-center">
-      <button class="btn btn-primary">加入購物車</button>
+      <button class="btn btn-primary" id="shoppingCartBtn">加入購物車</button>
     </div>
   </div><!-- container -->
 @stop

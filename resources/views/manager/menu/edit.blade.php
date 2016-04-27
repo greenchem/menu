@@ -21,7 +21,7 @@
         </div>
         <br>
         <div class="row text-right">
-            <button class="btn btn-primary">新增商品</button>
+            <button class="btn btn-primary" id="addModalBtn">新增商品</button>
         </div>
         <table class="table table-striped" id="menuTable">
             <thead>

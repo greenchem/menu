@@ -6,6 +6,7 @@
 @stop
 
 @section('js')
+<script src="{{url('assets/js/user/fee.js')}}"></script>
 @stop
 
 @section('content')

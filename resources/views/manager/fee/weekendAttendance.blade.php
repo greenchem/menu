@@ -6,19 +6,7 @@
 @stop
 
 @section('js')
-    <script>
-$(function(){
-    $('#feeClassBG li').click(function(){
-        $(this).parent().find('.active').removeClass('active');
-        var targetClass = $(this).attr('class');
-        $(this).addClass('active');
-        $('#feeContentDiv .feeContent').css('display', 'none');
-        $('#feeContentDiv .feeContent.' + targetClass).css('display', 'block');
-    });
-
-    $('#feeClassBG li:first').click();
-});
-    </script>
+    <script src="{{url('assets/js/manager/fee/weekendAttendance.js')}}"></script>
 @stop
 
 @section('content')

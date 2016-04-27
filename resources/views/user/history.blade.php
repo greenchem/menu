@@ -6,6 +6,7 @@
 @stop
 
 @section('js')
+<script src="{{url('assets/js/user/history.js')}}"></script>
 @stop
 
 @section('content')
