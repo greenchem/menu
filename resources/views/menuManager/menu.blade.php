@@ -2,21 +2,21 @@
 
 @section('css')
 <title>管理菜單</title>
-<link rel="stylesheet" href="{{url('assets/css/manager/menu.css')}}">
+<link rel="stylesheet" href="{{url('assets/css/menuManager/menu.css')}}">
 @stop
 
 @section('js')
 @stop
 
 @section('content')
-    @include('manager.header')
+    @include('menuManager.header')
 
     <input type="hidden" id="currentMenu">
 
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 text-center addMenuDiv">
-                <button class="btn btn-primary" onclick="window.location='{{url('manager/menu/add')}}'">新增菜單</button>
+                <button class="btn btn-primary" onclick="window.location='{{url('menuManager/add')}}'">新增菜單</button>
             </div>
             <div class="col-lg-9 col-md-9 col-sm-9 text-center">
                 <h3>春節菜單</h3>
@@ -58,7 +58,5 @@
             </div>
         </div>
     </div>
-
-    @include('manager.menu.addModal')
 @stop
 

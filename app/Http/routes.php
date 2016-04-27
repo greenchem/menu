@@ -23,16 +23,16 @@ Route::group(['prefix'=>'user'], function() {
     Route::get('fee', 'UserController@fee');
 });
 
+Route::group(['prefix'=>'menuManager'], function() {
+    Route::get('menu', 'MenuManagerController@menu');
+    Route::get('export', 'MenuManagerController@export');
+    Route::get('add', 'MenuManagerController@add');
+    Route::get('edit/{id}', 'MenuManagerController@edit');
+});
+
 Route::group(['prefix'=>'manager'], function() {
     Route::get('login', 'ManagerController@login');
     Route::get('account', 'ManagerController@account');
-
-    Route::group(['prefix'=>'menu'], function() {
-        Route::get('menu', 'ManagerController@menuMenu');
-        Route::get('export', 'ManagerController@menuExport');
-        Route::get('add', 'ManagerController@menuAdd');
-        Route::get('edit/{id}', 'ManagerController@menuEdit');
-    });
 
     Route::group(['prefix'=>'fee'], function() {
         Route::get('dorm', 'ManagerController@feeDorm');
@@ -42,3 +42,4 @@ Route::group(['prefix'=>'manager'], function() {
         Route::get('weekendAttendance', 'ManagerController@feeWeekendAttendance');
     });
 });
+

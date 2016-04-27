@@ -12,33 +12,6 @@ class ManagerController extends Controller
         return view('manager.login');
     }
 
-    // Menu
-    public function menuAdd() {
-        return view('manager.menu.add');
-    }
-
-    public function menuEdit($id) {
-        if(!$id) {
-            return view('manager.menu.menu');
-        }else {
-            return view('manager.menu.edit');
-        }
-    }
-
-    public function menuMenu() {
-        $menu = [
-            ['id'=>1, 'name'=>'春節菜單'],
-            ['id'=>2, 'name'=>'端午菜單']
-        ];
-
-        return view('manager.menu.menu')
-            ->with('menu', $menu);
-    }
-
-    public function menuExport() {
-        return view('manager.menu.export');
-    }
-
     // Fee
     public function feeMeal() {
         return view('manager.fee.meal');
@@ -65,3 +38,4 @@ class ManagerController extends Controller
         return view('manager.account.account');
     }
 }
+
