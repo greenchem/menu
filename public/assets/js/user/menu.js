@@ -2,9 +2,11 @@ $(function() {
   faker();
   init();
   clickEvent();
+  calQuota();
 });
 
 var shoppingList;
+var quota = 20000;
 
 function init() {
   if(sessionStorage.shoppingList != null) {
@@ -12,6 +14,21 @@ function init() {
   }else {
     shoppingList = {};
   }
+}
+
+function calQuota() {
+  var sum = 0;
+  var price;
+  var value;
+
+  $.each(shoppingList, function(idx) {
+    price = shoppingList[idx]['price'];
+    value = shoppingList[idx]['value'];
+
+    sum += price*value;
+  });
+
+  $('#quota').html(quota-sum);
 }
 
 function clickEvent() {
@@ -83,6 +100,8 @@ function clickEvent() {
       sessionStorage.shoppingList = JSON.stringify(shoppingList);
       toastr['success']('成功加入購物車');
     }
+
+    calQuota();
   });
 }
 
@@ -188,6 +207,11 @@ var productUnit = [
 ];
 
 function faker() {
+  if(sessionStorage.menu != null) {
+    menu = JSON.parse(sessionStorage.menu);
+    return;
+  }
+
   var i;
   var j;
   var k;
@@ -196,19 +220,19 @@ function faker() {
   var festivalSum = 0;
   var productId = 0;
 
-  menu = [];
+  menu = {};
   for(i=0; i<3; i++) {
-    menu[i] = [];
+    menu[i] = {};
     for(j=0; j<=i; j++) {
-      menu[i][j] = [];
+      menu[i][j] = {};
       menu[i][j]['name'] = `${companyName[i]} - ${festival[festivalSum]}`;
-      menu[i][j]['list'] = [];
+      menu[i][j]['list'] = {};
 
       temp = Math.floor(Math.random()*10 + 1);
       for(k=0; k<temp; k++) {
         temp1 = Math.floor(Math.random()*10 + 1);
 
-        menu[i][j]['list'][k] = [];
+        menu[i][j]['list'][k] = {};
         menu[i][j]['list'][k]['id'] = productId;
         menu[i][j]['list'][k]['name'] = product[temp1];
         menu[i][j]['list'][k]['unit'] = productUnit[temp1];
@@ -217,7 +241,13 @@ function faker() {
         productId++;
       }
       festivalSum++;
+      menu[i][j]['list'].length = temp;
+      menu[i][j].length = j+1;
     }
   }
+
+  menu.length = 3;
+  sessionStorage.menu = JSON.stringify(menu);
+  console.log('here');
 }
 

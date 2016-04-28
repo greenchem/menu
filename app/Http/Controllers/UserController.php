@@ -24,7 +24,24 @@ class UserController extends Controller
         return view('user.history');
     }
 
-    public function fee() {
-        return view('user.fee');
+    // Fee
+    public function feeMeal() {
+        return view('user.fee.meal');
+    }
+
+    public function feeDorm() {
+        return view('user.fee.dorm');
+    }
+
+    public function feeAttendance() {
+        return view('user.fee.attendance');
+    }
+
+    public function feeWeekendAttendance() {
+        return view('user.fee.weekendAttendance');
+    }
+
+    public function feeParking() {
+        return view('user.fee.parking');
     }
 }

@@ -17,7 +17,14 @@
     <div class="container">
         <div class="row">
             <label for="menuName">菜單名稱</label>
-            <input type="text" class="form-control" id="menuName">
+            <input type="text" class="form-control" id="menuName" value="春節菜單" disabled>
+        </div>
+        <div class="row">
+            <label for="period">期號</label>
+            <select class="form-control" id="period">
+                <option disabled>期號</option>
+                <option value="1">2015/3</option>
+            </select>
         </div>
         <br>
         <div class="row text-right">

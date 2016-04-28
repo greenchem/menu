@@ -15,6 +15,9 @@
 
 @include('user.header')
 <div class="container">
+    <div class="row">
+        <h3><span id="username">陳富貴</span> 先生所剩下的quota：<span id="quota"></span>元</h3>
+    </div>
   <div class="row">
     <div class="btn-group" role="group">
       <button type="button" class="btn btn-default companyList" data-company="0">生科</button>

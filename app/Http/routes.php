@@ -20,7 +20,14 @@ Route::group(['prefix'=>'user'], function() {
     Route::get('menu', 'UserController@menu');
     Route::get('shoppingCart', 'UserController@shoppingCart');
     Route::get('history', 'UserController@history');
-    Route::get('fee', 'UserController@fee');
+
+    Route::group(['prefix'=>'fee'], function() {
+        Route::get('meal', 'UserController@feeMeal');
+        Route::get('dorm', 'UserController@feeDorm');
+        Route::get('parking', 'UserController@feeParking');
+        Route::get('attendance', 'UserController@feeAttendance');
+        Route::get('weekendAttendance', 'UserController@feeWeekendAttendance');
+    });
 });
 
 Route::group(['prefix'=>'menuManager'], function() {
@@ -33,10 +40,11 @@ Route::group(['prefix'=>'menuManager'], function() {
 Route::group(['prefix'=>'manager'], function() {
     Route::get('login', 'ManagerController@login');
     Route::get('account', 'ManagerController@account');
+    Route::get('menu', 'ManagerController@menu');
 
     Route::group(['prefix'=>'fee'], function() {
-        Route::get('dorm', 'ManagerController@feeDorm');
         Route::get('meal', 'ManagerController@feeMeal');
+        Route::get('dorm', 'ManagerController@feeDorm');
         Route::get('parking', 'ManagerController@feeParking');
         Route::get('attendance', 'ManagerController@feeAttendance');
         Route::get('weekendAttendance', 'ManagerController@feeWeekendAttendance');

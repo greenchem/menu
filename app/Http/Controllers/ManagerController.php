@@ -33,6 +33,11 @@ class ManagerController extends Controller
         return view('manager.fee.parking');
     }
 
+    // Menu
+    public function menu() {
+        return view('manager.menu');
+    }
+
     // Account
     public function account() {
         return view('manager.account.account');

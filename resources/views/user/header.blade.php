@@ -7,6 +7,6 @@
             <li><a href="{{url('user/history')}}">歷史紀錄</a></li>
         </ul>
     </li>
-    <li role="presentation"><a href="{{url('user/fee')}}">津貼系統</a></li>
+    <li role="presentation"><a href="{{url('user/fee/meal')}}">津貼系統</a></li>
     <li role="presentation"><a href="{{url('')}}">回首頁</a></li>
 </ul>

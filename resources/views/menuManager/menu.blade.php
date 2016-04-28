@@ -1,7 +1,7 @@
 @extends('init')
 
 @section('css')
-<title>管理菜單</title>
+<title>菜單系統 - 管理菜單</title>
 <link rel="stylesheet" href="{{url('assets/css/menuManager/menu.css')}}">
 @stop
 
@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3"></div>
             <div class="col-lg-9 col-md-9 col-sm-9 text-center">
-                <button class="btn btn-primary edit" onclick="window.location='{{url('manager/menu/edit/1')}}'">編輯</button>
+                <button class="btn btn-primary edit" onclick="window.location='{{url('menuManager/edit/1')}}'">編輯</button>
                 <button class="btn btn-danger">刪除</button>
             </div>
         </div>

@@ -20,9 +20,18 @@
             <input type="text" class="form-control" id="menuName">
         </div>
         <div class="row">
-            <label for="menu">繼承菜單</label>
+            <label for="menu">匯入菜單( 複製菜單 )</label>
             <select class="form-control" id="menu">
-                <option value="-1">不繼承</option>
+                <option value="-1">不匯入</option>
+                <option value="1">端午節</option>
+                <option value="2">春節</option>
+            </select>
+        </div>
+        <div class="row">
+            <label for="period">期號</label>
+            <select class="form-control" id="period">
+                <option disabled>期號</option>
+                <option value="1">2015/3</option>
             </select>
         </div>
         <br>
