@@ -1,27 +1,27 @@
 @extends('init')
 
 @section('css')
-    <title>津貼系統 - 宿舍</title>
-    <link rel="stylesheet" href="{{url('assets/css/manager/fee.css')}}">
+<title>津貼系統 - 住宿</title>
+<link rel="stylesheet" href="{{url('assets/css/manager/fee.css')}}">
 @stop
 
 @section('js')
-    <script src="{{url('assets/js/manager/fee/dorm.js')}}"></script>
+<script src="{{url('assets/js/manager/fee/meal.js')}}"></script>
 @stop
 
 @section('content')
     @include('manager.header')
-<div class="container">
-    <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3"></div>
-        <div class="col-lg-9 col-md-9 col-sm-9 text-center">
-            <h3>津貼系統 - 住宿津貼</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3"></div>
+            <div class="col-lg-9 col-md-9 col-sm-9 text-center">
+                <h3>津貼系統 - 住宿津貼</h3>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3" id="menuListBG">
-            <div class="btn-group-vertical" role="group" id="menuList">
-            <button type="button" class="btn btn-default"
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3" id="menuListBG">
+                <div class="btn-group-vertical" role="group" id="menuList">
+                    <button type="button" class="btn btn-default"
 onclick="window.location = '{{url('manager/fee/meal')}}'">伙食</button>
 <button type="button" class="btn btn-default active"
 onclick="window.location = '{{url('manager/fee/dorm')}}'">住宿</button>
@@ -36,86 +36,118 @@ onclick="window.location = '{{url('manager/fee/weekendAttendance')}}'">假日值
 
         <div id="feeContentDiv" class="col-lg-9 col-md-9 col-sm-9">
             <ul id="feeClassBG" class="nav nav-tabs">
-                <li role="presentation" class="active uploadFileDiv"><a href="#">匯入</a></li>
-                <li role="presentation" class="outputFileDiv"><a href="#">匯出</a></li>
+              <li role="presentation" class="active addRecordDiv"><a href="#">新增</a></li>
                 <li role="presentation" class="manageDiv"><a href="#">管理</a></li>
             </ul>
-            <div class="feeContent text-center uploadFileDiv" >
-                <input class="form-control" type="file"></input>
-                <button type="button" class="btn btn-primary">上傳</button>
-            </div>
-
-
-            <div class="feeContent text-center outputFileDiv" >
-                <select class="form-control">
-    ¦   ¦   ¦   ¦   <option disabled>公司</option>
-    ¦   ¦   ¦   ¦   @for($j=0; $j<10; $j++)
-    ¦   ¦   ¦   ¦       <option value="{{$j}}">嘉良特化</option>
-    ¦   ¦   ¦   ¦   @endfor
-    ¦   ¦   ¦   </select>
-                <select class="form-control">
-    ¦   ¦   ¦   ¦   <option disabled>單位</option>
-    ¦   ¦   ¦   ¦   @for($j=0; $j<10; $j++)
-    ¦   ¦   ¦   ¦       <option value="{{$j}}">人事部</option>
-    ¦   ¦   ¦   ¦   @endfor
-                </select>
-                <select class="form-control">
-    ¦   ¦   ¦   ¦   <option disabled>員工</option>
-    ¦   ¦   ¦   ¦   @for($j=0; $j<10; $j++)
-    ¦   ¦   ¦   ¦       <option value="{{$j}}">江XX (A123123123)</option>
-    ¦   ¦   ¦   ¦   @endfor
-                </select>
-
-                <input type="date" class="form-control"/>
-                <input type="date" class="form-control"/>
-                <button type="button" class="btn btn-primary">匯出</button>
-            </div>
-
-            <div class="feeContent text-center manageDiv" >
-                <select class="form-control">
-    ¦   ¦   ¦   ¦   <option disabled>公司</option>
-    ¦   ¦   ¦   ¦   @for($j=0; $j<10; $j++)
-    ¦   ¦   ¦   ¦       <option value="{{$j}}">嘉良特化</option>
-    ¦   ¦   ¦   ¦   @endfor
-    ¦   ¦   ¦   </select>
-                <select class="form-control">
-    ¦   ¦   ¦   ¦   <option disabled>單位</option>
-    ¦   ¦   ¦   ¦   @for($j=0; $j<10; $j++)
-    ¦   ¦   ¦   ¦       <option value="{{$j}}">人事部</option>
-    ¦   ¦   ¦   ¦   @endfor
-                </select>
-                <select class="form-control">
-    ¦   ¦   ¦   ¦   <option disabled>員工</option>
-    ¦   ¦   ¦   ¦   @for($j=0; $j<10; $j++)
-    ¦   ¦   ¦   ¦       <option value="{{$j}}">江XX (A123123123)</option>
-    ¦   ¦   ¦   ¦   @endfor
-            </select><br/>
-                <table class="table table-striped text-center" id="menuTable" >
+            <div class="feeContent addRecordDiv" >
+                <div class="row text-left">
+                  <label for="addYear">年</label>
+                  <select class="form-control" id="addYear">
+                    <option disabled>年</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                  </select>
+                </div>
+                <div class="row">
+                  <label for="addSeason">月</label>
+                  <select class="form-control" id="addMonth">
+                    <option disabled>月</option>
+                    @for($i=1; $i<=12; $i++)
+                    <option value="{{$i}}">{{$i}}</option>
+                    @endfor
+                  </select>
+                </div>
+                <div class="row">
+                  <label for="addCompany">公司</label>
+                  <select id="addCompany" class="form-control">
+                    <option disabled>公司</option>
+                    <option value="">嘉良</option>
+                    <option value="">良農</option>
+                    <option value="">優好</option>
+                  </select>
+                </div>
+                <div class="row">
+                  <label for="addGroup">部門</label>
+                  <select id="addGroup" class="form-control">
+                    <option disabled>部門</option>
+                    <option value="">人事部</option>
+                    <option value="">經濟部</option>
+                    <option value="">外交部</option>
+                  </select>
+                </div>
+                <div class="row">
+                  <table class="table table-striped" id="addTable">
                     <thead>
-                        <tr align=center>
-                            <th>員工</th>
-                            <th>時間</th>
-                            <th>金錢</th>
-                            <th>#</th>
-                        </tr>
+                      <tr>
+                        <th>員工ID</th>
+                        <th>員工姓名</th>
+                        <th>金額</th>
+                      </tr>
                     </thead>
-                    <tbody>
-                        @for($i=0; $i<5; $i++)
-                            <tr>
-                                <td>江XX</td>
-                                <td>2016/03/05 08:00 - 2016/03/05 17:00</td>
-                                <td>10000000000000000</td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">刪除</button>
-                                </td>
-                            </tr>
-                            @endfor
-                    </tbody>
-                </table>
-                <button type="button" class="btn btn-primary">新增款項</button>
+                    <tbody></tbody>
+                  </table>
+                </div>
+
+                <div class="row text-center">
+                  <button type="button" class="btn btn-primary" id="addBtn">新增</button>
+                </div>
             </div>
-        </div> <!-- col-lg-9 -->
-    </div><!-- row -->
-</div><!-- container -->
+
+            <div class="feeContent manageDiv">
+                <div class="row">
+                  <label for="editYear">年</label>
+                  <select class="form-control" id="editYear">
+                    <option disabled>年</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                  </select>
+                </div>
+                <div class="row">
+                  <label for="editSeason">月</label>
+                  <select class="form-control" id="editSeason">
+                    <option disabled>月</option>
+                    @for($i=1; $i<=12; $i++)
+                    <option value="{{$i}}">{{$i}}</option>
+                    @endfor
+                  </select>
+                </div>
+                <div class="row">
+                  <label for="editCompany">公司</label>
+                  <select id="editCompany" class="form-control">
+                    <option disabled>公司</option>
+                    <option value="">嘉良</option>
+                    <option value="">良農</option>
+                    <option value="">優好</option>
+                  </select>
+                </div>
+                <div class="row">
+                  <label for="editGroup">部門</label>
+                  <select id="editGroup" class="form-control">
+                    <option disabled>部門</option>
+                    <option value="">人事部</option>
+                    <option value="">經濟部</option>
+                    <option value="">外交部</option>
+                  </select>
+                </div>
+                <div class="row">
+                  <table class="table table-striped" id="editTable">
+                    <thead>
+                      <tr>
+                        <th>員工ID</th>
+                        <th>員工姓名</th>
+                        <th>金額</th>
+                        <th>#</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+                <div class="row text-center">
+                  <button type="button" class="btn btn-primary" id="editBtn">確認修改</button>
+                </div>
+            </div>
+            </div> <!-- col-lg-9 -->
+        </div><!-- row -->
+    </div><!-- container -->
 @stop
 
