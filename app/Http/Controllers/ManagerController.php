@@ -35,7 +35,7 @@ class ManagerController extends Controller
 
     // Menu
     public function menu() {
-        return view('manager.menu');
+        return view('manager.menu.menu');
     }
 
     // Account
