@@ -5,13 +5,13 @@
 @stop
 
 @section('js')
-<script src="{{url('assets/js/manager/account.js')}}"></script>
+<script src="{{url('assets/js/accountManager/account.js')}}"></script>
 @stop
 
 @section('content')
-    @include('manager.header')
-    @include('manager.account.addModal')
-    @include('manager.account.editModal')
+    @include('accountManager.header')
+    @include('accountManager.addModal')
+    @include('accountManager.editModal')
 
     <div class="container">
         <div class="row">

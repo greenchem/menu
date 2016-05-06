@@ -20,14 +20,6 @@ Route::group(['prefix'=>'user'], function() {
     Route::get('menu', 'UserController@menu');
     Route::get('shoppingCart', 'UserController@shoppingCart');
     Route::get('history', 'UserController@history');
-
-    Route::group(['prefix'=>'fee'], function() {
-        Route::get('meal', 'UserController@feeMeal');
-        Route::get('dorm', 'UserController@feeDorm');
-        Route::get('parking', 'UserController@feeParking');
-        Route::get('attendance', 'UserController@feeAttendance');
-        Route::get('weekendAttendance', 'UserController@feeWeekendAttendance');
-    });
 });
 
 Route::group(['prefix'=>'menuManager'], function() {
@@ -37,17 +29,22 @@ Route::group(['prefix'=>'menuManager'], function() {
     Route::get('edit/{id}', 'MenuManagerController@edit');
 });
 
-Route::group(['prefix'=>'manager'], function() {
-    Route::get('login', 'ManagerController@login');
-    Route::get('account', 'ManagerController@account');
-    Route::get('menu', 'ManagerController@menu');
+Route::group(['prefix'=>'feeManager'], function() {
+    Route::get('meal', 'FeeManagerController@meal');
+    Route::get('dorm', 'FeeManagerController@dorm');
+    Route::get('parking', 'FeeManagerController@parking');
+    Route::get('attendance', 'FeeManagerController@attendance');
+    Route::get('weekendAttendance', 'FeeManagerController@weekendAttendance');
+});
 
-    Route::group(['prefix'=>'fee'], function() {
-        Route::get('meal', 'ManagerController@feeMeal');
-        Route::get('dorm', 'ManagerController@feeDorm');
-        Route::get('parking', 'ManagerController@feeParking');
-        Route::get('attendance', 'ManagerController@feeAttendance');
-        Route::get('weekendAttendance', 'ManagerController@feeWeekendAttendance');
-    });
+Route::group(['prefix'=>'accountManager'], function() {
+    Route::get('account', 'AccountManagerController@account');
+});
+
+Route::group(['prefix'=>'master'], function() {
+    Route::get('login', 'MasterController@login');
+    Route::get('account', 'MasterController@account');
+    Route::get('menu', 'MasterController@menu');
+
 });
 
