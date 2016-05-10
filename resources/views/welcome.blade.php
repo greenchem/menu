@@ -38,10 +38,13 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
+              <div class="title">嘉良特化 - 暫時入口</div>
             </div>
-            <p><a href="{{url('manager/account')}}">管理者</a></p>
             <p><a href="{{url('user/menu')}}">使用者</a></p>
+            <p><a href="{{url('menuManager/menu')}}">菜單管理者</a></p>
+            <p><a href="{{url('accountManager/account')}}">帳號管理者</a></p>
+            <p><a href="{{url('feeManager/parking')}}">津貼管理者</a></p>
+            <p><a href="{{url('master/')}}">最高管理者</a></p>
         </div>
     </body>
 </html>
