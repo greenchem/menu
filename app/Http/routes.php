@@ -39,6 +39,8 @@ Route::group(['prefix'=>'feeManager'], function() {
 
 Route::group(['prefix'=>'accountManager'], function() {
     Route::get('account', 'AccountManagerController@account');
+    Route::get('company', 'AccountManagerController@company'); 
+     
 });
 
 Route::group(['prefix'=>'master'], function() {
