@@ -19,4 +19,14 @@ class Company extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * Get company by name.
+     *
+     * @param string name
+     * @return App\Objects\Company
+     */
+    public static function getCompany($name) {
+        return self::where('name', '=', $name)->first();
+    }
 }
