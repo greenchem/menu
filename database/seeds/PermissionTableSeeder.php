@@ -45,5 +45,4 @@ class PermissionTableSeeder extends Seeder
             Permission::firstOrCreate($permission);
         }
     }
-
 }
