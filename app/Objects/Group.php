@@ -19,4 +19,25 @@ class Group extends Model
      * @var array
      */
     protected $fillable = ['name', 'company_id'];
+
+    /**
+     * Get group's company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get all of the group that belongs to the company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
 }

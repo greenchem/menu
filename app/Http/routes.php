@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('login', function() {
+    return Auth::loginUsingId(1);
+});
+
 Route::group(['prefix'=>'user'], function() {
     Route::get('login', 'UserController@login');
     Route::get('menu', 'UserController@menu');
@@ -53,9 +57,10 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
     Route::group(['prefix' => 'account_sys', 'namespace' => 'AccountSys'], function() {
         Route::group(['prefix' => 'user'], function() {
             Route::get('/', 'UserController@index');
-            Route::get('/{id}', 'UserController@show');
             Route::post('/', 'UserController@create');
+            Route::get('/{id}', 'UserController@show');
             Route::put('/{id}', 'UserController@update');
+            Route::put('/role/{role_id}', 'UserController@updateRole');
             Route::delete('/{id}', 'UserController@destroy');
         });
 

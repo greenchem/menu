@@ -19,4 +19,21 @@ class Role extends EntrustRole
      * @var array
      */
     protected $fillable = ['name', 'display_name', 'description'];
+
+    /**
+     * Get effectabale Roles
+     *
+     * @var App\Objects\User $user
+     * @return array of Role name
+     */
+    public static function getEffectableRoles(\App\Objects\User $user)
+    {
+        if ( $user->hasRole('Admin') ) {
+            return ['Admin', 'AccountsManager', 'Accountant', 'MenuManager', 'User'];
+        } else if ($user->hasRole('AccountsManager')) {
+            return ['Accountant', 'MenuManager', 'User'];
+        } else {
+            return [];
+        }
+    }
 }

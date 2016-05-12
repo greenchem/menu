@@ -21,6 +21,16 @@ class Company extends Model
     protected $fillable = ['name'];
 
     /**
+     * Get all of the user that belongs to the company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    /**
      * Get company by name.
      *
      * @param string name

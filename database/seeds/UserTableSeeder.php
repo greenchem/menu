@@ -19,7 +19,7 @@ class UserTableSeeder extends Seeder
     {
         $testUsers = [
             ['username' => 'Admin', 'password'          => bcrypt('test'), 'nickname' => 'test1'],
-            ['username' => 'AccountManager', 'password' => bcrypt('test'), 'nickname' => 'test2'],
+            ['username' => 'AccountsManager', 'password' => bcrypt('test'), 'nickname' => 'test2'],
             ['username' => 'Accountant', 'password'     => bcrypt('test'), 'nickname' => 'test3'],
             ['username' => 'MenuManager', 'password'    => bcrypt('test'), 'nickname' => 'test4'],
             ['username' => 'User', 'password'           => bcrypt('test'), 'nickname' => 'test5'],
@@ -32,7 +32,7 @@ class UserTableSeeder extends Seeder
             User::firstOrCreate( array_merge($testUser, [
                 'company_id' => $company_id, 'group_id' => $group_id
             ]))
-            ->roles( Role::where('name', $testUser['username'])->first() );
+            ->roles()->save( Role::where('name', $testUser['username'])->first() );
         }
     }
 }

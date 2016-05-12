@@ -7,6 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 // Plugins env
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
+// Model
+use App\Objects\Company;
+use App\Objects\Group;
+use App\Objects\Role;
+
 class User extends Authenticatable
 {
     use EntrustUserTrait;
@@ -27,4 +32,70 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get user's company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get user's group.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+
+    // Scopes
+
+    /**
+     * Get viewable accounts
+     *
+     * @var Illuminate\Database\Eloquent\Builder $qeury
+     * @var App\Object\User $user
+     * @return Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeViewable($query, $user)
+    {
+        $effectable_roles = Role::getEffectableRoles($user);
+
+        return $query->where(function ($viewable_query) use ($effectable_roles, $user) {
+            $viewable_query->whereHas('roles', function ($role_query) use ($effectable_roles) {
+                $role_query->whereIn('name', $effectable_roles);
+            })->orWhere('id', '=', $user->getAttribute('id'));
+        });
+    }
+
+
+    // Utils
+
+    /**
+     * Check the specific account is alterable by the user or not (this).
+     *
+     * @var App\Objects\User $user
+     * @return boolean
+     */
+    public function canAlter($user)
+    {
+        return in_array( $user->roles[0]->getAttribute('name'), Role::getEffectableRoles($this) );
+    }
+
+    /**
+     * Check the account with the provided role is creatable by the user or not.
+     *
+     * @var App\Objects\Role $role
+     * @return boolean
+     */
+    public function canCreate($role)
+    {
+        return in_array( $role->getAttribute('name'), Role::getEffectableRoles($this) );
+    }
 }
