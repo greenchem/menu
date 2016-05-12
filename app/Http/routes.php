@@ -39,14 +39,54 @@ Route::group(['prefix'=>'feeManager'], function() {
 
 Route::group(['prefix'=>'accountManager'], function() {
     Route::get('account', 'AccountManagerController@account');
-    Route::get('company', 'AccountManagerController@company'); 
-     
+    Route::get('company', 'AccountManagerController@company');
+
 });
 
 Route::group(['prefix'=>'master'], function() {
     Route::get('login', 'MasterController@login');
     Route::get('account', 'MasterController@account');
     Route::get('menu', 'MasterController@menu');
+});
 
+Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
+    Route::group(['prefix' => 'account_sys', 'namespace' => 'AccountSys'], function() {
+        Route::group(['prefix' => 'user'], function() {
+            Route::get('/', 'UserController@index');
+            Route::get('/{id}', 'UserController@show');
+            Route::post('/', 'UserController@create');
+            Route::put('/{id}', 'UserController@update');
+            Route::delete('/{id}', 'UserController@destroy');
+        });
+
+        Route::group(['prefix' => 'company'], function() {
+            Route::get('/', 'CompanyController@index');
+            Route::get('/{id}', 'CompanyController@show');
+            Route::post('/', 'CompanyController@create');
+            Route::put('/{id}', 'CompanyController@update');
+            Route::delete('/{id}', 'CompanyController@destroy');
+        });
+
+        Route::group(['prefix' => 'group'], function() {
+            Route::get('/', 'GroupController@index');
+            Route::get('/{id}', 'GroupController@show');
+            Route::post('/', 'GroupController@create');
+            Route::put('/{id}', 'GroupController@update');
+            Route::delete('/{id}', 'GroupController@destroy');
+        });
+
+        Route::group(['prefix' => 'role'], function() {
+            Route::get('/', 'RoleController@index');
+            Route::get('/{id}', 'RoleController@show');
+        });
+
+        Route::group(['prefix' => 'permission'], function() {
+            Route::get('/', 'PermissionController@index');
+        });
+    });
+
+    Route::group(['prefix' => 'menu_sys', 'namespace' => 'MenuSys'], function() {});
+
+    Route::group(['prefix' => 'accounting_sys', 'namespace' => 'AccountingSys'], function() {});
 });
 

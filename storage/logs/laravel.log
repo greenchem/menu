@@ -177,3 +177,26 @@ Stack trace:
 #22 /home/fatesaikou/testLA/menu/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #23 /home/fatesaikou/testLA/menu/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #24 {main}  
+[2016-05-12 05:16:42] local.ERROR: Symfony\Component\Console\Exception\CommandNotFoundException: Command "make" is not defined.
+
+Did you mean one of these?
+    make:middleware
+    make:controller
+    make:migration
+    make:listener
+    make:provider
+    make:console
+    make:request
+    make:policy
+    make:seeder
+    make:event
+    make:model
+    make:auth
+    make:test
+    make:job in /home/fatesaikou/testLA/menu/vendor/symfony/console/Application.php:512
+Stack trace:
+#0 /home/fatesaikou/testLA/menu/vendor/symfony/console/Application.php(183): Symfony\Component\Console\Application->find('make')
+#1 /home/fatesaikou/testLA/menu/vendor/symfony/console/Application.php(117): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 /home/fatesaikou/testLA/menu/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 /home/fatesaikou/testLA/menu/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#4 {main}  
