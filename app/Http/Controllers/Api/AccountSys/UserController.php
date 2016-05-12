@@ -21,7 +21,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $users = User::viewable( Auth::user() )->with(['company', 'group'])->get();
 

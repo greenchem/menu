@@ -18,7 +18,7 @@ class GroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $groups = Group::with(['company'])->get();
 
