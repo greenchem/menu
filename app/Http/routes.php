@@ -60,8 +60,9 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::post('/', 'UserController@create');
             Route::get('/{id}', 'UserController@show');
             Route::put('/{id}', 'UserController@update');
-            Route::put('/role/{role_id}', 'UserController@updateRole');
+            Route::put('/{id}/{role_id}', 'UserController@updateRole');
             Route::delete('/{id}', 'UserController@destroy');
+            Route::delete('/{id}/{role_id}', 'UserController@destroyRole');
         });
 
         Route::group(['prefix' => 'company'], function() {
@@ -77,6 +78,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::get('/{id}', 'GroupController@show');
             Route::post('/', 'GroupController@create');
             Route::put('/{id}', 'GroupController@update');
+            Route::put('/{id}/{company_id}', 'GroupController@update');
             Route::delete('/{id}', 'GroupController@destroy');
         });
 

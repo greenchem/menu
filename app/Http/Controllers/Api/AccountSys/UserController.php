@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::viewable( Auth::user() )->get();
+        $users = User::viewable( Auth::user() )->with(['company', 'group'])->get();
 
         return response()->json($users);
     }
@@ -55,7 +55,10 @@ class UserController extends Controller
 
         $user->roles()->save($role);
 
-        return response()->json(['status' => 0]);
+        return response()->json([
+            'user_id' => $user->getAttribute('id'),
+            'status' => 0
+        ]);
     }
 
     /**
@@ -66,7 +69,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::viewable( Auth::user() )->where('id', $id)->first();
+        $user = User::viewable( Auth::user() )->with(['company', 'group'])->where('id', $id)->first();
 
         return response()->json($user);
     }
@@ -100,28 +103,28 @@ class UserController extends Controller
     /**
      * Update the role for specified resource
      *
-     * @param \Illuminate\Http\Request  $request
-     * @param int $id
+     * @param int $id (user_id)
+     * @param int $role_id
      * @return \Illuminate\Http\Response
      */
-    public function updateRole(Request $request, $id)
+    public function updateRole($id, $role_id)
     {
         // Check the role is creatable and the user is alterable or not.
-        $role = Role::find($request->input('role_id'));
+        $role = Role::find($role_id);
         $user = User::find($id);
         if ( Auth::user()->canCreate($role) && Auth::user()->canAlter($user) ) {
             // Change this to 403 in future.
             return response()->json(['status' => 2]);
         }
 
-        $user->roles()->save($role);
+        $user->roles()->attach($role);
 
         return response()->json(['status' => 0]);
     }
 
     /**
      * Remove the specified resource from storage.
-         *
+     *
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
@@ -134,6 +137,28 @@ class UserController extends Controller
         }
 
         $user->delete();
+
+        return response()->json(['status' => 0]);
+    }
+
+    /**
+     * Remove the role for specified resource
+     *
+     * @param int $id (user_id)
+     * @param int $role_id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyRole($id, $role_id)
+    {
+        // Check the role is detachable and the user is alterable or not.
+        $role = Role::find($role_id);
+        $user = User::find($id);
+        if ( Auth::user()->canCreate($role) && Auth::user()->canAlter($user) ) {
+            // Change this to 403 in future.
+            return response()->json(['status' => 2]);
+        }
+
+        $user->roles()->detach($role);
 
         return response()->json(['status' => 0]);
     }

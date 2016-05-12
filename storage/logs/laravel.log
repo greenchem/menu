@@ -1013,3 +1013,6 @@ Stack trace:
 #57 /home/fatesaikou/testLA/menu/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #58 /home/fatesaikou/testLA/menu/server.php(21): require_once('/home/fatesaiko...')
 #59 {main}  
+[2016-05-12 14:04:18] local.ERROR: Symfony\Component\Debug\Exception\FatalErrorException: Trait 'App\Objects\SoftDeletes' not found in /home/fatesaikou/testLA/menu/app/Objects/Company.php:10
+Stack trace:
+#0 {main}  
