@@ -112,7 +112,7 @@ class UserController extends Controller
         // Check the role is creatable and the user is alterable or not.
         $role = Role::find($role_id);
         $user = User::find($id);
-        if ( Auth::user()->canCreate($role) && Auth::user()->canAlter($user) ) {
+        if ( !Auth::user()->canCreate($role) || !Auth::user()->canAlter($user) ) {
             // Change this to 403 in future.
             return response()->json(['status' => 2]);
         }
@@ -153,7 +153,7 @@ class UserController extends Controller
         // Check the role is detachable and the user is alterable or not.
         $role = Role::find($role_id);
         $user = User::find($id);
-        if ( Auth::user()->canCreate($role) && Auth::user()->canAlter($user) ) {
+        if ( !Auth::user()->canCreate($role) || !Auth::user()->canAlter($user) ) {
             // Change this to 403 in future.
             return response()->json(['status' => 2]);
         }
