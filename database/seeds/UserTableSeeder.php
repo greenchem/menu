@@ -18,11 +18,11 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $testUsers = [
-            ['username' => 'Admin', 'password'          => bcrypt('test'), 'nickname' => 'test1'],
-            ['username' => 'AccountsManager', 'password' => bcrypt('test'), 'nickname' => 'test2'],
-            ['username' => 'Accountant', 'password'     => bcrypt('test'), 'nickname' => 'test3'],
-            ['username' => 'MenuManager', 'password'    => bcrypt('test'), 'nickname' => 'test4'],
-            ['username' => 'User', 'password'           => bcrypt('test'), 'nickname' => 'test5'],
+            ['username' => 'Admin', 'password' => bcrypt('test'), 'nickname' => 'test1', 'position' => 'Admin'],
+            ['username' => 'AccountsManager', 'password' => bcrypt('test'), 'nickname' => 'test2', 'position' => 'RD'],
+            ['username' => 'Accountant', 'password' => bcrypt('test'), 'nickname' => 'test3', 'position' => 'Accountant'],
+            ['username' => 'MenuManager', 'password' => bcrypt('test'), 'nickname' => 'test4', 'position' => 'MenuManager'],
+            ['username' => 'User', 'password' => bcrypt('test'), 'nickname' => 'test5', 'position' => 'User'],
         ];
 
         foreach ($testUsers as $testUser) {
