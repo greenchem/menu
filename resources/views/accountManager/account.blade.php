@@ -10,8 +10,9 @@
 
 @section('content')
     @include('accountManager.header')
-    @include('accountManager.addModal')
-    @include('accountManager.editModal')
+    @include('accountManager.account.addModal')
+    @include('accountManager.account.editModal')
+    @include('accountManager.account.roleModal')
 
     <div class="container">
         <div class="row">
@@ -24,10 +25,10 @@
         <table class="table table-striped" id="menuTable">
             <thead>
                 <tr>
-                    <th>編號</th>
+                    <th>帳號</th>
                     <th>姓名</th>
-                    <th>公司 - 單位</th>
-                    <th>職位</th>
+                    <th>公司</th>
+                    <th>單位</th>
                     <th>#</th>
                 </tr>
             </thead>

@@ -1,13 +1,46 @@
 $(function() {
-  faker();
-  clickEvent();
-  getPeople();
+  var data = {};
+  data._token = $('meta[name="csrf-token"]').attr('content');
+
+  $.get('/api/account_sys/company/', data, function(company) {// get company list
+    $.get('/api/account_sys/group/', data, function(group) {// get group list
+      initSelect(company, group);
+
+      clickEvent();
+      getPeople();
+    });
+  });
 });
 
-var people;
-var finalPage;
-var currentPage = 0;
-var peoplePerPage = 10;
+function initSelect(company, group) {
+  var text = '';
+  var i;
+  var e;// element
+  var id;
+  var name;
+
+  for(i=0; i<company.length; i++) {// append company
+    e = company[i];
+    id = e.id;
+    name = e.name;
+
+    text = `<option value="${id}">${name}</option>`;
+
+    $('#addCompany').append(text);
+    $('#editCompany').append(text);
+  }
+
+  for(i=0; i<group.length; i++) {// append group
+    e = group[i];
+    id = e.id;
+    name = e.name;
+
+    text = `<option value="${id}">${name}</option>`;
+
+    $('#addGroup').append(text);
+    $('#editGroup').append(text);
+  }
+}
 
 function clickEvent() {
   $('#addModalBtn').unbind('click');
@@ -18,56 +51,121 @@ function clickEvent() {
   $('#editBtn').unbind('click');
   $('#editBtn').click(function() {
     return;
+    var id = $('#currentEditId').val();
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+    data.nickname = $('#editNickname').val();
+    data.company_id = $('#editCompany').val();
+    data.group_id = $('#editGroup').val();
+
+    $.ajax({
+      url: `/api/account_sys/user/${id}`,
+      data: data,
+      method: 'put',
+      success: function(result) {
+        toastr['success']('編輯成功');
+      },
+      fail: function() {
+        toastr['error']('編輯失敗');
+      }
+    });
   });
 
   $('#addBtn').unbind('click');
   $('#addBtn').click(function() {
-    return;
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+    data.username = $('#addUsername').val();
+    data.password = $('#addPassword').val();
+    data.nickname = $('#addNickname').val();
+    data.company_id = $('#addCompany').val();
+    data.group_id = $('#addGroup').val();
+    data.role_id = 5;// default User
+
+    console.log(data);
+    $.post('/api/account_sys/user', data, function(result) {
+      console.log(result);
+      if(result.status == 0) {
+        toastr['success']('新增成功');
+      }else {
+        toastr['error']('新增失敗, 可能是權限不足');
+      }
+    }).fail(function() {
+      toastr['error']('新增失敗');
+    });
+  });
+
+  $('#editRoleBtn').unbind('click');
+  $('#editRoleBtn').click(function() {
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+
+    var role = [];
+    $('input[name="role"]:checked').each(function() {
+      role.push($(this).val());
+    });
+
+    role.each(function(idx, val) {
+      $.ajax({
+        url: `/api/account_sys/`,
+        data: data,
+        method: 'put',
+        success: function(result) {
+
+        },
+        fail: function() {
+
+        }
+      });
+    });
   });
 }
 
 function getPeople() {
-  produceTable();
-  producePage();
+  var data = {};
+  data._token = $('meta[name="csrf-token"]').attr('content');
+
+  $.get('/api/account_sys/user/', data, function(result) {
+    console.log(result);
+    produceTable(result);
+  }).fail(function() {
+    toastr['error']('請先登入');
+  });
 }
 
-function produceTable() {
-  var i;
-  var person;
-  var employeeId;
+function produceTable(people) {
+  var i;// count
+  var person;// temp variable
   var id;
-  var name;
-  var levelName;
+  var username;
+  var nickname;
   var company;
   var group;
   var index;
-  var text = '';
+  var text = '';// text variable
 
-  for(i=0, j=currentPage*peoplePerPage; i<peoplePerPage&&j<people.length; i++, j++) {
-    person = people[j];
-    index = j;
+  for(i=0; i<people.length; i++) {
+    person = people[i];
+    index = i;
     id = person['id'];
-    name = person['name'];
-    levelName = person['levelName'];
-    company = person['company'];
-    group = person['group'];
-    employeeId = person['employeeId'];
+    username = person['username'];
+    nickname = person['nickname'];
+    company = person['company']['name'];
+    group = person['group']['name'];
 
     text += `<tr>`;
-    text += `<td>${employeeId}</td>`;
-    text += `<td>${name}</td>`;
-    text += `<td>${company} - ${group}</td>`;
-    text += `<td>${levelName}</td>`;
+    text += `<td>${username}</td>`;
+    text += `<td>${nickname}</td>`;
+    text += `<td>${company}</td>`;
+    text += `<td>${group}</td>`;
     text += `<td>`;
     text += `<button class="btn btn-primary editModalBtn"`;
-    text += `data-employee_id="${employeeId}"`;// data attribute tag must be lower case letters
-    text += `data-name="${name}"`;
-    text += `data-company="${company}"`;
-    text += `data-group="${group}"`;
-    text += `data-level_name="${levelName}"`;
     text += `data-id="${id}"`;
-    text += `>修改</button>`;
-    text += `<button class="btn btn-danger deleteBtn" data-index="${index}">刪除</button>`;
+    text += `>修改帳號資料</button>`;
+    text += `<button class="btn btn-warning editRoleModalBtn"`
+    text += `data-id="${id}"`
+    text += `>修改帳號權限</button>`;
+    text += `<button class="btn btn-danger deleteBtn" data-id="${id}">刪除</button>`;
     text += `</td>`;
     text += `</tr>`;
   }
@@ -76,6 +174,73 @@ function produceTable() {
   tableEvent();
 }
 
+function tableEvent() {
+  $('.deleteBtn').unbind('click');
+  $('.deleteBtn').click(function() {
+    var id = $(this).data('id');
+    var index = $(this).data('index');
+    //people.splice(index, 1);
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      url: `/api/account_sys/user/${id}`,
+      data: data,
+      method: 'delete',
+      success: function(result) {
+        console.log(result);
+        toastr['success']('刪除成功');
+      },
+      fail: function() {
+        toastr['error']('刪除失敗');
+      }
+    });
+  });
+
+  $('.editModalBtn').unbind('click');
+  $('.editModalBtn').click(function() {
+    var username;
+    var nickname;
+    var group;
+    var company;
+    var id = $(this).data('id');
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+
+    $.get(`/api/account_sys/user/${id}`, data, function(result) {// person detail
+      console.log(result);
+
+      username = result.username;
+      nickname = result.nickname;
+      company = result.company_id;
+      group = result.group_id;
+
+      $('#editUsername').val(username);
+      $('#editNickname').val(nickname);
+      $(`#editCompany option[value="${company}"]`).prop('selected', true);
+      $(`#editGroup option[value="${group}"]`).prop('selected', true);
+      $('#editAccount').modal('show');
+    });
+  });
+
+  $('.editRoleModalBtn').unbind('click');
+  $('.editRoleModalBtn').click(function() {
+    var id = $(this).data('id');
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+
+
+    $.get(`/api/account_sys/role/${id}`, data, function(result) {
+      console.log(result);
+      $('#editRole').modal('show');
+    });
+  });
+}
+
+/*
+ * If Need Page, Add Money
+ * Money Money
+ *
 function producePage() {
   var i;
   var minPage = Math.max(currentPage - 5, 0);
@@ -107,42 +272,6 @@ function producePage() {
   pageEvent();
 }
 
-function tableEvent() {
-  $('.deleteBtn').unbind('click');
-  $('.deleteBtn').click(function() {
-    var index = $(this).data('index');
-    people.splice(index, 1);
-    finalPage = Math.floor(people.length/peoplePerPage);
-    getPeople();
-    return;
-    var data = {};
-    $.ajax({
-      url: '',
-      data: data,
-      method: 'delete',
-      success: function(result) {
-
-      },
-      fail: function() {
-
-      }
-    });
-  });
-
-  $('.editModalBtn').unbind('click');
-  $('.editModalBtn').click(function() {
-    var name = $(this).data('name');
-    var company = $(this).data('company');
-    var group = $(this).data('group');
-    var employeeId = $(this).data('employee_id');
-    var id = $(this).data('id');
-
-    $('#editName').val(name);
-    $('#editEmployeeId').val(employeeId);
-    $('#editAccount').modal('show');
-  });
-}
-
 function pageEvent() {
   $('.pageBtn').unbind('click');
   $('.pageBtn').click(function() {
@@ -163,74 +292,5 @@ function pageEvent() {
   });
 }
 
-// faker data
-var companyName = [
-  '生科',
-  '優好',
-  '良農'
-];
-var groupName = [
-  '人事部',
-  '行銷部',
-  '市場部',
-  '生化部',
-  '主計部',
-  '經濟部',
-  '科技部'
-];
-var personName = [
-  '黃國昌',
-  '蔡英文',
-  '馬英九',
-  '陳水扁',
-  '連戰',
-
-  '連勝文',
-  '柯文哲',
-  '陳菊',
-  '賴清德',
-  '張花冠',
-
-  '胡志強',
-  '翁啟惠',
-  '林昶佐',
-  '羅淑蕾',
-  '熊柏安'
-];
-var levelName = [
-  '經理',
-  '副理',
-  '組頭',
-  '組員',
-  '掃地'
-];
-
-
-function faker() {
-  var i;
-  var j;
-  var k;
-  var temp;
-  var temp1;
-  var festivalSum = 0;
-  var productId = 0;
-
-  // Produce People Data
-  people = [];
-  for(i=0; i<15; i++) {
-    people[i] = [];
-    people[i]['id'] = i;
-    people[i]['employeeId'] = i;
-    people[i]['name'] = personName[i];
-    people[i]['company'] = companyName[Math.floor(Math.random()*3)];
-    people[i]['group'] = groupName[Math.floor(Math.random()*7)];
-
-    temp = Math.floor(Math.random()*5);
-    people[i]['level'] = temp;
-    people[i]['levelName'] = levelName[temp];
-  }
-
-  // Produce Page
-  finalPage = Math.floor(people.length/peoplePerPage);
-}
+*/
 

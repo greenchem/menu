@@ -7,13 +7,13 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="addAccount">帳號</label>
-                    <input type="text" class="form-control" id="addAccount">
+                    <label for="addUsername">帳號</label>
+                    <input type="text" class="form-control" id="addUsername">
                 </div>
                 <div class="row">
                     <label for="addPassword">密碼</label>
                     <input type="text" class="form-control" id="addPassword">
-                </div>
+                </div><!--
                 <div class="row">
                     <label for="addEmail">信箱</label>
                     <input type="text" class="form-control" id="addEmail">
@@ -21,23 +21,25 @@
                 <div class="row">
                     <label for="addEmployeeId">員工ID</label>
                     <input type="text" class="form-control" id="addEmployeeId">
-                </div>
+                  </div>-->
                 <div class="row">
-                    <label for="addName">姓名</label>
-                    <input type="text" class="form-control" id="addName">
+                    <label for="addNickname">姓名</label>
+                    <input type="text" class="form-control" id="addNickname">
                 </div>
                 <div class="row">
                     <label for="addCompany">公司名稱</label>
-                    <select class="form-control" id="addCompany">
-                        <option value=""></option>
-                    </select>
+                    <select class="form-control" id="addCompany"></select>
                 </div>
                 <div class="row">
                     <label for="addGroup">單位</label>
-                    <select class="form-control" id="addGroup">
-                        <option value=""></option>
-                    </select>
+                    <select class="form-control" id="addGroup"></select>
                 </div>
+                <div class="row">
+                  <label for="addLevelName">職等</label>
+                  <input class="form-control" type="text" id="addLevelName">
+                </div>
+
+                  <!--
                 <div class="row">
                     <label for="addBeginDate">報到日期</label>
                     <input type="date" class="form-control" id="addBeginDate">
@@ -45,10 +47,10 @@
                 <div class="row">
                     <label for="addEndDate">離職日期</label>
                     <input type="date" class="form-control" id="addEndDate">
-                </div>
+                  </div>-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">新增</button>
+                <button type="button" class="btn btn-primary" id="addBtn">新增</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
