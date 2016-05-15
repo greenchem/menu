@@ -66,12 +66,21 @@ class User extends Authenticatable
     public function scopeViewable($query, $user)
     {
         $effectable_roles = Role::getEffectableRoles($user);
+        $viewable_ids = [];
 
-        return $query->where(function ($viewable_query) use ($effectable_roles, $user) {
-            $viewable_query->whereHas('roles', function ($role_query) use ($effectable_roles) {
-                $role_query->whereIn('name', $effectable_roles);
-            })->orWhere('id', '=', $user->getAttribute('id'));
-        });
+        foreach (self::all() as $aim) {
+            if (
+                // N + 1 query over here!! But I have no time...
+                ( Role::isRolesIn($aim->roles, $effectable_roles) ) ||
+                ( $aim->getAttribute('id') == $user->getAttribute('id') )
+            )
+            {
+                array_push($viewable_ids, $aim->getAttribute('id'));
+            }
+        }
+
+        return $query->whereIn('id', $viewable_ids);
+
     }
 
 
@@ -85,7 +94,7 @@ class User extends Authenticatable
      */
     public function canAlter($user)
     {
-        return in_array( $user->roles[0]->getAttribute('name'), Role::getEffectableRoles($this) );
+        return Role::isRolesIn($user->roles, Role::getEffectableRoles($this));
     }
 
     /**

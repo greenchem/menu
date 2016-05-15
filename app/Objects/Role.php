@@ -36,4 +36,21 @@ class Role extends EntrustRole
             return [];
         }
     }
+
+    /**
+     * Check is the roles is the subset of provide array
+     *
+     * @var Array of App\Objects\Role
+     * @return boolean
+     */
+    public static function isRolesIn($roles, $aim_roles_name)
+    {
+        foreach ($roles as $role) {
+            if ( !in_array($role->getAttribute('name'), $aim_roles_name) ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
