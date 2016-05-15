@@ -48,6 +48,7 @@ class UserController extends Controller
         $user->username = $request->input('username');
         $user->password = bcrypt($request->input('password'));
         $user->nickname = $request->input('nickname');
+        $user->position = $request->input('position');
         $user->company_id = $request->input('company_id');
         $user->group_id = $request->input('group_id');
         $user->save();
@@ -93,6 +94,7 @@ class UserController extends Controller
         $user->username = $request->input('username');
         $user->password = bcrypt($request->input('password'));
         $user->nickname = $request->input('nickname');
+        $user->position = $request->input('position');
         $user->company_id = $request->input('company_id');
         $user->group_id = $request->input('group_id');
         $user->save();
