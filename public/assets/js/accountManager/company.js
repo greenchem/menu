@@ -1,120 +1,240 @@
+var TOAST = $('#toast-container .toast');
+
 $(function() {
-  //faker();
   clickEvent();
   $('#feeClassBG li:first').click();
-
-  produceAddTable();
-  produceEditTable();
+  clickEvent();
 });
 
 function clickEvent() {
-  $('#feeClassBG li').click(function(){
+  $('#feeClassBG li').on('click', function(){
     $(this).parent().find('.active').removeClass('active');
     var targetClass = $(this).attr('class');
     $(this).addClass('active');
     $('#feeContentDiv .feeContent').css('display', 'none');
     $('#feeContentDiv .feeContent.' + targetClass).css('display', 'block');
   });
+
+  companyEvent();
+  groupEvent();
 }
 
-function produceAddTable() {
-  var text = '';
-  var i;
-  var id;
-  var companyId;
-  var name;
-
-  for(i=0; i<3; i++) {
-    name = companyName[i];
-    companyId = i;
-    id = i;
-
-    text += `<tr>`;
-    text += `<td>${companyId}</td>`;
-    text += `<td>${name}</td>`;
-    text += `<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editCompanyModal">修改</button>`;
-    text += `<button class="btn btn-danger deleteBtn" data-id="${id}">刪除</button></td>`;
-    text += `</tr>`;
-  }
-
-  $('#addTable tbody').html(text);
-  tableEvent();
-}
-
-function produceEditTable() {
-  var text = '';
-  var i;
-  var j;
-  var id;
-  var companyId;
-  var name;
-
-  for(i=0; i<3; i++) {
-   for(j=0; j<4; j++) {
-    name = companyName[i];
-    group=groupName[j];
-
-    text += `<tr>`;
-    text += `<td>${name}</td>`;
-    text += `<td>${group}</td>`;   
-    text += `<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editGroupModal">修改</button>`;
-    text += `<button class="btn btn-danger deleteBtn" data-id="${id}">刪除</button></td>`;
-    text += `</tr>`;
-    }
-  }
-
-  $('#editTable tbody').html(text);
-  tableEvent();
-}
-
-function tableEvent() {
-  $('.deleteBtn').unbind('click');
-  $('.deleteBtn').click(function() {
-    var index = $(this).data('index');
-    people.splice(index, 1);
-    finalPage = Math.floor(people.length/peoplePerPage);
-    getPeople();
-    return;
-    var data = {};
+function companyEvent()
+{
+  //create company
+  $('#addCompanyContainer #companyModal #addCompanyButton').unbind('click');
+  $('#addCompanyContainer #companyModal #addCompanyButton').on('click', function(){
     $.ajax({
-      url: '',
-      data: data,
-      method: 'delete',
-      success: function(result) {
-
+      url: '/api/account_sys/company/',
+      type: "POST",
+      data: {
+        name: $('#addCompany-companyName').val(),
+        _token: $("meta[name='csrf-token']").attr("content")
       },
-      fail: function() {
-
+      error: function (error) {
+        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
+        TOAST.addClass('toast-errorr');
+      },
+      success: function (result) {
+        console.log(result);
+        if(result['status'] == 0) {
+          location.reload();
+        } else {
+          Materialize.toast('<span>新增公司失敗!</span>', 5000, 'rounded');
+          TOAST.addClass('toast-errorr');
+        }
       }
     });
   });
 
-  $('.editModalBtn').unbind('click');
-  $('.editModalBtn').click(function() {
-    var name = $(this).data('name');
-    var company = $(this).data('company');
-    var group = $(this).data('group');
-    var employeeId = $(this).data('employee_id');
-    var id = $(this).data('id');
+  //edit company
+  $('#addCompanyContainer #feeContentDiv .editCompany').unbind('click');
+  $('#addCompanyContainer #feeContentDiv .editCompany').on('click', function(){
+    var companyName = $(this).parent().data('companyname');
+    var companyId = $(this).parent().data('companyid');
+    $('#editCompanyModal').data('companyid', companyId);
+    $('#editCompanyModal #editCompany-companyName').val(companyName);
+  });
 
-    $('#editName').val(name);
-    $('#editEmployeeId').val(employeeId);
-    $('#editAccount').modal('show');
+
+  //check edit company
+  $('#editCompanyModal #checkEditCompanyButton').unbind('click');
+  $('#editCompanyModal #checkEditCompanyButton').on('click', function(){
+    $.ajax({
+      url: '/api/account_sys/company/' + $('#editCompanyModal').data('companyid'),
+      _method: 'put',
+      type: 'put',
+      data: {
+        name: $('#editCompanyModal #editCompany-companyName').val(),
+        _token: $('meta[name="csrf-token"]').attr('content')
+      },
+      error: function(error) {
+        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
+        TOAST.addClass('toast-errorr');
+      },
+      success: function(result) {
+        console.log(result);
+        if(result['status'] == 0) {
+          location.reload();
+        } else {
+          Materialize.toast('<span>編輯公司失敗!</span>', 5000, 'rounded');
+          TOAST.addClass('toast-errorr');
+        }
+      }
+    });
+  });
+
+  //delete company
+  $('#addCompanyContainer #feeContentDiv .deleteCompany').unbind('click');
+  $('#addCompanyContainer #feeContentDiv .deleteCompany').on('click', function() {
+    var companyName = $(this).parent().data('companyname');
+    var companyId = $(this).parent().data('companyid');
+    $('#deleteCompanyModal').data('companyid', companyId);
+    $('#deleteCompanyModal .companyName').html(companyName);
+  });
+
+  //check delete company
+  $('#deleteCompanyModal #checkDeleteCompanyButton').unbind('click');
+  $('#deleteCompanyModal #checkDeleteCompanyButton').on('click', function() {
+    $.ajax({
+      url: '/api/account_sys/company/' + $('#deleteCompanyModal').data('companyid'),
+      _method: 'delete',
+      status: 'deleted',
+      type: 'delete',
+      data: {
+        _token: $('meta[name="csrf-token"]').attr('content')
+      },
+      error: function (error) {
+        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
+        TOAST.addClass('toast-errorr');
+      },
+      success: function (result) {
+        if(result['status'] == 0) {
+          location.reload();
+        } else {
+          Materialize.toast('<span>刪除公司失敗!</span>', 5000, 'rounded');
+          TOAST.addClass('toast-errorr');
+        }
+      }
+    });
   });
 }
 
+function groupEvent()
+{
+  // create group
+  $('#groupModal #addGroupButton').unbind('click');
+  $('#groupModal #addGroupButton').on('click', function(){
+    var companyId = $('#groupModal #addGroup-companyName').val();
+    var groupName = $('#groupModal #addGroup-groupName').val();
+    $.ajax({
+      url: '/api/account_sys/group/',
+      type: "POST",
+      data: {
+        name: groupName,
+        company_id: companyId,
+        _token: $("meta[name='csrf-token']").attr("content")
+      },
+      error: function (error) {
+        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
+        TOAST.addClass('toast-errorr');
+      },
+      success: function (result) {
+        console.log(result);
+        if(result['status'] == 0) {
+          location.reload();
+        } else {
+          Materialize.toast('<span>新增部門失敗!</span>', 5000, 'rounded');
+          TOAST.addClass('toast-errorr');
+        }
+      }
+    });
+  });
 
-// faker data
-var people;
-var companyName = [
-  '生科',
-  '優好',
-  '良農'
-];
-var groupName = [
-  '人事部',
-  '行銷部',
-  '市場部',
-  '生化部'
-];
-   
+
+  // update group
+  $('#addCompanyContainer #feeContentDiv .editGroup').unbind('click');
+  $('#addCompanyContainer #feeContentDiv .editGroup').on('click', function(){
+    var groupId = $(this).parent().data('groupid');
+    var companyId = $(this).parent().data('companyid');
+    var groupName = $(this).parent().data('groupname');
+    $('#editGroupModal #editGroup-companyName option').each(function(){
+      if($(this).val() == companyId) {
+        $(this).attr('selected', true);
+      } else {
+        $(this).attr('selected', false);
+      }
+    });
+    $('#editGroupModal #editGroup-groupName').val(groupName);
+    $('#editGroupModal').data('groupid', groupId);
+  });
+
+  // check update group
+  $('#editGroupModal #checkEditGroupButton').unbind('click');
+  $('#editGroupModal #checkEditGroupButton').on('click', function(){
+    var companyId = $('#editGroupModal #editGroup-companyName').val();
+    var groupId = $('#editGroupModal').data('groupid');
+    var groupName = $('#editGroupModal #editGroup-groupName').val();
+    $.ajax({
+      url: '/api/account_sys/group/' + groupId + '/' + companyId,
+      _method: 'put',
+      type: 'put',
+      data: {
+        name: groupName,
+        company_id: companyId,
+        _token: $('meta[name="csrf-token"]').attr('content')
+      },
+      error: function(error) {
+        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
+        TOAST.addClass('toast-errorr');
+      },
+      success: function(result) {
+        console.log(result);
+        if(result['status'] == 0) {
+          location.reload();
+        } else {
+          Materialize.toast('<span>編輯部門失敗!</span>', 5000, 'rounded');
+          TOAST.addClass('toast-errorr');
+        }
+      }
+    });
+  });
+
+
+  //delete group
+  $('#addCompanyContainer #feeContentDiv .deleteGroup').unbind('click');
+  $('#addCompanyContainer #feeContentDiv .deleteGroup').on('click', function(){
+    var groupId = $(this).parent().data('groupid');
+    var groupName = $(this).parent().data('groupname');
+    var companyName = $(this).parent().data('companyname');
+    $('#deleteGroupModal .companyName').html(companyName);
+    $('#deleteGroupModal .groupName').html(groupName);
+    $('#deleteGroupModal').data('groupid', groupId);
+  });
+
+  //check group
+  $('#deleteGroupModal #checkDeleteGroupButton').unbind('click');
+  $('#deleteGroupModal #checkDeleteGroupButton').on('click', function(){
+    $.ajax({
+      url: '/api/account_sys/group/' + $('#deleteGroupModal').data('groupid'),
+      _method: 'delete',
+      status: 'deleted',
+      type: 'delete',
+      data: {
+        _token: $('meta[name="csrf-token"]').attr('content')
+      },
+      error: function (error) {
+        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
+        TOAST.addClass('toast-errorr');
+      },
+      success: function (result) {
+        if(result['status'] == 0) {
+          location.reload();
+        } else {
+          Materialize.toast('<span>刪除部門失敗!</span>', 5000, 'rounded');
+          TOAST.addClass('toast-errorr');
+        }
+      }
+    });
+  });
+}
