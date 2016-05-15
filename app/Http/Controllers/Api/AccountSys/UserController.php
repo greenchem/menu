@@ -70,7 +70,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::viewable( Auth::user() )->with(['company', 'group'])->where('id', $id)->first();
+        $user = User::viewable( Auth::user() )->with(['company', 'group', 'roles'])->where('id', $id)->first();
 
         return response()->json($user);
     }
