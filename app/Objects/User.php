@@ -70,7 +70,9 @@ class User extends Authenticatable
         return $query->where(function ($viewable_query) use ($effectable_roles, $user) {
             $viewable_query->whereHas('roles', function ($role_query) use ($effectable_roles) {
                 $role_query->whereIn('name', $effectable_roles);
-            })->orWhere('id', '=', $user->getAttribute('id'));
+            })
+            ->orHas('roles', '0') // Need to filter Normal User to View others
+            ->orWhere('id', '=', $user->getAttribute('id'));
         });
     }
 
