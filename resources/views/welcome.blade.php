@@ -6,7 +6,7 @@
 @stop
 
 @section('js')
-    <script src="{{url('assets/js/accountManager/company.js')}}"></script>
+    <script src="{{url('assets/js/welcome.js')}}"></script>
 @stop
 
 @section('content')
@@ -22,14 +22,14 @@
                 <p><a href="{{url('feeManager/parking')}}">津貼管理者</a></p>
                 <p><a href="{{url('master/')}}">最高管理者</a></p>
             @else
-                <form class="form-signin">
+                <div class="form-signin">
                     <h2 class="form-signin-heading">登入</h2>
                     <label for="username" class="sr-only">Email address</label>
                     <input type="text" id="username" class="form-control" placeholder="帳號" required autofocus="">
                     <label for="password" class="sr-only">Password</label>
                     <input type="password" id="password" class="form-control" placeholder="密碼" required>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
-                </form>
+                    <button id="loginBtn" class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
+                </div>
             @endif
         </div>
     </div>

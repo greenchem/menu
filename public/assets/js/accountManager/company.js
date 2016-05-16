@@ -43,8 +43,7 @@ function companyEvent()
         if(result['status'] == 0) {
           location.reload();
         } else {
-          Materialize.toast('<span>新增公司失敗!</span>', 5000, 'rounded');
-          TOAST.addClass('toast-errorr');
+          toastr['error']('新增公司失敗!');
         }
       }
     });
@@ -85,8 +84,7 @@ function companyEvent()
         if(result['status'] == 0) {
           location.reload();
         } else {
-          Materialize.toast('<span>編輯公司失敗!</span>', 5000, 'rounded');
-          TOAST.addClass('toast-errorr');
+          toastr['error']('編輯公司失敗!');
         }
       }
     });
@@ -119,8 +117,7 @@ function companyEvent()
         if(result['status'] == 0) {
           location.reload();
         } else {
-          Materialize.toast('<span>刪除公司失敗!</span>', 5000, 'rounded');
-          TOAST.addClass('toast-errorr');
+          toastr['error']('刪除公司失敗!');
         }
       }
     });
@@ -156,8 +153,7 @@ function groupEvent()
         if(result['status'] == 0) {
           location.reload();
         } else {
-          Materialize.toast('<span>新增部門失敗!</span>', 5000, 'rounded');
-          TOAST.addClass('toast-errorr');
+          toastr['error']('新增部門失敗!');
         }
       }
     });
@@ -210,8 +206,7 @@ function groupEvent()
         if(result['status'] == 0) {
           location.reload();
         } else {
-          Materialize.toast('<span>編輯部門失敗!</span>', 5000, 'rounded');
-          TOAST.addClass('toast-errorr');
+          toastr['error']('編輯部門失敗!');
         }
       }
     });
@@ -247,8 +242,7 @@ function groupEvent()
         if(result['status'] == 0) {
           location.reload();
         } else {
-          Materialize.toast('<span>刪除部門失敗!</span>', 5000, 'rounded');
-          TOAST.addClass('toast-errorr');
+          toastr['error']('刪除部門失敗!');
         }
       }
     });

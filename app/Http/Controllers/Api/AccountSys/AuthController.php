@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\AccountSys;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 use App\Http\Requests;
+use App\Http\Controllers\Controller;
 
 // System using
 use Auth;
@@ -33,7 +35,8 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
+        return Redirect::to('/');
 
-        return response()->json(['status' => !Auth::check()]);
+        //return response()->json(['status' => !Auth::check()]);
     }
 }
