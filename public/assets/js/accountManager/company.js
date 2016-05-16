@@ -32,8 +32,7 @@ function companyEvent()
         _token: $("meta[name='csrf-token']").attr("content")
       },
       error: function (error) {
-        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
-        TOAST.addClass('toast-errorr');
+        toastr['error']('伺服器錯誤!');
       },
       success: function (result) {
         console.log(result);
@@ -69,8 +68,7 @@ function companyEvent()
         _token: $('meta[name="csrf-token"]').attr('content')
       },
       error: function(error) {
-        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
-        TOAST.addClass('toast-errorr');
+        toastr['error']('伺服器錯誤!');
       },
       success: function(result) {
         console.log(result);
@@ -105,8 +103,7 @@ function companyEvent()
         _token: $('meta[name="csrf-token"]').attr('content')
       },
       error: function (error) {
-        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
-        TOAST.addClass('toast-errorr');
+        toastr['error']('伺服器錯誤!');
       },
       success: function (result) {
         if(result['status'] == 0) {
@@ -136,8 +133,7 @@ function groupEvent()
         _token: $("meta[name='csrf-token']").attr("content")
       },
       error: function (error) {
-        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
-        TOAST.addClass('toast-errorr');
+        toastr['error']('伺服器錯誤!');
       },
       success: function (result) {
         console.log(result);
@@ -185,8 +181,7 @@ function groupEvent()
         _token: $('meta[name="csrf-token"]').attr('content')
       },
       error: function(error) {
-        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
-        TOAST.addClass('toast-errorr');
+        toastr['error']('伺服器錯誤!');
       },
       success: function(result) {
         console.log(result);
@@ -224,8 +219,7 @@ function groupEvent()
         _token: $('meta[name="csrf-token"]').attr('content')
       },
       error: function (error) {
-        Materialize.toast('<span>伺服器錯誤!</span>', 5000, 'rounded');
-        TOAST.addClass('toast-errorr');
+        toastr['error']('伺服器錯誤!');
       },
       success: function (result) {
         if(result['status'] == 0) {

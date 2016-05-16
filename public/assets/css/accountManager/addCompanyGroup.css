@@ -1,0 +1,21 @@
+#menuList .btn{
+    float: right;
+}
+#feeContentDiv .feeContent{
+    display: none;
+}
+
+table th{
+    text-align: center;
+}
+
+
+#addCompanyContainer .modal-dialog .modal-body .row{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#toast-container .toast-errorr{
+    font-size: 20px;
+    background: red;
+}

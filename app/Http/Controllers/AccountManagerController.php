@@ -20,6 +20,19 @@ class AccountManagerController extends Controller
         $companies = Company::all();
         $groups = Group::with(['company'])->get();
 
+        for($j=0; $j<count($groups); $j++)
+        {
+            for($i=0; $i<count($groups); $i++)
+            {
+                if($groups[$j]['company_id'] < $groups[$i]['company_id'])
+                {
+                    $temp = $groups[$j];
+                    $groups[$j] = $groups[$i];
+                    $groups[$i] = $temp;
+                }
+            }
+        }
+
         return view('accountManager.company')
             ->with('companyData', $companies)
             ->with('groupData', $groups);
