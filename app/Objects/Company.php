@@ -34,6 +34,16 @@ class Company extends Model
     }
 
     /**
+     * Get all of the group that belongs to the company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
+
+    /**
      * Get company by name.
      *
      * @param string name

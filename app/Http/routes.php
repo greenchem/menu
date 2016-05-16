@@ -54,6 +54,11 @@ Route::group(['prefix'=>'master'], function() {
 
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
     Route::group(['prefix' => 'account_sys', 'namespace' => 'AccountSys'], function() {
+        Route::group(['prefix' => 'auth'], function() {
+            Route::get('login', 'AuthController@login');
+            Route::get('logout', 'AuthController@logout');
+        });
+
         Route::group(['prefix' => 'user'], function() {
             Route::get('/', 'UserController@index');
             Route::post('/', 'UserController@create');
