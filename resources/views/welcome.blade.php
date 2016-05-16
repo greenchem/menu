@@ -22,19 +22,14 @@
                 <p><a href="{{url('feeManager/parking')}}">津貼管理者</a></p>
                 <p><a href="{{url('master/')}}">最高管理者</a></p>
             @else
-                <div class="form-signin">
+                <form class="form-signin">
                     <h2 class="form-signin-heading">登入</h2>
-                    <label for="inputEmail" class="sr-only">Email address</label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-                    <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="remember-me"> Remember me
-                        </label>
-                    </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </div>
+                    <label for="username" class="sr-only">Email address</label>
+                    <input type="text" id="username" class="form-control" placeholder="帳號" required autofocus="">
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="密碼" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
+                </form>
             @endif
         </div>
     </div>

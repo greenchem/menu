@@ -2,6 +2,7 @@
 
 @section('css')
 <title>帳號系統</title>
+<link rel="stylesheet" href="{{url('assets/css/accountManager/addCompanyGroup.css')}}">
 @stop
 
 @section('js')

@@ -10,7 +10,7 @@ table th{
 }
 
 
-#addCompanyContainer .modal-dialog .modal-body .row{
+.modal-dialog .modal-body .row{
     padding-left: 15px;
     padding-right: 15px;
 }
