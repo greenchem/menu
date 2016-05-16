@@ -10,9 +10,6 @@
                 <label>帳號權限</label>
                 <div class="checkbox">
                   <label>
-                    <input type="checkbox" name="role" value="5">一般使用者
-                  </label>
-                  <label>
                     <input type="checkbox" name="role" value="4">菜單管理者
                   </label>
                   <label>

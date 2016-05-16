@@ -35,8 +35,8 @@
                     <select class="form-control" id="addGroup"></select>
                 </div>
                 <div class="row">
-                  <label for="addLevelName">職等</label>
-                  <input class="form-control" type="text" id="addLevelName">
+                  <label for="addPosition">職等</label>
+                  <input class="form-control" type="text" id="addPosition">
                 </div>
 
                   <!--

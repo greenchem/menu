@@ -14,6 +14,7 @@
     @include('accountManager.account.editModal')
     @include('accountManager.account.roleModal')
 
+    <input type="hidden" id="currentEditId">
     <div class="container">
         <div class="row">
             <br>

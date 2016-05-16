@@ -12,6 +12,9 @@ $(function() {
   });
 });
 
+var prevRole;
+var currRole;
+
 function initSelect(company, group) {
   var text = '';
   var i;
@@ -45,16 +48,38 @@ function initSelect(company, group) {
 function clickEvent() {
   $('#addModalBtn').unbind('click');
   $('#addModalBtn').click(function() {
+    // reset
+    $('#addUsername').val(null);
+    $('#addPassword').val(null);
+    $('#addNickname').val(null);
+    $('#addCompany option:first').prop('selected', true);
+    $('#addGroup option:first').prop('selected', true);
+    $('#addPosition').val(null);
+
     $('#addAccount').modal('show');
   });
 
   $('#editBtn').unbind('click');
   $('#editBtn').click(function() {
-    return;
     var id = $('#currentEditId').val();
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
+    data.username = $('#editUsername').val();
     data.nickname = $('#editNickname').val();
+    data.position = $('#editPosition').val();
+
+    var error = false;
+    $.each(data, function(idx, val) {
+      if(val == '') {
+        error = true;
+      }
+    });
+    if(error) {
+      toastr['warning']('所有欄位都為必填');
+      return;
+    }
+
+
     data.company_id = $('#editCompany').val();
     data.group_id = $('#editGroup').val();
 
@@ -64,6 +89,8 @@ function clickEvent() {
       method: 'put',
       success: function(result) {
         toastr['success']('編輯成功');
+        $('#editAccount').modal('hide');
+        getPeople();
       },
       fail: function() {
         toastr['error']('編輯失敗');
@@ -79,7 +106,20 @@ function clickEvent() {
     data.password = $('#addPassword').val();
     data.nickname = $('#addNickname').val();
     data.company_id = $('#addCompany').val();
+
+    var error = false;
+    $.each(data, function(idx, val) {
+      if(val == '') {
+        error = true;
+      }
+    });
+    if(error) {
+      toastr['warning']('所有欄位都為必填');
+      return;
+    }
+
     data.group_id = $('#addGroup').val();
+    data.position = $('#addPosition').val();
     data.role_id = 5;// default User
 
     console.log(data);
@@ -87,6 +127,8 @@ function clickEvent() {
       console.log(result);
       if(result.status == 0) {
         toastr['success']('新增成功');
+        $('#addAccount').modal('hide');
+        getPeople();
       }else {
         toastr['error']('新增失敗, 可能是權限不足');
       }
@@ -97,27 +139,25 @@ function clickEvent() {
 
   $('#editRoleBtn').unbind('click');
   $('#editRoleBtn').click(function() {
+    var id = $('#currentEditId').val();
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
 
-    var role = [];
+    currRole = [];
     $('input[name="role"]:checked').each(function() {
-      role.push($(this).val());
+      var id = {
+        'id':$(this).val()
+      };
+      currRole.push(id);
     });
 
-    role.each(function(idx, val) {
-      $.ajax({
-        url: `/api/account_sys/`,
-        data: data,
-        method: 'put',
-        success: function(result) {
-
-        },
-        fail: function() {
-
-        }
-      });
-    });
+    if(prevRole.length > 0) {// delete -> add
+      roleDelete(id, prevRole, 0, prevRole.length);
+    }else if(currRole.length > 0){// add
+      roleAdd(id, currRole, 0, currRole.length);
+    }else {
+      toastr['warning']('沒有變動');
+    }
   });
 }
 
@@ -163,8 +203,8 @@ function produceTable(people) {
     text += `data-id="${id}"`;
     text += `>修改帳號資料</button>`;
     text += `<button class="btn btn-warning editRoleModalBtn"`
-    text += `data-id="${id}"`
-    text += `>修改帳號權限</button>`;
+      text += `data-id="${id}"`
+      text += `>修改帳號權限</button>`;
     text += `<button class="btn btn-danger deleteBtn" data-id="${id}">刪除</button>`;
     text += `</td>`;
     text += `</tr>`;
@@ -190,6 +230,7 @@ function tableEvent() {
       success: function(result) {
         console.log(result);
         toastr['success']('刪除成功');
+        getPeople();
       },
       fail: function() {
         toastr['error']('刪除失敗');
@@ -198,11 +239,12 @@ function tableEvent() {
   });
 
   $('.editModalBtn').unbind('click');
-  $('.editModalBtn').click(function() {
+  $('.editModalBtn').click(function() {// account
     var username;
     var nickname;
     var group;
     var company;
+    var position;
     var id = $(this).data('id');
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
@@ -214,11 +256,14 @@ function tableEvent() {
       nickname = result.nickname;
       company = result.company_id;
       group = result.group_id;
+      position = result.position;
 
       $('#editUsername').val(username);
       $('#editNickname').val(nickname);
+      $('#editPosition').val(position);
       $(`#editCompany option[value="${company}"]`).prop('selected', true);
       $(`#editGroup option[value="${group}"]`).prop('selected', true);
+      $('#currentEditId').val(id);
       $('#editAccount').modal('show');
     });
   });
@@ -229,11 +274,69 @@ function tableEvent() {
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
 
-
-    $.get(`/api/account_sys/role/${id}`, data, function(result) {
+    $.get(`/api/account_sys/user/${id}`, data, function(result) {
       console.log(result);
+      prevRole = result.roles;
+
+      // diaplay checkbox
+      $('input[name="role"]').prop('checked', false);
+      $.each(result.roles, function(idx, val) {
+        var id = val.id;
+        $(`input[name="role"][value="${id}"]`).prop('checked', true);
+      });
+
+      $('#currentEditId').val(id);
       $('#editRole').modal('show');
     });
+  });
+}
+
+function roleDelete(id, role, current_index, final_index) {
+  var role_id = role[current_index].id;
+  var data = {};
+  data._token = $('meta[name="csrf-token"]').attr('content');
+  $.ajax({
+    url: `/api/account_sys/user/${id}/${role_id}`,
+    data: data,
+    method: 'delete',
+    success: function(result) {
+      if(current_index+1 != final_index) {
+        roleDelete(id, role, current_index+1, final_index);
+      }else {
+        if(currRole.length > 0) {
+          roleAdd(id, currRole, 0, currRole.length);
+        }else {
+          $('#editRole').modal('hide');
+          toastr['success']('更新權限成功');
+        }
+      }
+    },
+    fail: function() {
+
+    }
+  });
+}
+
+function roleAdd(id, role, current_index, final_index) {
+  var role_id = role[current_index].id;
+  var data = {};
+  data._token = $('meta[name="csrf-token"]').attr('content');
+
+  $.ajax({
+    url: `/api/account_sys/user/${id}/${role_id}`,
+    data: data,
+    method: 'put',
+    success: function(result) {
+      if(current_index+1 != final_index) {
+        roleAdd(id, role, 0, current_index+1, final_index);
+      }else {
+        toastr['success']('更新權限成功');
+        $('#editRole').modal('hide');
+      }
+    },
+    fail: function() {
+
+    }
   });
 }
 
@@ -241,55 +344,55 @@ function tableEvent() {
  * If Need Page, Add Money
  * Money Money
  *
-function producePage() {
-  var i;
-  var minPage = Math.max(currentPage - 5, 0);
-  var maxPage = Math.min(minPage + 10, finalPage);
-  var text = '';
+ function producePage() {
+ var i;
+ var minPage = Math.max(currentPage - 5, 0);
+ var maxPage = Math.min(minPage + 10, finalPage);
+ var text = '';
 
-  // previous
-  if(currentPage != 0) {
-    text += `<li id="prevBtn"><a><span>&laquo;</span></a></li>`;
-  }else {
-    text += `<li class="disabled"><a><span>&laquo;</span></a></li>`;
-  }
-  // page number
-  for(i=minPage; i<=maxPage; i++) {
-    if(i==currentPage) {
-      text += `<li class="pageBtn active" data-page="${i}"><a>${i+1}</a></li>`;
-    }else {
-      text += `<li class="pageBtn" data-page="${i}"><a>${i+1}</a></li>`;
-    }
-  }
-  // next
-  if(currentPage != finalPage) {
-    text += `<li id="nextBtn"><a><span>&raquo;</span></a></li>`;
-  }else {
-    text += `<li class="disabled"><a><span>&raquo;</span></a></li>`;
-  }
+// previous
+if(currentPage != 0) {
+text += `<li id="prevBtn"><a><span>&laquo;</span></a></li>`;
+}else {
+text += `<li class="disabled"><a><span>&laquo;</span></a></li>`;
+}
+// page number
+for(i=minPage; i<=maxPage; i++) {
+if(i==currentPage) {
+text += `<li class="pageBtn active" data-page="${i}"><a>${i+1}</a></li>`;
+}else {
+text += `<li class="pageBtn" data-page="${i}"><a>${i+1}</a></li>`;
+}
+}
+// next
+if(currentPage != finalPage) {
+text += `<li id="nextBtn"><a><span>&raquo;</span></a></li>`;
+}else {
+text += `<li class="disabled"><a><span>&raquo;</span></a></li>`;
+}
 
-  $('.pagination').html(text);
-  pageEvent();
+$('.pagination').html(text);
+pageEvent();
 }
 
 function pageEvent() {
-  $('.pageBtn').unbind('click');
-  $('.pageBtn').click(function() {
-    currentPage = $(this).data('page');
-    getPeople();
-  });
+$('.pageBtn').unbind('click');
+$('.pageBtn').click(function() {
+currentPage = $(this).data('page');
+getPeople();
+});
 
-  $('#nextBtn').unbind('click');
-  $('#nextBtn').click(function() {
-    currentPage++;
-    getPeople();
-  });
+$('#nextBtn').unbind('click');
+$('#nextBtn').click(function() {
+currentPage++;
+getPeople();
+});
 
-  $('#prevBtn').unbind('click');
-  $('#prevBtn').click(function() {
-    currentPage--;
-    getPeople();
-  });
+$('#prevBtn').unbind('click');
+$('#prevBtn').click(function() {
+currentPage--;
+getPeople();
+});
 }
 
 */

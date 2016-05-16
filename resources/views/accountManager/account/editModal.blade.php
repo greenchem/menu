@@ -31,8 +31,8 @@
                     <select class="form-control" id="editGroup"></select>
                   </div>
                 <div class="row">
-                  <label for="editLevelName">職等</label>
-                  <input class="form-control" type="text" id="editLevelName">
+                  <label for="editPosition">職等</label>
+                  <input class="form-control" type="text" id="editPosition">
                 </div>
                   <!--
                 <div class="row">
