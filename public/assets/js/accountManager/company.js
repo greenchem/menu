@@ -24,6 +24,10 @@ function companyEvent()
   //create company
   $('#addCompanyContainer #companyModal #addCompanyButton').unbind('click');
   $('#addCompanyContainer #companyModal #addCompanyButton').on('click', function(){
+    if(!$('#addCompany-companyName').val()) {
+      toastr['error']('請確實填寫所有欄位!');
+      return;
+    }
     $.ajax({
       url: '/api/account_sys/company/',
       type: "POST",
@@ -46,7 +50,7 @@ function companyEvent()
     });
   });
 
-  //edit company
+  //update company
   $('#addCompanyContainer #feeContentDiv .editCompany').unbind('click');
   $('#addCompanyContainer #feeContentDiv .editCompany').on('click', function(){
     var companyName = $(this).parent().data('companyname');
@@ -56,9 +60,15 @@ function companyEvent()
   });
 
 
-  //check edit company
+  //check update company
   $('#editCompanyModal #checkEditCompanyButton').unbind('click');
   $('#editCompanyModal #checkEditCompanyButton').on('click', function(){
+    if(!$('#editCompanyModal #editCompany-companyName').val() || $('#editCompanyModal').data('companyid')) {
+      toastr['error']('請確實填寫所有欄位!');
+      return;
+    }
+
+
     $.ajax({
       url: '/api/account_sys/company/' + $('#editCompanyModal').data('companyid'),
       _method: 'put',
@@ -124,6 +134,12 @@ function groupEvent()
   $('#groupModal #addGroupButton').on('click', function(){
     var companyId = $('#groupModal #addGroup-companyName').val();
     var groupName = $('#groupModal #addGroup-groupName').val();
+    if(!companyId || !groupName) {
+      toastr['error']('請確實填寫所有欄位!');
+      return;
+    }
+
+
     $.ajax({
       url: '/api/account_sys/group/',
       type: "POST",
@@ -154,6 +170,7 @@ function groupEvent()
     var groupId = $(this).parent().data('groupid');
     var companyId = $(this).parent().data('companyid');
     var groupName = $(this).parent().data('groupname');
+
     $('#editGroupModal #editGroup-companyName option').each(function(){
       if($(this).val() == companyId) {
         $(this).attr('selected', true);
@@ -171,6 +188,11 @@ function groupEvent()
     var companyId = $('#editGroupModal #editGroup-companyName').val();
     var groupId = $('#editGroupModal').data('groupid');
     var groupName = $('#editGroupModal #editGroup-groupName').val();
+    if(!groupId  || !companyId || !groupName) {
+      toastr['error']('請確實填寫所有欄位!');
+      return;
+    }
+
     $.ajax({
       url: '/api/account_sys/group/' + groupId + '/' + companyId,
       _method: 'put',
