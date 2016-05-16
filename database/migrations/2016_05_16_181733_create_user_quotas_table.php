@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookingLogsTable extends Migration
+class CreateUserQuotasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,13 @@ class CreateBookingLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('booking_logs', function (Blueprint $table) {
+        Schema::create('user_quotas', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('period_id')->unsigned();
+            $table->integer('quota');
             $table->timestamps();
+
+            $table->foreign('period_id')->references('id')->on('periods')->onUpdate('cascade');
         });
     }
 
@@ -25,6 +29,6 @@ class CreateBookingLogsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('booking_logs');
+        Schema::drop('user_quotas');
     }
 }

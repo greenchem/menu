@@ -16,8 +16,9 @@ class CreateGroups extends Migration
             $table->increments('id');
             $table->integer('company_id')->unsigned();
             $table->string('name');
-            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade');
         });
     }
 
