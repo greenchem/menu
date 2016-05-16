@@ -1,11 +1,55 @@
 $(function() {
-  faker();
+  // get company
+  var data = {};
+  data._token = $('meta[name="csrf-token"]').attr('content');
+  $.get('/api/account_sys/company', data, function(company) {
+    console.log('company', company);
+    initSelect(company);
+  }).fail(function() {
+
+  });
+
   clickEvent();
   $('#feeClassBG li:first').click();
-
-  produceAddTable();
-  produceEditTable();
 });
+
+function initSelect(company) {
+  var i;
+  var text = '';
+  var e;
+  var id;
+  var name;
+
+  for(i=0; i<company.length; i++) {// company
+    e = company[i];
+    id = e.id;
+    name = e.name;
+
+    text += `<option value='${id}'>${name}</option>`;
+  }
+
+  $('#addCompany').append(text);
+  $('#editCompany').append(text);
+}
+
+function changeEvent() {
+  $('#addCompany').unbind('change');
+  $('#addCompany').change(function() {
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+
+    $.get('', data, function(group) {
+
+    }).fail(function() {
+
+    });
+  });
+
+  $('#addGroup').unbind('clicl');
+  $('#addGroup').change(function() {
+
+  });
+}
 
 function clickEvent() {
   $('#feeClassBG li').click(function(){
@@ -64,72 +108,5 @@ function produceEditTable() {
   }
 
   $('#editTable tbody').html(text);
-}
-
-// faker data
-var people;
-var companyName = [
-  '生科',
-  '優好',
-  '良農'
-];
-var groupName = [
-  '人事部',
-  '行銷部',
-  '市場部',
-  '生化部',
-  '主計部',
-  '經濟部',
-  '科技部'
-];
-var personName = [
-  '黃國昌',
-  '蔡英文',
-  '馬英九',
-  '陳水扁',
-  '連戰',
-
-  '連勝文',
-  '柯文哲',
-  '陳菊',
-  '賴清德',
-  '張花冠',
-
-  '胡志強',
-  '翁啟惠',
-  '林昶佐',
-  '羅淑蕾',
-  '熊柏安'
-];
-var levelName = [
-  '經理',
-  '副理',
-  '組頭',
-  '組員',
-  '掃地'
-];
-
-function faker() {
-  var i;
-  var j;
-  var k;
-  var temp;
-  var temp1;
-  var festivalSum = 0;
-  var productId = 0;
-
-  people = [];
-  for(i=0; i<15; i++) {
-    people[i] = [];
-    people[i]['id'] = i;
-    people[i]['employee_id'] = i;
-    people[i]['name'] = personName[i];
-    people[i]['company'] = companyName[Math.floor(Math.random()*3)];
-    people[i]['group'] = groupName[Math.floor(Math.random()*7)];
-
-    temp = Math.floor(Math.random()*5);
-    people[i]['level'] = temp;
-    people[i]['levelName'] = levelName[temp];
-  }
 }
 

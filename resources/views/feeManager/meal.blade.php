@@ -60,19 +60,13 @@ onclick="window.location = '{{url('feeManager/weekendAttendance')}}'">假日值�
                 <div class="row">
                   <label for="addCompany">公司</label>
                   <select id="addCompany" class="form-control">
-                    <option disabled>公司</option>
-                    <option value="">嘉良</option>
-                    <option value="">良農</option>
-                    <option value="">優好</option>
+                    <option disabled>請選擇公司</option>
                   </select>
                 </div>
                 <div class="row">
                   <label for="addGroup">部門</label>
                   <select id="addGroup" class="form-control">
-                    <option disabled>部門</option>
-                    <option value="">人事部</option>
-                    <option value="">經濟部</option>
-                    <option value="">外交部</option>
+                    <option disabled>請選擇部門</option>
                   </select>
                 </div>
                 <div class="row">
