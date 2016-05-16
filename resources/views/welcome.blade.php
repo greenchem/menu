@@ -1,7 +1,7 @@
 @extends('init')
 
 @section('css')
-    <title>公司部門設定</title>
+    <title>入口</title>
     <link rel="stylesheet" href="{{url('assets/css/welcome.css')}}">
 @stop
 
@@ -16,11 +16,11 @@
         </div>
         <div class="container">
             @if(Auth::check())
-                <p><a href="{{url('user/menu')}}">使用者</a></p>
-                <p><a href="{{url('menuManager/menu')}}">菜單管理者</a></p>
-                <p><a href="{{url('accountManager/account')}}">帳號管理者</a></p>
-                <p><a href="{{url('feeManager/parking')}}">津貼管理者</a></p>
-                <p><a href="{{url('master/')}}">最高管理者</a></p>
+                <p><a href="{{url('user/menu')}}">一般使用者系統</a></p>
+                <p><a href="{{url('menuManager/menu')}}">菜單管理系統</a></p>
+                <p><a href="{{url('accountManager/account')}}">帳號管理系統</a></p>
+                <p><a href="{{url('feeManager/parking')}}">津貼管理系統</a></p>
+                <p><a href="{{url('master/')}}">最高管理者系統</a></p>
             @else
                 <div class="form-signin">
                     <h2 class="form-signin-heading">登入</h2>

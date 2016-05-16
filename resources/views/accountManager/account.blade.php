@@ -24,6 +24,10 @@
                 <button class="btn btn-primary" id="addModalBtn">新增帳號</button>
             </div>
         </div>
+        <div class="row">
+          <label for="selectCompany">公司</label>
+          <select class="form-control" id="selectCompany"></select>
+        </div>
         <table class="table table-striped" id="menuTable">
             <thead>
                 <tr>

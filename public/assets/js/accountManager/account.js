@@ -14,6 +14,7 @@ $(function() {
 
 var prevRole;
 var currRole;
+var people;
 
 function initSelect(company, group) {
   var text = '';
@@ -31,6 +32,7 @@ function initSelect(company, group) {
 
     $('#addCompany').append(text);
     $('#editCompany').append(text);
+    $('#selectCompany').append(text);
   }
 
   for(i=0; i<group.length; i++) {// append group
@@ -43,6 +45,27 @@ function initSelect(company, group) {
     $('#addGroup').append(text);
     $('#editGroup').append(text);
   }
+}
+
+function changeEvent() {
+  $('#selectCompany').unbind('change');
+  $('#selectCompany').change(function() {
+    var currCompany = $(this).val();
+    var i;
+    var selected = [];
+    for(i=0; i<people.length; i++) {
+      if(people[i].company_id == currCompany) {
+        selected.push(people[i]);
+      }
+    }
+
+    $('#menuTable tbody').html('');
+    if(selected.length != 0) {
+      produceTable(selected);
+    }else {
+      toastr['warning']('這間公司目前沒有人員');
+    }
+  });
 }
 
 function clickEvent() {
@@ -165,9 +188,13 @@ function getPeople() {
   var data = {};
   data._token = $('meta[name="csrf-token"]').attr('content');
 
+  $('#menuTable tbody').html('');
   $.get('/api/account_sys/user/', data, function(result) {
     console.log(result);
-    produceTable(result);
+    people = result;
+
+    changeEvent();
+    $('#selectCompany').change();
   }).fail(function() {
     toastr['error']('請先登入');
   });
