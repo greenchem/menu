@@ -1,30 +1,31 @@
 @extends('init')
 
 @section('css')
-<title>帳號系統</title>
-<link rel="stylesheet" href="{{url('assets/css/feeManager/fee.css')}}">
+<title>公司部門設定</title>
+@stop
+
+@section('js')
+    <script src="{{url('assets/js/accountManager/company.js')}}"></script>
 @stop
 
 @section('content')
     @include('accountManager.header')
-    
-    
+
     <div id="addCompanyContainer" class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3"></div>
             	<div class="text-center">
-                	<h3>帳號系統</h3>		
+                	<h3>帳號系統</h3>
             	</div>
-		
             </div>
-        
+
 
         <div id="feeContentDiv" >
             <ul id="feeClassBG" class="nav nav-tabs">
               <li role="presentation" class="active addRecordDiv"><a href="#">公司</a></li>
                 <li role="presentation" class="manageDiv"><a href="#">部門</a></li>
             </ul>
-            
+
             <div class="feeContent addRecordDiv" >
                 <div class="row">
                     <div class="col-lg-12 text-right">
@@ -51,7 +52,7 @@
                     </table>
                 </div>
             </div>
-         
+
 
             <div class="feeContent manageDiv">
                 <div class="row">
@@ -266,15 +267,5 @@
         <!-- end modal -->
 
     </div><!-- container -->
-
-
-
-
-
-
-@section('js')
-    <script src="{{url('assets/js/accountManager/company.js')}}"></script>
-@stop
-
 @stop
 
