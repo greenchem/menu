@@ -97,15 +97,52 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
     });
 
     Route::group(['prefix' => 'menu_sys', 'namespace' => 'MenuSys'], function() {
-        Route::group(['prefix' => 'product'], function() {});
+        Route::group(['prefix' => 'product'], function() {
+            Route::get('/', 'ProductController@index');
+            Route::post('/', 'ProductController@create'); // for creating a singel record
+            Route::post('/list', 'ProductCotroller@createList'); // for creating a list of record
+            Route::put('/{id}', 'ProductController@update');
+            Route::delete('/{id}', 'ProductController@destroy');
+        });
 
-        Route::group(['prefix' => 'menu'], function() {});
+        Route::group(['prefix' => 'menu'], function() {
+            Route::get('/', 'MenuController@index'); // Indexing by its status & company.
+            Route::get('/all', 'MenuController@indexAll'); // Indexing by self's company.
+            Route::get('/{id}', 'MenuController@show'); // To show a menu's detail (Products & others): for import.
+            Route::post('/', 'MenuController@create');
+            Route::put('/{id}', 'MenuController@update'); // Cannot update period_id!!
+            Route::put('/{id}/products', 'MenuController@updateProducts'); // for updating Menu's products.
+            Route::delete('/{id}', 'MenuController@destroy');
+        });
 
-        Route::group(['prefix' => 'booking_log'], function() {});
+        Route::group(['prefix' => 'booking_log'], function() {
+            Route::get('/', 'BookingLogController@index'); // indexing by Period / user_id.
+            Route::get('/{id}', 'BookingLogController@show');
+            Route::post('/', 'BookingLogController@create');
+            Route::put('/{id}', 'BookingLogController@update'); // when to update record from 'not_confirmed' to 'confirmed' ?
+            Route::delete('/{id}', 'BookingLogController@destroy');
 
-        Route::group(['prefix' => 'period'], function() {});
+            Route::get('/stocking_form', 'BookingLogController@exportStockingForm'); // Export stocking form with user's company.
+            Route::get('/confirmation_form', 'BookingLogController@exportConfirmationFrom'); // Export confirmation form with user's company.
 
-        Route::group(['prefix' => 'user_quota'], function() {});
+            // Export All the companies' confirmation form.
+            Route::get('/all_confirmation_form', 'BookingLogController@exportAllConfirmationFrom');
+        });
+
+        Route::group(['prefix' => 'period'], function() {
+            Route::get('/', 'PeriodController@index');
+            Route::post('/', 'PeriodController@create');
+            Route::put('/{id}', 'PeriodController@update');
+            Route::delete('/{id}', 'PeriodController@delete'); // soft delete
+        });
+
+        Route::group(['prefix' => 'user_quota'], function() {
+            Route::get('/', 'UserQuotaController@index'); // Need to be filtered with period.
+            Route::post('/', 'UserQuotaController@create');
+            Route::put('/{id}', 'UserQuotaController@update');
+
+            // No need for delete ?
+        });
     });
 
     Route::group(['prefix' => 'accounting_sys', 'namespace' => 'AccountingSys'], function() {});
