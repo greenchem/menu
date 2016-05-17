@@ -14,8 +14,27 @@ class AccountManagerController extends Controller
 {
     //
     public function account() {
-        return view('accountManager.account');
+        $companies = Company::all();
+        $groups = Group::with(['company'])->get();
+
+        for($j=0; $j<count($groups); $j++)
+        {
+            for($i=0; $i<count($groups); $i++)
+            {
+                if($groups[$j]['company_id'] < $groups[$i]['company_id'])
+                {
+                    $temp = $groups[$j];
+                    $groups[$j] = $groups[$i];
+                    $groups[$i] = $temp;
+                }
+            }
+        }
+
+        return view('accountManager.account')
+            ->with('companyData', $companies)
+            ->with('groupData', $groups);
     }
+
     public function company() {
         $companies = Company::all();
         $groups = Group::with(['company'])->get();
@@ -37,5 +56,5 @@ class AccountManagerController extends Controller
             ->with('companyData', $companies)
             ->with('groupData', $groups);
     }
-    
+
 }

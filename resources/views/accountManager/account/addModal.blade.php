@@ -28,7 +28,11 @@
                 </div>
                 <div class="row">
                     <label for="addCompany">公司名稱</label>
-                    <select class="form-control" id="addCompany"></select>
+                    <select class="form-control" id="addCompany">
+                    @for($i=0; $i<count($companyData); $i++)
+                    <option value="{{$companyData[$i]['id']}}">{{$companyData[$i]['name']}}</option>
+                    @endfor
+                    </select>
                 </div>
                 <div class="row">
                     <label for="addGroup">單位</label>

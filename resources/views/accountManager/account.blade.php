@@ -15,6 +15,8 @@
     @include('accountManager.account.editModal')
     @include('accountManager.account.roleModal')
 
+    <input type="hidden" id="groupData" value="{{$groupData}}">
+
     <input type="hidden" id="currentEditId">
     <div class="container">
         <div class="row">
@@ -26,7 +28,11 @@
         </div>
         <div class="row">
           <label for="selectCompany">公司</label>
-          <select class="form-control" id="selectCompany"></select>
+          <select class="form-control" id="selectCompany">
+            @for($i=0; $i<count($companyData); $i++)
+            <option value="{{$companyData[$i]['id']}}">{{$companyData[$i]['name']}}</option>
+            @endfor
+          </select>
         </div>
         <table class="table table-striped" id="menuTable">
             <thead>

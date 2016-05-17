@@ -1,51 +1,14 @@
 $(function() {
-  var data = {};
-  data._token = $('meta[name="csrf-token"]').attr('content');
+  groupData = JSON.parse($('#groupData').val());
 
-  $.get('/api/account_sys/company/', data, function(company) {// get company list
-    $.get('/api/account_sys/group/', data, function(group) {// get group list
-      initSelect(company, group);
-
-      clickEvent();
-      getPeople();
-    });
-  });
+  clickEvent();
+  getPeople();
 });
 
 var prevRole;
 var currRole;
 var people;
-
-function initSelect(company, group) {
-  var text = '';
-  var i;
-  var e;// element
-  var id;
-  var name;
-
-  for(i=0; i<company.length; i++) {// append company
-    e = company[i];
-    id = e.id;
-    name = e.name;
-
-    text = `<option value="${id}">${name}</option>`;
-
-    $('#addCompany').append(text);
-    $('#editCompany').append(text);
-    $('#selectCompany').append(text);
-  }
-
-  for(i=0; i<group.length; i++) {// append group
-    e = group[i];
-    id = e.id;
-    name = e.name;
-
-    text = `<option value="${id}">${name}</option>`;
-
-    $('#addGroup').append(text);
-    $('#editGroup').append(text);
-  }
-}
+var groupData;
 
 function changeEvent() {
   $('#selectCompany').unbind('change');
@@ -66,6 +29,52 @@ function changeEvent() {
       toastr['warning']('這間公司目前沒有人員');
     }
   });
+
+  $('#addCompany').unbind('change');
+  $('#addCompany').change(function() {
+    var currCompany = $('#addCompany').val();
+    var i;
+    var text = '';
+    var e;
+    var id;
+    var name;
+
+    for(i=0; i<groupData.length; i++) {
+      e = groupData[i];
+
+      if(e.company_id == currCompany) {
+        name = e.name;
+        id = e.id;
+
+        text += `<option value="${id}">${name}</option>`;
+      }
+    }
+
+    $('#addGroup').html(text);
+  });
+
+  $('#editCompany').unbind('change');
+  $('#editCompany').change(function() {
+    var currCompany = $('#editCompany').val();
+    var i;
+    var text = '';
+    var e;
+    var id;
+    var name;
+
+    for(i=0; i<groupData.length; i++) {
+      e = groupData[i];
+
+      if(e.company_id == currCompany) {
+        name = e.name;
+        id = e.id;
+
+        text += `<option value="${id}">${name}</option>`;
+      }
+    }
+
+    $('#editGroup').html(text);
+  });
 }
 
 function clickEvent() {
@@ -76,6 +85,7 @@ function clickEvent() {
     $('#addPassword').val(null);
     $('#addNickname').val(null);
     $('#addCompany option:first').prop('selected', true);
+    $('#addCompany').change();
     $('#addGroup option:first').prop('selected', true);
     $('#addPosition').val(null);
 
@@ -289,6 +299,7 @@ function tableEvent() {
       $('#editNickname').val(nickname);
       $('#editPosition').val(position);
       $(`#editCompany option[value="${company}"]`).prop('selected', true);
+      $('#editCompany').change();
       $(`#editGroup option[value="${group}"]`).prop('selected', true);
       $('#currentEditId').val(id);
       $('#editAccount').modal('show');
