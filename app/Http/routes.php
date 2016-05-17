@@ -96,7 +96,17 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
         });
     });
 
-    Route::group(['prefix' => 'menu_sys', 'namespace' => 'MenuSys'], function() {});
+    Route::group(['prefix' => 'menu_sys', 'namespace' => 'MenuSys'], function() {
+        Route::group(['prefix' => 'product'], function() {});
+
+        Route::group(['prefix' => 'menu'], function() {});
+
+        Route::group(['prefix' => 'booking_log'], function() {});
+
+        Route::group(['prefix' => 'period'], function() {});
+
+        Route::group(['prefix' => 'user_quota'], function() {});
+    });
 
     Route::group(['prefix' => 'accounting_sys', 'namespace' => 'AccountingSys'], function() {});
 });
