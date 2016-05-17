@@ -16,6 +16,7 @@ class CreateUserQuotasTable extends Migration
             $table->increments('id');
             $table->integer('period_id')->unsigned();
             $table->integer('quota');
+
             $table->timestamps();
 
             $table->foreign('period_id')->references('id')->on('periods')->onUpdate('cascade');

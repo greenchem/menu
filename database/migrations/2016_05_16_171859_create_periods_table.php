@@ -15,7 +15,7 @@ class CreatePeriodsTable extends Migration
         Schema::create('periods', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->enum('status', ['visible', 'invisible', 'deleted']);
+            $table->enum('status', ['visible', 'invisible'])->default('invisible');
 
             $table->timestamps();
             $table->softDeletes();

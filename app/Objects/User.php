@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 // Plugins env
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 // Model
 use App\Objects\Company;
@@ -14,7 +15,10 @@ use App\Objects\Role;
 
 class User extends Authenticatable
 {
-    use EntrustUserTrait;
+    use EntrustUserTrait, SoftDeletes {
+        EntrustUserTrait::restore insteadof SoftDeletes;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
