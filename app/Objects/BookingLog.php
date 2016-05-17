@@ -12,4 +12,51 @@ class BookingLog extends Model
      * @var string
      */
     protected $table = 'booking_logs';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['user_id', 'period_id', 'menu_id', 'product_id', 'number', 'price', 'status'];
+
+    /**
+     * Get the booking record's user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the booking record's period
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function period()
+    {
+        $this->belongsTo(Period::class);
+    }
+
+    /**
+     * Get the booking record's menu
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function menu()
+    {
+        $this->belongsTo(Menu::class);
+    }
+
+    /**
+     * Get the booking record's product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product()
+    {
+        $this->belognsTo(Product::class);
+    }
 }

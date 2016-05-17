@@ -8,11 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-// Model
-use App\Objects\Company;
-use App\Objects\Group;
-use App\Objects\Role;
-
 class User extends Authenticatable
 {
     use EntrustUserTrait, SoftDeletes {
@@ -57,6 +52,25 @@ class User extends Authenticatable
         return $this->belongsTo(Group::class);
     }
 
+    /**
+     * Get all of the booking log that belong to the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function booking_logs()
+    {
+        return $this->hasMany(BookingLog::class);
+    }
+
+    /**
+     * Get all of the user quota that belong to the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user_quotsa()
+    {
+        return $this->hasMany(UserQuota::class);
+    }
 
     // Scopes
 

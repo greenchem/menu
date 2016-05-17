@@ -44,6 +44,16 @@ class Company extends Model
     }
 
     /**
+     * Get all of the menu that belongs to the company.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function menus()
+    {
+        return $this->hasMany(Menu::class);
+    }
+
+    /**
      * Get company by name.
      *
      * @param string name
