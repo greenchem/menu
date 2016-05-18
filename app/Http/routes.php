@@ -119,14 +119,14 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::get('/', 'BookingLogController@index'); // indexing by Period / user_id.
             Route::get('/{id}', 'BookingLogController@show');
             Route::post('/', 'BookingLogController@create');
-            Route::put('/{id}', 'BookingLogController@update'); // when to update record from 'not_confirmed' to 'confirmed' ?
+            Route::put('/{id}', 'BookingLogController@update'); // No need to update to comfirmed...
             Route::delete('/{id}', 'BookingLogController@destroy');
 
             Route::get('/stocking_form', 'BookingLogController@exportStockingForm'); // Export stocking form with user's company.
-            Route::get('/confirmation_form', 'BookingLogController@exportConfirmationFrom'); // Export confirmation form with user's company.
+            Route::get('/accounting_form', 'BookingLogController@exportAccountingFrom'); // Export accounting form with user's company.
 
-            // Export All the companies' confirmation form.
-            Route::get('/all_confirmation_form', 'BookingLogController@exportAllConfirmationFrom');
+            // Export All the companies' accounting form.
+            Route::get('/all_accounting_form', 'BookingLogController@exportAllAccountingFrom');
         });
 
         Route::group(['prefix' => 'period'], function() {

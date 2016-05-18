@@ -20,7 +20,7 @@ class CreateBookingLogsTable extends Migration
             $table->integer('product_id')->unsigned();
             $table->integer('number');
             $table->integer('price');
-            $table->enum('status', ['not_confirmed', 'confirmed']);
+            $table->enum('status', ['not_confirmed', 'confirmed'])->default('confirmed');
 
             $table->timestamps();
 
