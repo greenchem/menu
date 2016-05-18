@@ -98,11 +98,12 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
     Route::group(['prefix' => 'menu_sys', 'namespace' => 'MenuSys'], function() {
         Route::group(['prefix' => 'product'], function() {
-            Route::get('/', 'ProductController@index');
+            Route::get('/', 'ProductController@index'); // filting with menu_id
             Route::post('/', 'ProductController@create'); // for creating a singel record
             Route::post('/list', 'ProductCotroller@createList'); // for creating a list of record
             Route::put('/{id}', 'ProductController@update');
             Route::delete('/{id}', 'ProductController@destroy');
+            Route::delete('/list', 'ProductController@destroyList'); // for deleting a list of record (menu_id)
         });
 
         Route::group(['prefix' => 'menu'], function() {

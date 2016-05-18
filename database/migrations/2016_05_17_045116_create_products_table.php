@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('unit_type');
             $table->integer('inventory');
-            $table->integer('order_qty');
+            $table->integer('order_qty')->default(0);
             $table->integer('price');
             $table->mediumText('description');
 
