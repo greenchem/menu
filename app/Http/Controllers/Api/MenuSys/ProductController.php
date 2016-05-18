@@ -33,7 +33,7 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         // Is the Menu published, if so, you cannot create product.
-        if (Menu::find($request->input('menu_id'))->status == 'visible') {
+        if (Menu::find($request->input('menu_id'))->period->status == 'visible') {
             return response()->josn(['status' => 2]); // forbidden
         } else {
             $product = new Product;
@@ -60,7 +60,7 @@ class ProductController extends Controller
     public function createList(Request $request)
     {
         // Is the Menu published, if so, you cannot create product.
-        if (Menu::find($request->input('menu_id'))->status == 'visible') {
+        if (Menu::find($request->input('menu_id'))->period->status == 'visible') {
             return response()->josn(['status' => 2]); // forbidden
         } else {
             $products = json_decode($request->input('products'), true);
@@ -92,7 +92,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         // Is the product published, if so, it cannot be updated.
-        if ($product->menu()->period()->status == 'visible') {
+        if ($product->menu->period->status == 'visible') {
             return response()->json(['status' => 2]); // forbidden
         } else {
             $product->name = $request->input('name');
@@ -117,7 +117,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         // Check the product is published or not.
-        if ($product->menu()->period()->status == 'visible') {
+        if ($product->menu->period->status == 'visible') {
             return response()->json(['status' => 2]);
         } else {
             $product->delete();
@@ -136,7 +136,7 @@ class ProductController extends Controller
     {
         $menu = Menu::find($request->input('menu_id'));
 
-        if ($menu->period()->status == 'visible') {
+        if ($menu->period->status == 'visible') {
             return response()->json(['status' => 2]);
         } else {
             $menu->products()->detach();
