@@ -1,5 +1,7 @@
 <?php
 
+namespace OldSeeder;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(GroupTableSeeder::class);
 
         $this->call(UserTableSeeder::class);
+
+        $this->call(PeriodTableSeeder::class);
+
+        $this->call(UserQuotaTableSeeder::class);
     }
 }

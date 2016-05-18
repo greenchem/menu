@@ -25,7 +25,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['menu_id', 'name', 'unit_type', 'inventory', 'order_qty', 'description'];
+    protected $fillable = ['menu_id', 'name', 'unit_type', 'inventory', 'order_qty', 'price', 'description'];
 
     /**
      * Get the products's menu.

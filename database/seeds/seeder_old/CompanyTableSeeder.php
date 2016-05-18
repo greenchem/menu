@@ -1,5 +1,7 @@
 <?php
 
+namespace OldSeeder;
+
 use Illuminate\Database\Seeder;
 
 // Model

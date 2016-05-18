@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('unit_type');
             $table->integer('inventory');
             $table->integer('order_qty');
+            $table->integer('price');
             $table->mediumText('description');
 
             $table->timestamps();
