@@ -15,18 +15,20 @@ class GroupTableSeeder extends Seeder
      */
     public function run()
     {
-        $groups = [
-            ['name' => 'group1'],
-            ['name' => 'group2'],
-            ['name' => 'group3']
-        ];
-
-        $companies = Company::get();
-
-        foreach ($groups as $group) {
-            foreach ($companies as $company) {
-                Group::firstOrCreate(array_merge($group, ['company_id' => $company->getAttribute('id')]));
-            }
-        }
+       	Group::firstOrCreate(['name'=>'董事長室','company_id' =>'2']);
+	Group::firstOrCreate(['name'=>'總經理室','company_id' =>'2']);
+	Group::firstOrCreate(['name'=>'財管本部','company_id' =>'2']);
+	Group::firstOrCreate(['name'=>'營業本部','company_id' =>'2']);
+	Group::firstOrCreate(['name'=>'生產處','company_id' =>'2']);
+	Group::firstOrCreate(['name'=>'嘉旭','company_id' =>'2']);
+	Group::firstOrCreate(['name'=>'總經理室','company_id' =>'1']);
+	Group::firstOrCreate(['name'=>'生科行銷企劃處','company_id' =>'1']);
+	Group::firstOrCreate(['name'=>'B2B/B2C','company_id' =>'1']);
+	Group::firstOrCreate(['name'=>'生科B2C','company_id' =>'1']);
+	Group::firstOrCreate(['name'=>'良農','company_id' =>'1']);
+	Group::firstOrCreate(['name'=>'優好','company_id' =>'1']);
+	Group::firstOrCreate(['name'=>'旭泰','company_id' =>'1']);
+	Group::firstOrCreate(['name'=>'建稜','company_id' =>'1']);     
+	
     }
 }

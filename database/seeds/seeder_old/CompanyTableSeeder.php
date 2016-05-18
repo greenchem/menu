@@ -15,9 +15,9 @@ class CompanyTableSeeder extends Seeder
     public function run()
     {
         $companies = [
-            ['name' => '生科體系'],
-            ['name' => '嘉良特化'],
-            
+            ['name' => 'test_company1'],
+            ['name' => 'test_company2'],
+            ['name' => 'test_company3']
         ];
 
         foreach ($companies as $company) {
