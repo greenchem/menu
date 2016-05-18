@@ -5,10 +5,6 @@ namespace App\Objects;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-// Model
-use App\Objects\Menu;
-use App\Objcets\BookingLog;
-
 class Product extends Model
 {
     use SoftDeletes;
@@ -34,7 +30,7 @@ class Product extends Model
      */
     public function menu()
     {
-        $this->belongsTo(Menu::class);
+        return $this->belongsTo(Menu::class);
     }
 
     /**

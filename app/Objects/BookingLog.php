@@ -27,7 +27,7 @@ class BookingLog extends Model
      */
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -37,7 +37,7 @@ class BookingLog extends Model
      */
     public function period()
     {
-        $this->belongsTo(Period::class);
+        return $this->belongsTo(Period::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class BookingLog extends Model
      */
     public function menu()
     {
-        $this->belongsTo(Menu::class);
+        return $this->belongsTo(Menu::class);
     }
 
     /**
@@ -57,6 +57,6 @@ class BookingLog extends Model
      */
     public function product()
     {
-        $this->belognsTo(Product::class);
+        return $this->belognsTo(Product::class);
     }
 }
