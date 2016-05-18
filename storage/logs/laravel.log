@@ -2677,3 +2677,6 @@ Stack trace:
 #18 /home/fatesaikou/testLA/menu/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(107): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #19 /home/fatesaikou/testLA/menu/artisan(35): Illuminate\Foundation\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
 #20 {main}  
+[2016-05-18 16:10:18] local.ERROR: Symfony\Component\Debug\Exception\FatalErrorException: Class 'App\Http\Controllers\Api\MenuSys\Controller' not found in /home/fatesaikou/testLA/menu/app/Http/Controllers/Api/MenuSys/UserQuotaController.php:12
+Stack trace:
+#0 {main}  

@@ -140,6 +140,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::get('/', 'UserQuotaController@index'); // Need to be filtered with period.
             Route::post('/', 'UserQuotaController@create');
             Route::put('/{id}', 'UserQuotaController@update');
+            Route::delete('/{id}', 'UserQuotaController@destroy');
 
             // No need for delete ?
         });
