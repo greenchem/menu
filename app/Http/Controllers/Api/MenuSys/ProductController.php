@@ -34,7 +34,7 @@ class ProductController extends Controller
     {
         // Is the Menu published, if so, you cannot create product.
         if (Menu::find($request->input('menu_id'))->period->status == 'visible') {
-            return response()->josn(['status' => 2]); // forbidden
+            return response()->json(['status' => 2]); // forbidden
         } else {
             $product = new Product;
             $product->menu_id = $request->input('menu_id');
@@ -61,7 +61,7 @@ class ProductController extends Controller
     {
         // Is the Menu published, if so, you cannot create product.
         if (Menu::find($request->input('menu_id'))->period->status == 'visible') {
-            return response()->josn(['status' => 2]); // forbidden
+            return response()->json(['status' => 2]); // forbidden
         } else {
             $products = json_decode($request->input('products'), true);
 
