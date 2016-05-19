@@ -15,6 +15,7 @@ class CreateCreationLogsTable extends Migration
         Schema::create('creation_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('timestamp');
+            $table->enum('type', ['meal', 'dorm', 'attendance', 'weekend_attendance', 'parking']);
             $table->enum('status', ['locked', 'unlocked'])->default('locked');
 
             $table->timestamps();
