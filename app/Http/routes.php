@@ -43,6 +43,7 @@ Route::group(['middleware' => ['role:Accountant'], 'prefix'=>'feeManager'], func
 Route::group(['middleware' => ['role:AccountsManager'], 'prefix'=>'accountManager'], function() {
     Route::get('account', 'AccountManagerController@account');
     Route::get('company', 'AccountManagerController@company');
+    Route::get('fee', 'AccountManagerController@fee');
 });
 
 Route::group(['middleware' => ['role:Admin'], 'prefix'=>'master'], function() {
