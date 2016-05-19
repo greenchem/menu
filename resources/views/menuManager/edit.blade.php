@@ -5,7 +5,7 @@
 @stop
 
 @section('js')
-<script src="{{url('assets/js/manager/menu/edit.js')}}"></script>
+<script src="{{url('assets/js/menuManager/edit.js')}}"></script>
 @stop
 
 @section('content')
@@ -14,6 +14,9 @@
     @include('menuManager.editModal')
 
     <input type="hidden" value="{{$menu_id}}" id="menu_id">
+    <input type="hidden" id="currentEditId">
+    <input type="hidden" id="currentEditType">
+
     <h3 class="text-center">編輯菜單</h3>
     <div class="container">
         <div class="row">
@@ -46,7 +49,7 @@
         </table>
         <div class="row text-center">
             <button type="button" class="btn btn-danger" onclick="window.location='{{url('menuManager/menu')}}'">不修改，直接回到菜單列表</button>
-            <button type="button" class="btn btn-primary" id="addMenuBtn">確認，修改菜單</button>
+            <button type="button" class="btn btn-primary" id="editMenuBtn">確認，修改菜單</button>
         </div>
     </div>
 @stop

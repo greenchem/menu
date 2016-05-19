@@ -366,7 +366,7 @@ function roleAdd(id, role, current_index, final_index) {
     method: 'put',
     success: function(result) {
       if(current_index+1 != final_index) {
-        roleAdd(id, role, 0, current_index+1, final_index);
+        roleAdd(id, role, current_index+1, final_index);
       }else {
         toastr['success']('更新權限成功');
         $('#editRole').modal('hide');

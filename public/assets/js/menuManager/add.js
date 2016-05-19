@@ -61,7 +61,7 @@ function clickEvent() {
     text += `data-price="${price}"`;
     text += `data-description="${description}"`;
     text += `>編輯</button>`;
-    text += `<button class="btn btn-danger deleteBtn">刪除</button>`
+    text += `<button class="btn btn-danger deleteBtn">刪除</button>`;
     text += `</td>`;
     text += `</tr>`;
 
@@ -97,7 +97,7 @@ function clickEvent() {
     text += `data-price="${price}"`;
     text += `data-description="${description}"`;
     text += `>編輯</button>`;
-    text += `<button class="btn btn-danger deleteBtn">刪除</button>`
+    text += `<button class="btn btn-danger deleteBtn">刪除</button>`;
     text += `</td>`;
 
     editTarget.html(text);

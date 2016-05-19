@@ -18,10 +18,9 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 		//top admin
-		User::firstOrCreate(['username' => 'admin', 'password' => bcrypt('test'), 'nickname' => '最高權限者','company_id' =>'2','group_id' =>'1', 'position' => 'Admin'])->roles()->save(Role::where('id', '1')->first());
+		User::firstOrCreate(['username' => 'admin', 'password' => bcrypt('test'), 'nickname' => '最高權限者','company_id' =>'2','group_id' =>'1', 'position' => 'Admin'])->roles()->saveMany(Role::where('id', '>', '0')->get());
 
 		//normal data
-		
 		User::firstOrCreate(['username' => 'test1', 'password' => bcrypt('test'), 'nickname' => '高慈汎','company_id' =>'2','group_id' =>'1', 'position' => '8'])->roles()->save(Role::where('name', 'User')->first());
 		User::firstOrCreate(['username' => 'test2', 'password' => bcrypt('test'), 'nickname' => '楊豐彰','company_id' =>'2','group_id' =>'2', 'position' => '2'])->roles()->save(Role::where('name', 'User')->first());
 		User::firstOrCreate(['username' => 'test3', 'password' => bcrypt('test'), 'nickname' => '謝順成','company_id' =>'2','group_id' =>'2', 'position' => '6'])->roles()->save(Role::where('name', 'User')->first());
@@ -89,6 +88,5 @@ class UserTableSeeder extends Seeder
 		User::firstOrCreate(['username' => 'test64', 'password' => bcrypt('test'), 'nickname' => '鄭世傑','company_id' =>'1','group_id' =>'13', 'position' => '5'])->roles()->save(Role::where('name', 'User')->first());
 		User::firstOrCreate(['username' => 'test65', 'password' => bcrypt('test'), 'nickname' => '蔡泳島','company_id' =>'1','group_id' =>'13', 'position' => '6'])->roles()->save(Role::where('name', 'User')->first());
 		User::firstOrCreate(['username' => 'test66', 'password' => bcrypt('test'), 'nickname' => '張弼亮','company_id' =>'1','group_id' =>'14', 'position' => '3'])->roles()->save(Role::where('name', 'User')->first());
-
     }
 }
