@@ -161,7 +161,6 @@ return [
          */
         Zizaco\Entrust\EntrustServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
     ],
 
     /*

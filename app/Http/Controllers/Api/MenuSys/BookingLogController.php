@@ -9,10 +9,13 @@ use App\Http\Requests;
 
 // System
 use Auth;
+use Excel;
 
 // Model
 use App\Objects\UserQuota;
 use App\Objects\Product;
+use App\Objects\Period;
+use App\Objects\Menu;
 use App\Objects\BookingLog;
 
 class BookingLogController extends Controller
@@ -128,7 +131,29 @@ class BookingLogController extends Controller
      */
     public function exportStockingForm(Request $request)
     {
-        //
+        $company = Auth::user()->company;
+        $period = Period::find($request->input('period_id'));
+        $period = Period::find(1);
+
+        // Check the period is exist or not.
+        if ($period === null) return response()->json(['status' => 1]);
+
+        Excel::create($company->name.$period->name.'報表', function ($excel) use ($company, $period) {
+            $excel->setTitle($company->name.$period->name.'報表');
+
+            $excel->setCreator(Auth::user()->nickname)
+                ->setCompany($company->name);
+
+            $excel->sheet('備貨單', function ($sheet) use ($company, $period) {
+                $menus = Menu::with('products')->where('company_id', $company->id)->where('period_id', $period->id)->get();
+
+                foreach ($menus as $menu) {
+                    foreach ($menu->products as $product) {
+                        $sheet->appendRow($product->toArray());
+                    }
+                }
+            });
+        })->download('csv');
     }
 
     /**
@@ -139,6 +164,27 @@ class BookingLogController extends Controller
      */
     public function exportAccountingForm(Request $request)
     {
+        $company = Auth::user()->company;
+        $period = Period::find($request->input('period_id'));
+        $period = Period::find(1);
+
+        // Check the period is exist or not.
+        if ($period === null) return response()->json(['status' => 1]);
+
+        Excel::create($company->name.$period->name.'報表', function ($excel) use ($company, $period) {
+            $excel->setTitle($company->name.$period->name.'報表');
+
+            $excel->setCreator(Auth::user()->nickname)
+                ->setCompany($company->name);
+
+            $excel->sheet('對帳單', function ($sheet) use ($period, $company){
+                $datas = BookingLog::where('period_id', $period->id)->whereIn('user_id', $company->users->pluck('id'))->get();
+
+                foreach ($datas as $data) {
+                    $sheet->appendRow($data->toArray());
+                }
+            });
+        })->download('csv');
         //
     }
 
@@ -150,6 +196,26 @@ class BookingLogController extends Controller
      */
     public function exportAllAccountingForm(Request $request)
     {
-        //
+        $company = Auth::user()->company;
+        $period = Period::find($request->input('period_id'));
+        $period = Period::find(1);
+
+        // Check the period is exist or not.
+        if ($period === null) return response()->json(['status' => 1]);
+
+        Excel::create($period->name.'報表', function ($excel) use ($company, $period) {
+            $excel->setTitle($period->name.'報表');
+
+            $excel->setCreator(Auth::user()->nickname)
+                ->setCompany($company->name);
+
+            $excel->sheet('對帳單', function ($sheet) use ($period){
+                $datas = BookingLog::where('period_id', $period->id)->get();
+
+                foreach ($datas as $data) {
+                    $sheet->appendRow($data->toArray());
+                }
+            });
+        })->download('csv');
     }
 }
