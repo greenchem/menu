@@ -12,6 +12,7 @@ use Auth;
 
 // Model
 use App\Objects\Menu;
+use App\Objects\Period;
 
 class MenuController extends Controller
 {
@@ -23,7 +24,11 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
-        $menus = Menu::where('status', 'visible')->where('company_id', $request->input('company_id'))->get();
+        $menus = Menu::whereHas('period', function ($period) use ($request) {
+                $period->where('status', 'visible')->where('id', $request->input('period_id'));
+            })
+            ->where('company_id', $request->input('company_id'))
+            ->get();
 
         return response()->json($menus);
     }
