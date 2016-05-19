@@ -133,7 +133,6 @@ class BookingLogController extends Controller
     {
         $company = Auth::user()->company;
         $period = Period::find($request->input('period_id'));
-        $period = Period::find(1);
 
         // Check the period is exist or not.
         if ($period === null) return response()->json(['status' => 1]);
@@ -153,7 +152,7 @@ class BookingLogController extends Controller
                     }
                 }
             });
-        })->download('csv');
+        })->download('xlsx');
     }
 
     /**
@@ -166,7 +165,6 @@ class BookingLogController extends Controller
     {
         $company = Auth::user()->company;
         $period = Period::find($request->input('period_id'));
-        $period = Period::find(1);
 
         // Check the period is exist or not.
         if ($period === null) return response()->json(['status' => 1]);
@@ -184,8 +182,7 @@ class BookingLogController extends Controller
                     $sheet->appendRow($data->toArray());
                 }
             });
-        })->download('csv');
-        //
+        })->download('xlsx');
     }
 
     /**
@@ -198,7 +195,6 @@ class BookingLogController extends Controller
     {
         $company = Auth::user()->company;
         $period = Period::find($request->input('period_id'));
-        $period = Period::find(1);
 
         // Check the period is exist or not.
         if ($period === null) return response()->json(['status' => 1]);
@@ -216,6 +212,6 @@ class BookingLogController extends Controller
                     $sheet->appendRow($data->toArray());
                 }
             });
-        })->download('csv');
+        })->download('xlsx');
     }
 }
