@@ -6,14 +6,15 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+// Model
+use App\Objects\Company;
+
 class UserController extends Controller
 {
-    public function login() {
-        return view('user.login');
-    }
-
     public function menu() {
-        return view('user.menu');
+        $companies = Company::all();
+        return view('user.menu')
+            ->with('companyData', $companies);
     }
 
     public function shoppingCart() {

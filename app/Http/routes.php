@@ -20,7 +20,6 @@ Route::get('login', function() {
 });
 
 Route::group(['prefix'=>'user'], function() {
-    Route::get('login', 'UserController@login');
     Route::get('menu', 'UserController@menu');
     Route::get('shoppingCart', 'UserController@shoppingCart');
     Route::get('history', 'UserController@history');
@@ -100,7 +99,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
         Route::group(['prefix' => 'product'], function() {
             Route::get('/', 'ProductController@index'); // filting with menu_id
             Route::post('/', 'ProductController@create'); // for creating a singel record
-            Route::post('/list', 'ProductCotroller@createList'); // for creating a list of record (using menu_id)
+            Route::post('/list', 'ProductController@createList'); // for creating a list of record (using menu_id)
             Route::put('/{id}', 'ProductController@update');
             Route::delete('/{id}', 'ProductController@destroy');
             Route::delete('/list', 'ProductController@destroyList'); // for deleting a list of record (using menu_id)

@@ -6,55 +6,52 @@
 @stop
 
 @section('js')
+<script src="{{url('assets/js/menuManager/menu.js')}}"></script>
 @stop
 
 @section('content')
     @include('menuManager.header')
 
-    <input type="hidden" id="currentMenu">
+    <input type="hidden" id="url" value="{{url('')}}">
+    <input type="hidden" id="currentMenuId">
 
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 text-center addMenuDiv">
                 <button class="btn btn-primary" onclick="window.location='{{url('menuManager/add')}}'">新增菜單</button>
             </div>
-            <div class="col-lg-9 col-md-9 col-sm-9 text-center">
-                <h3>春節菜單</h3>
-            </div>
         </div>
+<br>
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3">
-                <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation" class="active"><a href="#">春節菜單</a></li>
-                    <li role="presentation"><a href="#">端午菜單</a></li>
+                <ul class="nav nav-pills nav-stacked" id="menuList">
+                    @for($i=0; $i<count($menuData); $i++)
+                    <li role="presentation" data-id="{{$menuData[$i]['id']}}">
+                        <a href="#">{{$menuData[$i]['name']}}</a>
+                    </li>
+                    @endfor
                 </ul>
             </div>
-            <div class="col-lg-9 col-md-9 col-sm-9">
+            <div class="col-lg-9 col-md-9 col-sm-9 menuContent">
                 <table class="table table-striped" id="menuTable">
                     <thead>
                         <tr>
                             <th>名稱</th>
                             <th>單位</th>
-                            <th>數量</th>
+                            <th>庫存</th>
+                            <th>價錢</th>
+                            <th>描述</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @for($i=0; $i<5; $i++)
-                        <tr>
-                            <td>百事可樂</td>
-                            <td>瓶</td>
-                            <td>1</td>
-                        </tr>
-                        @endfor
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
-        <div class="row">
+        <div class="row menuContent">
             <div class="col-lg-3 col-md-3 col-sm-3"></div>
             <div class="col-lg-9 col-md-9 col-sm-9 text-center">
-                <button class="btn btn-primary edit" onclick="window.location='{{url('menuManager/edit/1')}}'">編輯</button>
-                <button class="btn btn-danger">刪除</button>
+                <button class="btn btn-primary" id="editBtn">編輯</button>
+                <button class="btn btn-danger" id="deleteBtn">刪除</button>
             </div>
         </div>
     </div>
