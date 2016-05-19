@@ -29,7 +29,7 @@
             </table>
         </div> <!-- col-lg-12 -->
         <div class="col-lg-12 text-center">
-            <button class="btn btn-primary">確定送出</button>
+            <button class="btn btn-primary" id="submitBtn">確定送出</button>
         </div>
     </div><!-- row -->
 </div><!-- container -->

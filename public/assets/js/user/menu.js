@@ -1,5 +1,4 @@
 $(function() {
-  faker();
   init();
   clickEvent();
   calQuota();
@@ -34,40 +33,48 @@ function calQuota() {
 function clickEvent() {
   $('.companyList').unbind('click');
   $('.companyList').click(function() {
-    var company = $(this).data('company');
-    produceMenu(company);
+    var target = $(this);
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+    data.company_id = $(this).data('company');
 
-    // active status
-    $('.companyList').removeClass('active');
-    $(this).addClass('active');
-    // flag
-    $('#currentCompany').val(company);
-    $('#currentMenu').val(null);
+    $.get('/api/menu_sys/menu/', data, function(menu) {
+      console.log(menu);
+      produceMenu(menu);
+
+      // active status
+      $('.companyList').removeClass('active');
+      target.addClass('active');
+
+      // flag
+      $('#currentCompany').val(data.company_id);
+      $('#currentMenu').val(null);
+    }).fail(function() {
+
+    });
   });
 
   $('.menuList').unbind('click');
   $('.menuList').click(function() {
-    var company = $(this).data('company');
-    var menu = $(this).data('menu');
+    var target = $(this);
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+    data.menu_id = $(this).data('id');
 
-    produceProduct(company, menu);
-    // active status
-    $('.menuList').removeClass('active');
-    $(this).addClass('active');
-    // flag
-    $('#currentMenu').val(menu);
+    $.get('/api/menu_sys/product', data, function(product) {
+      console.log(product);
+      produceProduct(product);
+      // active status
+      $('.menuList').removeClass('active');
+      target.addClass('active');
+    }).fail(function() {
+
+    });
   });
 
   $('#shoppingCartBtn').unbind('click');
   $('#shoppingCartBtn').click(function() {
-    var currentCompany = $('#currentCompany').val();
-    var currentMenu = $('#currentMenu').val();
     var accessFlag = 'not';
-
-    if(_.trim(currentCompany)=='' || _.trim(currentMenu)=='') {
-      toastr['warning']('請先選擇公司跟菜單');
-      return;
-    }
 
     $('.amount').each(function() {
       var value = $(this).val();
@@ -81,7 +88,7 @@ function clickEvent() {
       var price = $(this).data('price');
 
       if(shoppingList[id]!=null) {
-        shoppingList[id]['value'] += value;
+        shoppingList[id]['value'] = parseInt(shoppingList[id]['value']) + parseInt(value);
       }else {
         shoppingList[id] = {};
         shoppingList[id]['name'] = name;
@@ -105,16 +112,20 @@ function clickEvent() {
   });
 }
 
-function produceMenu(company) {
+function produceMenu(menu) {
   var i;
   var text = '';
+  var e;
+  var id;
   var name;
 
-  for(i=0; menu[company][i]!=null; i++) {
-    name = menu[company][i]['name'];
+  for(i=0; i<menu.length; i++) {
+    e = menu[i];
+    name = e['name'];
+    id = e['id'];
+
     text += `<button class="btn btn-default menuList"`;
-    text += `data-company="${company}"`;
-    text += `data-menu="${i}">`;
+    text += `data-id="${id}">`;
     text += `${name}</button>`
   }
 
@@ -124,22 +135,22 @@ function produceMenu(company) {
   clickEvent();
 }
 
-function produceProduct(company, menu_id) {
+function produceProduct(product) {
   var i;
   var j;
   var text = '';
-  var list;
+  var e;
   var id;
   var name;
   var unit;
   var price;
 
-  for(i=0; i<menu[company][menu_id]['list'].length; i++) {
-    list = menu[company][menu_id]['list'][i];
-    id = list['id'];
-    name = list['name'];
-    unit = list['unit'];
-    price = list['price'];
+  for(i=0; i<product.length; i++) {
+    e = product[i];
+    id = e['id'];
+    name = e['name'];
+    unit = e['unit_type'];
+    price = e['price'];
 
     text += `<tr>`;
     text += `<td>${name}</td>`;
@@ -151,8 +162,8 @@ function produceProduct(company, menu_id) {
     text += `data-unit="${unit}"`;
     text += `data-price="${price}"`;
     text += `>`
-      for(j=0; j<10; j++) {
-        text += `<option>${j}</option>`;
+      for(j=0; j<100; j++) {
+        text += `<option value="${j}">${j}</option>`;
       }
     text += '</select></td>';
     text += '</tr>';

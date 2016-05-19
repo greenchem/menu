@@ -59,7 +59,7 @@ class BookingLogController extends Controller
 
         $new_qty = $product->order_qty + $request->input('number');
 
-        if ($new_qty > $peroduct->inventory) {
+        if ($new_qty > $product->inventory) {
             return response()->json(['status' => 3]); // Out of inventory.
         }
 
@@ -70,7 +70,7 @@ class BookingLogController extends Controller
             'period_id' => $product->menu->period->id,
             'menu_id' => $product->menu->id,
             'product_id' => $product->id,
-            'number' => $reqeust->input('number'),
+            'number' => $request->input('number'),
             'price' => $product->price * $request->input('number'),
         ]));
 

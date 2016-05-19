@@ -180,7 +180,7 @@ function clickEvent() {
         $('.editModalBtn').each(function() {
           var e = {};
           e['name'] = $(this).data('name');
-          e['unit'] = $(this).data('unit');
+          e['unit_type'] = $(this).data('unit');
           e['inventory'] = $(this).data('inventory');
           e['price'] = $(this).data('price');
           e['description'] = $(this).data('description');

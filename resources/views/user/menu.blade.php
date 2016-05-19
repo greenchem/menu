@@ -10,13 +10,11 @@
 @stop
 
 @section('content')
-<input type="hidden" id="currentCompany">
-<input type="hidden" id="currentMenu">
 
 @include('user.header')
 <div class="container">
     <div class="row">
-        <h3><span id="nickname">{{Auth::user()->nickname}}</span> 先生所剩下的quota：<span id="quota"></span>元</h3>
+        <h3><span id="nickname">{{Auth::user()->nickname}}</span> 所剩下的quota：<span id="quota"></span>元</h3>
     </div>
   <div class="row">
     <div class="btn-group" role="group">
