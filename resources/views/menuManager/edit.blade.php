@@ -13,6 +13,7 @@
     @include('menuManager.addModal')
     @include('menuManager.editModal')
 
+    <input type="hidden" value="{{$menu_id}}" id="menu_id">
     <h3 class="text-center">編輯菜單</h3>
     <div class="container">
         <div class="row">
@@ -37,6 +38,7 @@
                     <th>單位</th>
                     <th>數量</th>
                     <th>價錢</th>
+                    <th>描述</th>
                     <th>#</th>
                 </tr>
             </thead>

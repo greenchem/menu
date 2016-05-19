@@ -15,12 +15,20 @@
                     <input type="text" class="form-control" id="editUnit">
                 </div>
                 <div class="row">
-                    <label for="editNumber">數量</label>
-                    <input type="text" class="form-control" id="editNumber">
+                    <label for="editInventory">庫存</label>
+                    <select class="form-control" id="editInventory">
+                        @for($i=0; $i<200; $i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                    </select>
                 </div>
                 <div class="row">
                     <label for="editPrice">價錢</label>
                     <input type="text" class="form-control" id="editPrice">
+                </div>
+                <div class="row">
+                    <label for="editDescription">描述</label>
+                    <input type="text" class="form-control" id="editDescription">
                 </div>
             </div>
             <div class="modal-footer">

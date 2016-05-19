@@ -16,13 +16,15 @@
 @include('user.header')
 <div class="container">
     <div class="row">
-        <h3><span id="username">陳富貴</span> 先生所剩下的quota：<span id="quota"></span>元</h3>
+        <h3><span id="nickname">{{Auth::user()->nickname}}</span> 先生所剩下的quota：<span id="quota"></span>元</h3>
     </div>
   <div class="row">
     <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default companyList" data-company="0">生科</button>
-      <button type="button" class="btn btn-default companyList" data-company="1">優好</button>
-      <button type="button" class="btn btn-default companyList" data-company="2">良農</button>
+        @for($i=0; $i<count($companyData); $i++)
+        <button type="button" class="btn btn-default companyList" data-company="{{$companyData[$i]['id']}}">
+        {{$companyData[$i]['name']}}
+        </button>
+        @endfor
     </div>
   </div>
   <br>

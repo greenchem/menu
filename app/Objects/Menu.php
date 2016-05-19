@@ -5,11 +5,6 @@ namespace App\Objects;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-// Model
-use App\Objects\Company;
-use App\Objects\Period;
-use App\Objects\Product;
-
 class Menu extends Model
 {
     use SoftDeletes;
@@ -35,7 +30,7 @@ class Menu extends Model
      */
     public function company()
     {
-        $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**
@@ -45,7 +40,7 @@ class Menu extends Model
      */
     public function period()
     {
-        $this->belongsTo(Period::class);
+        return $this->belongsTo(Period::class);
     }
 
     /**

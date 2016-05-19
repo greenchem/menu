@@ -20,7 +20,6 @@ Route::get('login', function() {
 });
 
 Route::group(['prefix'=>'user'], function() {
-    Route::get('login', 'UserController@login');
     Route::get('menu', 'UserController@menu');
     Route::get('shoppingCart', 'UserController@shoppingCart');
     Route::get('history', 'UserController@history');
@@ -98,11 +97,12 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
     Route::group(['prefix' => 'menu_sys', 'namespace' => 'MenuSys'], function() {
         Route::group(['prefix' => 'product'], function() {
-            Route::get('/', 'ProductController@index');
+            Route::get('/', 'ProductController@index'); // filting with menu_id
             Route::post('/', 'ProductController@create'); // for creating a singel record
-            Route::post('/list', 'ProductCotroller@createList'); // for creating a list of record
+            Route::post('/list', 'ProductController@createList'); // for creating a list of record (using menu_id)
             Route::put('/{id}', 'ProductController@update');
             Route::delete('/{id}', 'ProductController@destroy');
+            Route::delete('/list', 'ProductController@destroyList'); // for deleting a list of record (using menu_id)
         });
 
         Route::group(['prefix' => 'menu'], function() {
@@ -110,23 +110,23 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::get('/all', 'MenuController@indexAll'); // Indexing by self's company.
             Route::get('/{id}', 'MenuController@show'); // To show a menu's detail (Products & others): for import.
             Route::post('/', 'MenuController@create');
-            Route::put('/{id}', 'MenuController@update'); // Cannot update period_id!!
-            Route::put('/{id}/products', 'MenuController@updateProducts'); // for updating Menu's products.
+            Route::put('/{id}', 'MenuController@update'); // Cannot update period_id!!, PS: to update products, PLZ use post/delete product/list.
             Route::delete('/{id}', 'MenuController@destroy');
         });
 
         Route::group(['prefix' => 'booking_log'], function() {
-            Route::get('/', 'BookingLogController@index'); // indexing by Period / user_id.
+            //Route::get('/', 'BookingLogController@index'); // indexing by Period / user_id.
             Route::get('/{id}', 'BookingLogController@show');
             Route::post('/', 'BookingLogController@create');
-            Route::put('/{id}', 'BookingLogController@update'); // when to update record from 'not_confirmed' to 'confirmed' ?
+            Route::put('/{id}', 'BookingLogController@update'); // No need to update to comfirmed...
             Route::delete('/{id}', 'BookingLogController@destroy');
+        });
 
+        Route::group(['prefix' => 'exports'], function() {
             Route::get('/stocking_form', 'BookingLogController@exportStockingForm'); // Export stocking form with user's company.
-            Route::get('/confirmation_form', 'BookingLogController@exportConfirmationFrom'); // Export confirmation form with user's company.
-
-            // Export All the companies' confirmation form.
-            Route::get('/all_confirmation_form', 'BookingLogController@exportAllConfirmationFrom');
+            Route::get('/accounting_form', 'BookingLogController@exportAccountingForm'); // Export accounting form with user's company.
+            // Export All the companies' accounting form.
+            Route::get('/all_accounting_form', 'BookingLogController@exportAllAccountingForm');
         });
 
         Route::group(['prefix' => 'period'], function() {
@@ -140,6 +140,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::get('/', 'UserQuotaController@index'); // Need to be filtered with period.
             Route::post('/', 'UserQuotaController@create');
             Route::put('/{id}', 'UserQuotaController@update');
+            Route::delete('/{id}', 'UserQuotaController@destroy');
 
             // No need for delete ?
         });
