@@ -25,7 +25,7 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         $menus = Menu::whereHas('period', function ($period) use ($request) {
-                $period->where('status', 'visible')->where('id', $request->input('period_id'));
+                $period->where('status', 'visible');
             })
             ->where('company_id', $request->input('company_id'))
             ->get();
