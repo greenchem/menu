@@ -12,6 +12,7 @@ use Auth;
 use Excel;
 
 // Model
+use App\Objects\Company;
 use App\Objects\UserQuota;
 use App\Objects\Product;
 use App\Objects\Period;
@@ -144,12 +145,10 @@ class BookingLogController extends Controller
                 ->setCompany($company->name);
 
             $excel->sheet('備貨單', function ($sheet) use ($company, $period) {
-                $menus = Menu::with('products')->where('company_id', $company->id)->where('period_id', $period->id)->get();
+                $menu_ids = Menu::where('period_id', $period->id)->where('company_id', $company->id)->get()->pluck('id');
 
-                foreach ($menus as $menu) {
-                    foreach ($menu->products as $product) {
-                        $sheet->appendRow($product->toArray());
-                    }
+                foreach ($menu_ids as $menu_id) {
+                    $sheet->rows(BookingLog::genStockingFormData($menu_id));
                 }
             });
         })->download('xlsx');
@@ -176,11 +175,7 @@ class BookingLogController extends Controller
                 ->setCompany($company->name);
 
             $excel->sheet('對帳單', function ($sheet) use ($period, $company){
-                $datas = BookingLog::where('period_id', $period->id)->whereIn('user_id', $company->users->pluck('id'))->get();
-
-                foreach ($datas as $data) {
-                    $sheet->appendRow($data->toArray());
-                }
+                $sheet->rows(BookingLog::genAccountingFormData($period->id, $company->id));
             });
         })->download('xlsx');
     }
@@ -195,6 +190,7 @@ class BookingLogController extends Controller
     {
         $company = Auth::user()->company;
         $period = Period::find($request->input('period_id'));
+        $period = Period::find(1);
 
         // Check the period is exist or not.
         if ($period === null) return response()->json(['status' => 1]);
@@ -205,13 +201,12 @@ class BookingLogController extends Controller
             $excel->setCreator(Auth::user()->nickname)
                 ->setCompany($company->name);
 
-            $excel->sheet('對帳單', function ($sheet) use ($period){
-                $datas = BookingLog::where('period_id', $period->id)->get();
+            foreach (Company::all() as $singel_company) {
+                $excel->sheet($singel_company->name.'的對帳單', function ($sheet) use ($singel_company, $period) {
+                    $sheet->rows(BookingLog::genAccountingFormData($period->id, $singel_company->id));
+                });
+            }
 
-                foreach ($datas as $data) {
-                    $sheet->appendRow($data->toArray());
-                }
-            });
         })->download('xlsx');
     }
 }
