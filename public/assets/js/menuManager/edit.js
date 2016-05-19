@@ -61,7 +61,6 @@ function clickEvent() {
   $('#addModalBtn').unbind('click');
   $('#addModalBtn').click(function() {
     $('#addElement input[type="text"]').val(null);
-    $('#addInventory').val(0);
     $('#addElement').modal('show');
   });
 

@@ -6,11 +6,13 @@ $(function() {
 function clickEvent() {
   $('#menuList li').unbind('click');
   $('#menuList li').click(function() {
+    var status = $(this).data('status');
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
     data.menu_id = $(this).data('id');
 
     $('#currentMenuId').val(data.menu_id);
+    $('#currentMenuStatus').val(status);
 
     $('.menuContent').hide();
     $('#menuList li').removeClass('active');
@@ -27,14 +29,24 @@ function clickEvent() {
 
   $('#editBtn').unbind('click');
   $('#editBtn').click(function() {
+    var status = $('#currentMenuStatus').val();
     var id = $('#currentMenuId').val();
     var url = $('#url').val();
 
+    if(status == 'visible') {
+      toastr['warning']('此菜單已經發佈，發佈時候不能修改，請聯絡發佈管理者');
+      return;
+    }
     window.location = `${url}/menuManager/edit/${id}`;
   });
 
   $('#deleteBtn').unbind('click');
   $('#deleteBtn').click(function() {
+    var status = $('#currentMenuStatus').val();
+    if(status == 'visible') {
+      toastr['warning']('此菜單已經發佈，發佈時候不能修改，請聯絡發佈管理者');
+      return;
+    }
     var id = $('#currentMenuId').val();
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');

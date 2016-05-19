@@ -14,6 +14,7 @@
 
     <input type="hidden" id="url" value="{{url('')}}">
     <input type="hidden" id="currentMenuId">
+    <input type="hidden" id="currentMenuStatus">
 
     <div class="container">
         <div class="row">
@@ -26,7 +27,13 @@
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <ul class="nav nav-pills nav-stacked" id="menuList">
                     @for($i=0; $i<count($menuData); $i++)
-                    <li role="presentation" data-id="{{$menuData[$i]['id']}}">
+                    <li role="presentation"
+                        @for($j=0; $j<count($periodData); $j++)
+                            @if($periodData[$j]['id'] == $menuData[$i]['period_id'])
+                            data-status="{{$periodData[$j]['status']}}"
+                            @endif
+                        @endfor
+                        data-id="{{$menuData[$i]['id']}}">
                         <a href="#">{{$menuData[$i]['name']}}</a>
                     </li>
                     @endfor

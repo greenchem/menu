@@ -16,11 +16,7 @@
                 </div>
                 <div class="row">
                     <label for="addInventory">庫存</label>
-                    <select class="form-control" id="addInventory">
-                        @for($i=0; $i<200; $i++)
-                        <option value="{{$i}}">{{$i}}</option>
-                        @endfor
-                    </select>
+                    <input type="text" class="form-control" id="addInventory">
                 </div>
                 <div class="row">
                     <label for="addPrice">價錢</label>

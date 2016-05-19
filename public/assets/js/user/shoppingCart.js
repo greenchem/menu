@@ -115,7 +115,8 @@ function buyProduct(product, current_index, final_index) {
 
   $.post('/api/menu_sys/booking_log', data, function(result) {
     if(result.status == 3) {
-      toastr['warning'](`您買太多 ${e.name} 請減少數量`);
+      console.log(data);
+      toastr['warning'](`您買太多 ${e.name} 請減少購買數量，不過此商品仍有可能是已被搶購一空`);
     }else if(result.status == 2){
       toastr['warning'](`這項商品 ${e.name} 沒有開放購買`);
     }else {
@@ -138,6 +139,6 @@ function finish() {
 
   setTimeout(function() {
     window.location.reload();
-  }, 1000);
+  }, 3000);
 }
 
