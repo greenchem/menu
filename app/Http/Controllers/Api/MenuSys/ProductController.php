@@ -139,7 +139,7 @@ class ProductController extends Controller
         if ($menu->period->status == 'visible') {
             return response()->json(['status' => 2]);
         } else {
-            $menu->products()->detach();
+            $menu->products()->delete();
 
             return response()->json(['status' => 0]);
         }

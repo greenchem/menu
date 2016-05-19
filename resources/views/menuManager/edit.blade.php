@@ -13,7 +13,8 @@
     @include('menuManager.addModal')
     @include('menuManager.editModal')
 
-    <input type="hidden" value="{{$menu_id}}" id="menu_id">
+    <input type="hidden" value="{{url('')}}" id="url">
+    <input type="hidden" value="{{$menuData['id']}}" id="menu_id">
     <input type="hidden" id="currentEditId">
     <input type="hidden" id="currentEditType">
 
@@ -21,14 +22,17 @@
     <div class="container">
         <div class="row">
             <label for="menuName">菜單名稱</label>
-            <input type="text" class="form-control" id="menuName" value="春節菜單" disabled>
+            <input type="text" class="form-control" id="menuName" value="{{$menuData['name']}}" disabled>
         </div>
         <div class="row">
             <label for="period">期號</label>
-            <select class="form-control" id="period">
-                <option disabled>期號</option>
-                <option value="1">2015/3</option>
-            </select>
+            <input type="text" class="form-control"
+                @for($i=0; $i<count($periodData); $i++)
+                    @if($periodData[$i]['id'] == $menuData['period_id'])
+                    value="{{$periodData[$i]['name']}}"
+                    @endif
+                @endfor
+            id="period" disabled>
         </div>
         <br>
         <div class="row text-right">

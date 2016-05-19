@@ -156,12 +156,8 @@ function clickEvent() {
           console.log('output data', data);
           $.post(`/api/menu_sys/product/list`, data, function(result) {
             console.log(result);
-            toastr['success']('新增菜單完成，將會幫您導回菜單管理頁面');
 
-            var url = $('#url').val();
-            setTimeout(function() {
-              window.location = `${url}/menuManager/menu`;
-            }, 1000);
+            finish();
           });
         });
       }else {
@@ -189,15 +185,20 @@ function clickEvent() {
         console.log('output data', data);
         $.post(`/api/menu_sys/product/list`, data, function(result) {
           console.log(result);
-          toastr['success']('新增菜單完成，將會幫您導回菜單管理頁面');
 
-          var url = $('#url').val();
-          setTimeout(function() {
-            window.location = `${url}/menuManager/menu`;
-          }, 1000);
+          finish();
         });
       }
     });
   });
+}
+
+function finish() {
+  toastr['success']('新增菜單完成，將會幫您導回菜單管理頁面');
+
+  var url = $('#url').val();
+  setTimeout(function() {
+    window.location = `${url}/menuManager/menu`;
+  }, 1000);
 }
 

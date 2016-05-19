@@ -167,14 +167,38 @@ function clickEvent() {
   $('#editMenuBtn').click(function() {
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
+    data.menu_id = $('#menu_id').val();
 
-    $.ajax({
+    console.log(data);
+    $.ajax({// Before Add New Data, Delete All Data
       url: `/api/menu_sys/product/list`,
       data: data,
       method: 'delete',
-      success: function(result) {
+      success: function(result) {// Start Insert
         console.log(result);
+        data.products = [];
+        $('.editModalBtn').each(function() {
+          var e = {};
+          e['name'] = $(this).data('name');
+          e['unit'] = $(this).data('unit');
+          e['inventory'] = $(this).data('inventory');
+          e['price'] = $(this).data('price');
+          e['description'] = $(this).data('description');
+          e['menu_id'] = data.menu_id;
 
+          console.log('e', e);
+          data.products.push(e);
+          console.log(data.products);
+        });
+
+        // JSON encode
+        data.products = JSON.stringify(data.products);
+        console.log('output data', data);
+        $.post(`/api/menu_sys/product/list`, data, function(result) {
+          console.log(result);
+
+          finish();
+        });
       },
       fail: function() {
 

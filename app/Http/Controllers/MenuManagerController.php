@@ -23,12 +23,12 @@ class MenuManagerController extends Controller
     }
 
     public function edit($id) {
-        if(!$id) {
-            return view('menuManager.menu');
-        }else {
-            return view('menuManager.edit')
-                ->with('menu_id', $id);
-        }
+        $menu = Menu::find($id);
+        $periods = Period::all();
+
+        return view('menuManager.edit')
+            ->with('menuData', $menu)
+            ->with('periodData', $periods);
     }
 
     public function menu() {
