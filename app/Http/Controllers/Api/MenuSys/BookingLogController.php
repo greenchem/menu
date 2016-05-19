@@ -49,23 +49,31 @@ class BookingLogController extends Controller
     {
         $product = Product::find($request->input('product_id'));
 
-        if ($product->menu->period->status == 'visible') {
-            $booking_log = new BookingLog;
-            $booking_log->user_id = Auth::user()->id;
-            $booking_log->period_id = $product->menu->period->id;
-            $booking_log->menu_id = $product->menu->id;
-            $booking_log->product_id = $product->id;
-            $booking_log->number = $request->input('number');
-            $booking_log->price = $product->price * $request->input('number');
-            $booking_log->save();
-
-            return response()->json([
-                'company_id' => $company->getAttribute('id'),
-                'status' => 0
-            ]);
-        } else {
+        if ($product->menu->period->status != 'visible') {
             return response()->json(['status' => 2]); // forbidden
         }
+
+        $new_qty = $product->order_qty + $request->input('number');
+
+        if ($new_qty > $peroduct->inventory) {
+            return response()->json(['status' => 3]); // Out of inventory.
+        }
+
+        $product->order_qty = $new_qty;
+        $product->save();
+        $new_booking_log = $product->booking_logs()->save(new BookingLog([
+            'user_id' => Auth::user()->id,
+            'period_id' => $product->menu->period->id,
+            'menu_id' => $product->menu->id,
+            'product_id' => $product->id,
+            'number' => $reqeust->input('number'),
+            'price' => $product->price * $request->input('number'),
+        ]));
+
+        return response()->json([
+            'company_id' => $new_booking_log->getAttribute('id'),
+            'status' => 0
+        ]);
     }
 
     /**
