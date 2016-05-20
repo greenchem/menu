@@ -88,7 +88,7 @@ class BookingLogController extends Controller
      */
     public function show($id)
     {
-        $booking_log = BookingLog::find($id);
+        $booking_log = BookingLog::with('product')->where('id', $id)->first();
 
         return response()->json($booking_log);
     }
