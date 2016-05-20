@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 // System
 use Auth;
+use Excel;
 
 // Model
 use App\Objects\CreationLog;
@@ -81,9 +82,21 @@ class CreationLogController extends Controller
      * @param \Illumincate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function export(Reqeust $request)
+    public function export(Request $request)
     {
-        //
+        $timestamp = $request->input('timestamp', "201607");
+        $period_id = $request->input('period_id', 1);
+
+        Excel::create($timestamp.'津貼報表', function ($excel) use ($timestamp, $period_id) {
+            $excel->setTitle($timestamp.'津貼報表');
+
+            $excel->setCreator(Auth::user()->nickname)
+                ->setCompany(Auth::user()->company->name);
+
+            $excel->sheet($timestamp.'津貼報表', function ($sheet) use ($timestamp, $period_id) {
+                $sheet->rows(CreationLog::genAccountingFormData($timestamp, $period_id));
+            });
+        })->download('xlsx');
     }
 
     /**

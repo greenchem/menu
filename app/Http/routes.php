@@ -158,7 +158,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::post('/', 'CreationLogController@create'); // Need <timestamp> <type> <array([user_id, fee])>
             Route::delete('/{id}', 'CreationLogController@destroy');
 
-            Route::get('/export', 'CreationLogController@export'); // Need <user_id> <array([timestamp, type])>
+            Route::get('/export', 'CreationLogController@export'); // Need <timestamp> <period_id>
 
             Route::put('/unlock/{id}', 'CreationLogController@unlock'); // To unlock an record.
         });

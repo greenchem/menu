@@ -206,7 +206,6 @@ class BookingLogController extends Controller
                     $sheet->rows(BookingLog::genAccountingFormData($period->id, $singel_company->id));
                 });
             }
-
         })->download('xlsx');
     }
 }
