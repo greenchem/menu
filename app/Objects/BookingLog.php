@@ -97,8 +97,7 @@ class BookingLog extends Model
                 array_push($new_product, $company_order_qty);
             }
 
-            array_push($new_product, $sum);
-            array_push($new_product, $sum * $product->price);
+            array_push($new_product, $sum, $sum * $product->price);
             return $new_product;
         });
 

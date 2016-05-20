@@ -147,6 +147,21 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
         });
     });
 
-    Route::group(['prefix' => 'accounting_sys', 'namespace' => 'AccountingSys'], function() {});
+    Route::group(['prefix' => 'accounting_sys', 'namespace' => 'AccountingSys'], function() {
+        Route::group(['prefix' => 'fee_log'], function() {
+            Route::get('/', 'FeeLogController@index'); // list out all the fee logs that belongs the provided creation_log_id.
+        });
+
+        Route::group(['prefix' => 'creation_log'], function() {
+            Route::get('/', 'CreationLogController@index'); // list out all the creation logs.
+            Route::post('/', 'CreationLogController@create'); // Need <timestamp> <status> <array([user_id, fee])>
+            Route::put('/', 'CreationLogController@update'); // Delete all fee_logs and then create a list of fee_log records.
+            Route::delete('/{id}', 'CreationLogController@destroy');
+
+            Route::get('/export', 'CreationLogController@export'); // Need <user_id> <array([timestamp, type])>
+
+            Route::put('/unlock/{id}', 'CreationLogController@unlock'); // To unlock an record.
+        });
+    });
 });
 
