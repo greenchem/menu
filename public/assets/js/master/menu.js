@@ -52,6 +52,7 @@ function produceTable() {
   }
 
   $('#periodTable tbody').html(text);
+
 }
 
 function faker() {

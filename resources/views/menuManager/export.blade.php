@@ -11,24 +11,29 @@
 @section('content')
     @include('menuManager.header')
     <div class="container">
+        <br/>
         <div class="row">
             <label for="period">期號</label>
             <select class="form-control" id="period">
                 <option disabled>期號</option>
-                <option value="1">2016/3</option>
+                @for($i=0; $i<count($periodData); $i++)
+                    <option value="{{$periodData[$i]['id']}}">{{$periodData[$i]['name']}}</option>
+                @endfor
             </select>
         </div>
+
+        <br/>
         <div class="row">
             <label for="type">報表類型</label>
             <select class="form-control" id="type">
                 <option disabled>報表類型</option>
-                <option value="1">備貨單</option>
-                <option value="2">核銷單</option>
+                <option value="stocking_form">備貨單</option>
+                <option value="accounting_form">核銷單</option>
             </select>
         </div>
         <br>
         <div class="row text-center">
-            <button class="btn btn-primary">匯出</button>
+            <button id="exportBtn" class="btn btn-primary">匯出</button>
         </div>
     </div>
 @stop

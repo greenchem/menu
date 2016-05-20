@@ -1,6 +1,7 @@
 $(function() {
   $('.menuContent').hide();
   clickEvent();
+  $('#menuList li:first').click();
 });
 
 function clickEvent() {

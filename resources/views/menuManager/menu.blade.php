@@ -5,9 +5,6 @@
 <link rel="stylesheet" href="{{url('assets/css/menuManager/menu.css')}}">
 @stop
 
-@section('js')
-<script src="{{url('assets/js/menuManager/menu.js')}}"></script>
-@stop
 
 @section('content')
     @include('menuManager.header')
@@ -64,3 +61,7 @@
     </div>
 @stop
 
+
+@section('js')
+    <script src="{{url('assets/js/menuManager/menu.js')}}"></script>
+@stop

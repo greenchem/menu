@@ -87,7 +87,7 @@ class BookingLog extends Model
             $new_product[1] = $product->price;
 
             foreach ($companies as $company) {
-                $company_order_qty = BookingLog::whereHas('user', function ($menu) use ($company) {
+                $company_order_qty = BookingLog::whereHas('user', function ($user) use ($company) {
                     $user->where('company_id', '=', $company->id);
                 })
                 ->where('product_id', $product->id)
