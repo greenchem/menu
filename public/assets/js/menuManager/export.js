@@ -8,20 +8,7 @@ $(function() {
             return;
         }
 
-
-        $.ajax({
-            url: '/api/menu_sys/exports/' +  type,
-            type: "GET",
-            data: {
-                period_id: period
-            },
-            error: function (error) {
-                toastr['error']('伺服器錯誤!');
-            },
-            success: function (result) {
-                console.log(result);
-            }
-        });
+        window.location = "/api/menu_sys/exports/" + type + "/?period_id=" + period;
     });
 });
 
