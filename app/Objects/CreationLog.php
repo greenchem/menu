@@ -32,4 +32,12 @@ class CreationLog extends Model
     {
         return $this->hasMany(FeeLog::class);
     }
+
+
+    // Utils
+
+    public function isAlterable($user)
+    {
+        return ($this->status == 'unlocked' || $this->status === null);
+    }
 }
