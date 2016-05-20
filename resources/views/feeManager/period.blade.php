@@ -5,13 +5,13 @@
 @stop
 
 @section('js')
-<script src="{{url('assets/js/manager/menu.js')}}"></script>
+<script src="{{url('assets/js/feeManager/period.js')}}"></script>
 @stop
 
 @section('content')
-    @include('manager.header')
-    @include('manager.menu.addPeriod')
-    @include('manager.menu.editPeriod')
+    @include('feeManager.header')
+    @include('feeManager.period.addPeriod')
+    @include('feeManager.period.editPeriod')
 
     <div class="container">
       <div class="row text-right">

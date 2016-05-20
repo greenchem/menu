@@ -12,7 +12,18 @@
 @section('content')
 @include('user.header')
 
+<input type="hidden" value="{{$productData}}" id="product">
+<input type="hidden" value="{{Auth::user()->id}}" id="user_id">
+
 <div class="container">
+    <div class="row">
+        <label for="period">期號</label>
+        <select class="form-control" id="period">
+        @for($i=0; $i<count($periodData); $i++)
+        <option value="{{$periodData[$i]['id']}}">{{$periodData[$i]['name']}}</option>
+        @endfor
+        </select>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <table class="table table-striped" id="menuTable">
@@ -25,27 +36,10 @@
                         <th>#</th>
                     </tr>
                 </thead>
-                <tbody>
-                        @for($i=0; $i<5; $i++)
-                        <tr>
-                            <td>百事可樂</td>
-                            <td>瓶</td>
-                            <td>1</td>
-                            <td>100</td>
-                            <td><button type="button" class="btn btn-warning" disabled>未核銷</button></td>
-                        </tr>
-                        @endfor
-                        <tr>
-                            <td>百事可樂</td>
-                            <td>瓶</td>
-                            <td>1</td>
-                            <td>100</td>
-                            <td><button type="button" class="btn btn-success" disabled>已銷帳</button></td>
-                        </tr>
-                </tbody>
-                </table>
-            </div> <!-- col-lg-12 -->
-        </div><!-- row -->
+                <tbody></tbody>
+            </table>
+        </div> <!-- col-lg-12 -->
+    </div><!-- row -->
 </div>
 
 @stop

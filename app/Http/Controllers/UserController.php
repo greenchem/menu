@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 // Model
 use App\Objects\Company;
+use App\Objects\Period;
+use App\Objects\Product;
 
 class UserController extends Controller
 {
@@ -23,7 +25,12 @@ class UserController extends Controller
     }
 
     public function history() {
-        return view('user.history');
+        $periods = Period::all();
+        $products = Product::all();
+
+        return view('user.history')
+            ->with('periodData', $periods)
+            ->with('productData', $products);
     }
 }
 
