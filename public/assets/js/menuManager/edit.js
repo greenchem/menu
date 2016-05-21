@@ -3,7 +3,10 @@ $(function() {
 });
 
 var editTarget;
-var oldPros;
+// Product type is the following three main type :
+// old
+// new
+// update
 var updatePros = [];
 var deletePros = [];
 var addPros = [];
@@ -15,10 +18,10 @@ function getMenu() {
 
   $.get(`/api/menu_sys/product/`, data, function(products) {
     console.log(products);
-    oldPros = products;
     var i;
     var text = '';
     var e;
+    var id;
     var name;
     var unit;
     var price;
@@ -27,6 +30,7 @@ function getMenu() {
 
     for(i=0; i<products.length; i++) {
       e = products[i];
+      id = e.id;
       name = e.name;
       unit = e.unit_type;
       price = e.price;
@@ -41,11 +45,13 @@ function getMenu() {
       text += `<td>${description}</td>`;
       text += `<td>`;
       text += `<button class="btn btn-primary editModalBtn"`;
+      text += `data-id="${id}"`;
       text += `data-name="${name}"`;
       text += `data-unit="${unit}"`;
       text += `data-inventory="${inventory}"`;
       text += `data-price="${price}"`;
       text += `data-description="${description}"`;
+      text += `data-type="old"`;
       text += `>編輯</button>`;
       text += `<button class="btn btn-danger deleteBtn">刪除</button>`
       text += `</td>`;
@@ -61,6 +67,7 @@ function clickEvent() {
   $('#addModalBtn').unbind('click');
   $('#addModalBtn').click(function() {
     $('#addElement input[type="text"]').val(null);
+    $('#currentEditType').val('new');
     $('#addElement').modal('show');
   });
 
@@ -72,6 +79,7 @@ function clickEvent() {
     var inventory = $(this).data('inventory');
     var price = $(this).data('price');
     var description = $(this).data('description');
+    var type = $(this).data('type');
 
     // insert value
     $('#editName').val(name);
@@ -80,7 +88,14 @@ function clickEvent() {
     $('#editPrice').val(price);
     $('#editDescription').val(description);
 
+    // env
+    if(type == 'old' || type == 'update') {
+      var id = $(this).data('id');
+      $('#currentEditId').val(id);
+    }
+    $('#currentEditType').val(type);
     $('#editElement').modal('show');
+
     //record where change
     editTarget = $(this).parent().parent();
   });
@@ -112,6 +127,7 @@ function clickEvent() {
     text += `data-inventory="${inventory}"`;
     text += `data-price="${price}"`;
     text += `data-description="${description}"`;
+    text += `data-type="new"`;
     text += `>編輯</button>`;
     text += `<button class="btn btn-danger deleteBtn">刪除</button>`;
     text += `</td>`;
@@ -124,11 +140,13 @@ function clickEvent() {
 
   $('#editElementBtn').unbind('click');
   $('#editElementBtn').click(function() {
+    var id;
     var name = _.trim($('#editName').val());
     var unit = _.trim($('#editUnit').val());
     var inventory = _.trim($('#editInventory').val());
     var price = _.trim($('#editPrice').val());
     var description = _.trim($('#editDescription').val());
+    var type = $('#currentEditType').val();
     var text = '';
 
     if(name=='' || unit=='' || inventory=='' || price=='') {
@@ -148,6 +166,17 @@ function clickEvent() {
     text += `data-inventory="${inventory}"`;
     text += `data-price="${price}"`;
     text += `data-description="${description}"`;
+    if(type == 'old') {// type control
+      text += `data-type="update"`;
+    }else {
+      text += `data-type="${type}"`;
+    }
+
+    if(type == 'old' || type == 'update') {// id control
+      id = $('#currentEditId').val();
+      text += `data-id="${id}"`;
+    }
+
     text += `>編輯</button>`;
     text += `<button class="btn btn-danger deleteBtn">刪除</button>`;
     text += `</td>`;
@@ -159,50 +188,46 @@ function clickEvent() {
 
   $('.deleteBtn').unbind('click');
   $('.deleteBtn').click(function() {
+    var target = $(this)
+      .parent()
+      .find('.editModalBtn');
+    var type = target.data('type');
+    if(type == 'old' || type == 'update') {
+      var id = target.data('id');
+      deletePros.push(id);
+    }
+
     $(this).parent().parent().remove();
   });
 
   $('#editMenuBtn').unbind('click');
   $('#editMenuBtn').click(function() {
-    var data = {};
-    data._token = $('meta[name="csrf-token"]').attr('content');
-    data.menu_id = $('#menu_id').val();
+    var menu_id = $('#menu_id').val();
 
-    console.log(data);
-    $.ajax({// Before Add New Data, Delete All Data
-      url: `/api/menu_sys/product/list`,
-      data: data,
-      method: 'delete',
-      success: function(result) {// Start Insert
-        console.log(result);
-        data.products = [];
-        $('.editModalBtn').each(function() {
-          var e = {};
-          e['name'] = $(this).data('name');
-          e['unit_type'] = $(this).data('unit');
-          e['inventory'] = $(this).data('inventory');
-          e['price'] = $(this).data('price');
-          e['description'] = $(this).data('description');
-          e['menu_id'] = data.menu_id;
+    $('.editModalBtn').each(function() {// prepare data
+      var type = $(this).data('type');
+      var e = {};
+      e['name'] = $(this).data('name');
+      e['unit_type'] = $(this).data('unit');
+      e['inventory'] = $(this).data('inventory');
+      e['price'] = $(this).data('price');
+      e['description'] = $(this).data('description');
+      e['menu_id'] = menu_id;
 
-          console.log('e', e);
-          data.products.push(e);
-          console.log(data.products);
-        });
+      if(type == 'old') {// nothing
 
-        // JSON encode
-        data.products = JSON.stringify(data.products);
-        console.log('output data', data);
-        $.post(`/api/menu_sys/product/list`, data, function(result) {
-          console.log(result);
-
-          finish();
-        });
-      },
-      fail: function() {
-
+      }else if(type == 'new') {// add
+        addPros.push(e);
+      }else if(type == 'update') {// update
+        e['id'] = $(this).data('id');
+        updatePros.push(e);
       }
     });
+
+    console.log('add', addPros);
+    console.log('update', updatePros);
+    console.log('delete', deletePros);
+    productAdd();
   });
 }
 
@@ -215,21 +240,50 @@ function finish() {
   }, 1000);
 }
 
-/*
+function productAdd() {
+  if(addPros.length == 0) {
+    productUpdate(updatePros, 0, updatePros.length);
+    return;
+  }
+
+  var data = {};
+  data.menu_id = $('#menu_id').val();
+  data._token = $('meta[name="csrf-token"]').attr('content');
+  data.products = JSON.stringify(addPros);
+
+  $.post('/api/menu_sys/product/list', data, function(result) {
+    console.log('add Pros finish', result);
+    productUpdate(updatePros, 0, updatePros.length);
+  }).fail(function() {
+
+  });
+}
+
 function productUpdate(product, current_index, final_index) {
-  var id = product[current_index].id;
+  if(product.length == 0) {
+    productDelete(deletePros, 0, deletePros.length);
+    return;
+  }
+
+  var e = product[current_index];
+  var id = e.id;
   var data = {};
   data._token = $('meta[name="csrf-token"]').attr('content');
+  data.name = e.name;
+  data.price = e.price;
+  data.unit_type = e.unit_type;
+  data.inventory = e.inventory;
+  data.description = e.description;
 
   $.ajax({
-    url: `/api/menu_sys/product/${id}`,
+    url: `/api/menu_sys/product/single/${id}`,
     data: data,
     method: 'put',
     success: function(result) {
       if(current_index+1 != final_index) {
         productUpdate(product, current_index+1, final_index);
       }else {
-        finish();
+        productDelete(deletePros, 0, deletePros.length);
       }
     },
     fail: function() {
@@ -239,23 +293,24 @@ function productUpdate(product, current_index, final_index) {
 }
 
 function productDelete(product, current_index, final_index) {
-  var id = product[current_index].id;
+  if(product.length == 0) {
+    finish();
+    return;
+  }
+
+  var id = product[current_index];
   var data = {};
   data._token = $('meta[name="csrf-token"]').attr('content');
 
   $.ajax({
-    url: `/api/menu_sys/product/${id}`,
+    url: `/api/menu_sys/product/single/${id}`,
     data: data,
     method: 'delete',
     success: function(result) {
       if(current_index+1 != final_index) {
         productDelete(product, current_index+1, final_index);
       }else {
-        if(updatePros.length > 0) {
-          productUpdate(updatePros, 0, updatePros.length);
-        }else {
-          finish();
-        }
+        finish();
       }
     },
     fail: function() {
@@ -263,6 +318,4 @@ function productDelete(product, current_index, final_index) {
     }
   });
 }
-
-*/
 

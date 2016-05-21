@@ -22,6 +22,7 @@ function changeEvent() {
     data.period_id = $('#period').val();
     data.user_id = $('#user_id').val();
 
+    console.log(data);
     $.get('/api/menu_sys/booking_log', data, function(history) {
       console.log(history);
 
@@ -45,6 +46,7 @@ function produceTable(history) {
   var status;
 
   for(i=0; i<history.length; i++) {
+    console.log(i);
     e = history[i];
     id = e.product_id;
     price = e.price;
