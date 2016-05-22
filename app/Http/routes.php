@@ -38,6 +38,8 @@ Route::group(['middleware' => ['role:Accountant'], 'prefix'=>'feeManager'], func
     Route::get('parking', 'FeeManagerController@parking');
     Route::get('attendance', 'FeeManagerController@attendance');
     Route::get('weekendAttendance', 'FeeManagerController@weekendAttendance');
+
+    Route::get('period', 'FeeManagerController@period');
 });
 
 Route::group(['middleware' => ['role:AccountsManager'], 'prefix'=>'accountManager'], function() {
@@ -134,7 +136,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::get('/', 'PeriodController@index');
             Route::post('/', 'PeriodController@create');
             Route::put('/{id}', 'PeriodController@update');
-            Route::delete('/{id}', 'PeriodController@delete'); // soft delete
+            Route::delete('/{id}', 'PeriodController@destroy'); // soft delete
         });
 
         Route::group(['prefix' => 'user_quota'], function() {

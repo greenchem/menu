@@ -7,8 +7,17 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="editPeriod">期號名稱</label>
-                    <input type="text" class="form-control" id="editPeriod">
+                    <label for="editName">期號名稱</label>
+                    <input type="text" class="form-control" id="editName">
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <label for="editStatus">期號上線</label>
+                    <select class="form-control" id="editStatus">
+                        <option value="invisible">關閉</option>
+                        <option value="visible">開啟</option>
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">

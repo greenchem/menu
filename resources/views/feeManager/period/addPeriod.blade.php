@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label for="addPeriod">期號名稱</label>
-                    <input type="text" class="form-control" id="addPeriod">
+                    <label for="addName">期號名稱</label>
+                    <input type="text" class="form-control" id="addName">
                 </div>
             </div>
             <div class="modal-footer">

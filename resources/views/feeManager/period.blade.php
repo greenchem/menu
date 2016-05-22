@@ -13,6 +13,8 @@
     @include('feeManager.period.addPeriod')
     @include('feeManager.period.editPeriod')
 
+    <input type="hidden" id="currentEditId">
+
     <div class="container">
       <div class="row text-right">
         <button id="addModalBtn" class="btn btn-primary">新增期號</button>

@@ -60,9 +60,10 @@ class AccountManagerController extends Controller
     public function fee() {
         $companies = Company::all();
         $groups = Group::with(['company'])->get();
+
         return view('accountManager.fee')
             ->with('companyData', $companies)
             ->with('groupData', $groups);
     }
-
 }
+

@@ -28,4 +28,7 @@ class FeeManagerController extends Controller
         return view('feeManager.parking');
     }
 
+    public function period() {
+        return view('feeManager.period');
+    }
 }
