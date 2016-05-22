@@ -13,6 +13,7 @@ use Excel;
 
 // Model
 use App\Objects\CreationLog;
+use App\Objects\FeeLog;
 
 class CreationLogController extends Controller
 {
@@ -37,7 +38,7 @@ class CreationLogController extends Controller
     public function create(Request $request)
     {
         $creation_log = CreationLog::firstOrNew([
-            'timestamp' => $reqeust->input('timestamp'),
+            'timestamp' => $request->input('timestamp'),
             'type' => $request->input('type'),
         ]);
 
@@ -45,8 +46,9 @@ class CreationLogController extends Controller
             return response()->json(['status' => 2]);
         }
 
-        $creation_log->status = 'locked';
+        $creation_log->status = 'unlocked';
         $creation_log->save();
+
         foreach (json_decode($request->input('fee_logs')) as $fee_log) {
             $creation_log->fee_logs()->save(new FeeLog([
                 'user_id' => $fee_log[0],

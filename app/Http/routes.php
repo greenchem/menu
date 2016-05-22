@@ -40,6 +40,7 @@ Route::group(['middleware' => ['role:Accountant'], 'prefix'=>'feeManager'], func
     Route::get('weekendAttendance', 'FeeManagerController@weekendAttendance');
 
     Route::get('period', 'FeeManagerController@period');
+    Route::get('booking', 'FeeManagerController@booking');
 });
 
 Route::group(['middleware' => ['role:AccountsManager'], 'prefix'=>'accountManager'], function() {
