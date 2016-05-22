@@ -152,8 +152,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
     Route::group(['prefix' => 'accounting_sys', 'namespace' => 'AccountingSys'], function() {
         Route::group(['prefix' => 'fee_log'], function() {
             Route::get('/', 'FeeLogController@index'); // list out all the fee logs that belongs the provided creation_log_id.
-            Route::delete('/list', 'CreationLogController@destroy'); // using (creation_log_id)
-        });
+            Route::delete('/list', 'FeeLogController@destroy'); // using (creation_log_id)
+            });
 
         Route::group(['prefix' => 'creation_log'], function() {
             Route::get('/', 'CreationLogController@index'); // list out all the creation logs.
