@@ -48,10 +48,10 @@ class CreationLogController extends Controller
         $creation_log->status = 'locked';
         $creation_log->save();
         foreach (json_decode($request->input('fee_logs')) as $fee_log) {
-            $creation_log->fee_logs()->save([
+            $creation_log->fee_logs()->save(new FeeLog([
                 'user_id' => $fee_log[0],
                 'fee' => $fee_log[1],
-            ]);
+            ]));
         }
 
         return response()->json(['status' => 0]);
