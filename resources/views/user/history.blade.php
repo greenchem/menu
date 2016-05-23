@@ -12,7 +12,6 @@
 @section('content')
 @include('user.header')
 
-<input type="hidden" value="{{$productData}}" id="product">
 <input type="hidden" value="{{Auth::user()->id}}" id="user_id">
 
 <div class="container">

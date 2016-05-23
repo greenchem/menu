@@ -7,6 +7,7 @@
 
 @section('js')
 <script src="{{url('assets/js/feeManager/month.js')}}"></script>
+<script src="{{url('assets/js/feeManager/produceHTML.js')}}"></script>
 @stop
 
 @section('content')
@@ -14,6 +15,8 @@
 
     <input type="hidden" value="meal" id="type">
     <input type="hidden" value="{{$groupData}}" id="groupData">
+    <input type="hidden" id="currentEditCreationStatus">
+    <input type="hidden" id="currentEditCreationId">
 
     <div class="container">
         <div class="row">

@@ -7,6 +7,7 @@ $(function() {
 
 var groupData = JSON.parse($('#groupData').val());
 var creationData;
+var feelogData;
 var peopleData;
 
 function init() {
@@ -48,13 +49,38 @@ function changeEvent() {
 
   $('#editGroup').unbind('change');
   $('#editGroup').change(function() {
+    var group = $(this).val();
+    var i;
+    var e;
+    var log = [];
+
+    for(i=0; i<feelogData.length; i++) {
+      e = feelogData[i];
+      if(e.user.group_id == group) {
+        log.push(e);
+      }
+    }
+
+    produceEditTable(log);
+  });
+
+  $('#editTimestamp').unbind('change');
+  $('#editTimestamp').change(function() {
+    var id = $(this).val();
+    var status = $(`#editTimestamp option[value="${id}"]`).data('status');
+
+    // set env
+    $('#currentEditCreationStatus').val(status);
+    $('#currentEditCreationId').val(id);
+
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
+    data.creation_log_id = id;
 
-    $.get(`/api/accounting_sys/fee_log`, data, function(log) {
-      console.log(log);
-    }).fail(function() {
-
+    $.get('/api/accounting_sys/fee_log', data, function(result) {
+      console.log(result);
+      feelogData = result;
+      $('#editCompany').change();
     });
   });
 }
@@ -75,7 +101,9 @@ function clickEvent() {
       if(targetClass == 'addRecordDiv') {
         $('#addCompany').change();
       }else if(targetClass == 'manageDiv') {
-        $('#editCompany').change();
+        produceTimestamp();
+
+        $('#editTimestamp').change();
       }
 
       outsideThis.addClass('active');
@@ -116,6 +144,7 @@ function clickEvent() {
       data._token = $('meta[name="csrf-token"]').attr('content');
       data.creation_log_id = creationLogId;
 
+      // get feelogs that belong this creation log
       $.get('/api/accounting_sys/fee_log', data, function(feelogData) {
         console.log(feelogData);
         data.fee_logs = [];
@@ -178,7 +207,7 @@ function clickEvent() {
 
       data.fee_logs = JSON.stringify(data.fee_logs);
       console.log(data);
-      $.post('/api/accounting_sys/creation_log', data, function(result) {
+      $.post('/api/accounting_sys/creation_log', data, function(result) {// create new creation log and fee log
         console.log(result);
         if(result.status == 0) {
           toastr['success']('新增成功');
@@ -193,111 +222,83 @@ function clickEvent() {
       });
     }
   });
-}
 
-function produceAddTable() {
-  // env
-  var company = $('#addCompany').val();
-  var group = $('#addGroup').val();
+  $('#editBtn').unbind('click');
+  $('#editBtn').click(function() {
+    var status = $('#currentEditCreationStatus').val();
 
-  var text = '';
-  var i;
-  var e;
-  var id;
-  var username;
-  var nickname;
-
-  for(i=0; i<peopleData.length; i++) {
-    e = peopleData[i];
-    if(company != e.company_id || group != e.group_id) {
-      continue;
+    if(status != 'unlocked') {
+      toastr['warning']('此筆紀錄已被鎖住，無法被編輯');
+      return;
     }
 
-    id = e.id;
-    username = e.username;
-    nickname = e.nickname;
+    var i;
+    var e;
+    var e1;
+    var edit = [];
+    $('.editFee').each(function() {
+      var current = $(this).data('id');// current user id
+      var fee = $(this).val();
 
-    text += `<tr>`;
-    text += `<td>${username}</td>`;
-    text += `<td>${nickname}</td>`;
-    text += `<td>`;
-    text += `<input type="text" class="form-control addFee" placeholder="金額" value="0"`;
-    text += `data-id="${id}">`;
-    text += `</td>`;
-    text += `</tr>`;
-  }
+      for(i=0; i<feelogData.length; i++) {
+        e = feelogData[i];
+        if(e.user_id == current) {// remove user log from history
+          feelogData.splice(i, 1);
+          break;
+        }
+      }
 
-  $('#addTable tbody').html(text);
-}
+      e = [];
+      e[0] = current;
+      e[1] = fee;
+      edit.push(e);
+    });
 
-function produceEditTable(log) {
-  var text = '';
-  var i;
-  var e;
-  var id;
-  var username;
-  var nickname;
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+    data.creation_log_id = $('#currentEditCreationId').val();
 
-  for(i=0; log.length; i++) {
-    e = log[i];
+    $.ajax({// Delete All
+      url: `/api/accounting_sys/fee_log/list`,
+      data: data,
+      method: 'delete',
+      success: function(result) {
+        data.type = $('#type').val();
+        var id = $('#editTimestamp').val();
+        data.timestamp = $(`#editTimestamp option[value="${id}"]`).html();
+        data.fee_logs = [];
 
-    text += `<tr>`;
-    text += `<td>${username}</td>`;
-    text += `<td>${nickname}</td>`;
-    text += `<td>`;
-    text += `<input type="text" class="form-control addFee" placeholder="金額"`;
-    text += `data-employee_id="${employeeId}"`;
-    text += `data-id="${id}">`;
-    text += `</td>`;
-    text += `<td><button class="btn btn-danger deleteBtn" data-id="${id}">刪除</button></td>`;
-    text += `</tr>`;
-  }
+        for(i=0; i<feelogData.length; i++) {// insert not change data
+          e = feelogData[i];
+          e1 = [];
+          e1[0] = e.user_id;
+          e1[1] = e.fee;
 
-  $('#editTable tbody').html(text);
-}
+          data.fee_logs.push(e1);
+        }
 
-function produceGroup(target, company) {
-  var i;
-  var text = '';
-  var e;
-  var id;
-  var name;
-  var company_id;
+        for(i=0; i<edit.length; i++) {
+          e = edit[i];
+          data.fee_logs.push(e);
+        }
 
-  for(i=0; i<groupData.length; i++) {
-    e = groupData[i];
-    if(company != e.company_id) {
-      continue;
-    }
+        console.log(data);
+        data.fee_logs = JSON.stringify(data.fee_logs);
+        $.post('/api/accounting_sys/creation_log', data, function(result) {
+          if(result.status == 2) {
+            toastr['warning']('更新失敗');
+          }else if(result.status == 0) {
+            toastr['success']('更新成功');
+            $('#editTimestamp').change();
+          }
+        }).fail(function() {
 
-    id = e.id;
-    name = e.name;
-    text += `<option value="${id}">${name}</option>`;
-  }
+        });
+      },
+      fail: function() {
 
-  target.html(text);
-}
-
-function getCreationLog() {
-  var data = {};
-  data._token = $('meta[name="csrf-token"]').attr('content');
-
-  $.get('/api/accounting_sys/creation_log', data, function(creation) {
-    console.log(creation);
-  }).fail(function() {
-
-  });
-}
-
-function getFeeLog(id) {
-  var data = {};
-  data._token = $('meta[name="csrf-token"]').attr('content');
-  data.creation_log_id = id;
-
-  $.get('/api/accounting_sys/fee_log', data, function(fee) {
-    console.log(fee);
-  }).fail(function() {
-
+      }
+    });
   });
 }
 

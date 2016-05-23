@@ -1,18 +1,7 @@
 $(function() {
-  init();
   changeEvent();
   $('#period').change();
 });
-
-var productData = {};
-
-function init() {
-  var t = JSON.parse($('#product').val());
-
-  $.each(t, function(idx, val) {
-    productData[val.id] = val;
-  });
-}
 
 function changeEvent() {
   $('#period').unbind('change');
@@ -46,16 +35,15 @@ function produceTable(history) {
   var status;
 
   for(i=0; i<history.length; i++) {
-    console.log(i);
     e = history[i];
     id = e.product_id;
     price = e.price;
     status = e.status;
     number = e.number;
 
-    name = productData[id]['name'];
-    unit_type = productData[id]['unit_type'];
-    unit_price = productData[id]['price'];
+    name = e.product['name'];
+    unit_type = e.product['unit_type'];
+    unit_price = e.product['price'];
 
     text += `<tr>`;
     text += `<td>${name}</td>`;

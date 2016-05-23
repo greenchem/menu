@@ -24,7 +24,9 @@ class FeeLogController extends Controller
      */
     public function index(Request $request)
     {
-        $fee_logs = FeeLog::where('creation_log_id', $request->input('creation_log_id'))->get();
+        $fee_logs = FeeLog::where('creation_log_id', $request->input('creation_log_id'))
+            ->with('user')
+            ->get();
 
         return response()->json($fee_logs);
     }

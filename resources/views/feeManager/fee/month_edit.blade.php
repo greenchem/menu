@@ -1,20 +1,7 @@
 <div class="feeContent manageDiv">
     <div class="row">
-      <label for="editYear">年</label>
-      <select class="form-control" id="editYear">
-        <option disabled>年</option>
-        <option value="2015">2015</option>
-        <option value="2016">2016</option>
-      </select>
-    </div>
-    <div class="row">
-      <label for="editSeason">月</label>
-      <select class="form-control" id="editSeason">
-        <option disabled>月</option>
-        @for($i=1; $i<=12; $i++)
-        <option value="{{$i}}">{{$i}}</option>
-        @endfor
-      </select>
+      <label for="editTimestamp">紀錄</label>
+      <select class="form-control" id="editTimestamp"></select>
     </div>
     <div class="row">
       <label for="editCompany">公司</label>

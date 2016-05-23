@@ -39,7 +39,9 @@ class BookingLogController extends Controller
             $booking_log_query = $booking_log_query->where('user_id', $request->input('user_id'));
         }
 
-        $booking_logs = $booking_log_query->get();
+        $booking_logs = $booking_log_query
+            ->with('product')
+            ->get();
 
         return response()->json($booking_logs);
     }
