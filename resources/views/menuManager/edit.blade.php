@@ -5,7 +5,7 @@
 @stop
 
 @section('js')
-<script src="{{url('assets/js/menuManager/edit.js')}}"></script>
+<script src="{{url('assets/js/menuManager/editDELETE.js')}}"></script>
 @stop
 
 @section('content')
