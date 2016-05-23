@@ -48,7 +48,7 @@ onclick="window.location = '{{url('feeManager/weekendAttendance')}}'">假日值�
             </ul>
 
             @include('feeManager.fee.month_add')
-            @include('feeManager.fee.month_edit')
+            @include('feeManager.fee.edit')
 
             </div> <!-- col-lg-9 -->
         </div><!-- row -->

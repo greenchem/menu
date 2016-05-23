@@ -41,7 +41,9 @@
       </table>
     </div>
 
-    <button type="button" class="btn btn-primary" id="addBtn">新增</button>
+    <div class="row text-center">
+        <button type="button" class="btn btn-primary" id="addBtn">新增</button>
+    </div>
 </div>
 
 

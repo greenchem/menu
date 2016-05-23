@@ -131,8 +131,8 @@ function clickEvent() {
   $('#addBtn').unbind('click');
   $('#addBtn').click(function() {
     var year = $('#addYear').val();
-    var month = $('#addMonth').val();
-    var timestamp = (month<10) ? `${year}-0${month}` : `${year}-${month}`;
+    var season = $('#addSeason').val();
+    var timestamp = `${year}-${season}`;
     var type = $('#type').val();
     var i;
     var j;

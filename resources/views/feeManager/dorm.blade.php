@@ -6,11 +6,18 @@
 @stop
 
 @section('js')
-<script src="{{url('assets/js/feeManager/meal.js')}}"></script>
+<script src="{{url('assets/js/feeManager/month.js')}}"></script>
+<script src="{{url('assets/js/feeManager/produceHTML.js')}}"></script>
 @stop
 
 @section('content')
     @include('feeManager.header')
+
+    <input type="hidden" value="dorm" id="type">
+    <input type="hidden" value="{{$groupData}}" id="groupData">
+    <input type="hidden" id="currentEditCreationStatus">
+    <input type="hidden" id="currentEditCreationId">
+
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3"></div>
@@ -41,7 +48,7 @@ onclick="window.location = '{{url('feeManager/weekendAttendance')}}'">假日值�
             </ul>
 
             @include('feeManager.fee.month_add')
-            @include('feeManager.fee.month_edit')
+            @include('feeManager.fee.edit')
 
             </div> <!-- col-lg-9 -->
         </div><!-- row -->

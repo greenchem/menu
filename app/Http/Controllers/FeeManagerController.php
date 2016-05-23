@@ -24,15 +24,30 @@ class FeeManagerController extends Controller
     }
 
     public function dorm() {
-        return view('feeManager.dorm');
+        $companies = Company::all();
+        $groups = Group::all();
+
+        return view('feeManager.dorm')
+            ->with('companyData', $companies)
+            ->with('groupData', $groups);
     }
 
     public function attendance() {
-        return view('feeManager.attendance');
+        $companies = Company::all();
+        $groups = Group::all();
+
+        return view('feeManager.attendance')
+            ->with('companyData', $companies)
+            ->with('groupData', $groups);
     }
 
     public function weekendAttendance() {
-        return view('feeManager.weekendAttendance');
+        $companies = Company::all();
+        $groups = Group::all();
+
+        return view('feeManager.weekendAttendance')
+            ->with('companyData', $companies)
+            ->with('groupData', $groups);
     }
 
     public function parking() {
