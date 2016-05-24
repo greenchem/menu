@@ -1,5 +1,7 @@
 <ul class="nav nav-tabs">
-    <li role="presentation"><a href="{{url('feeManager/parking')}}">津貼系統</a></li>
+    <li role="presentation"><a href="{{url('feeManager/meal')}}">津貼管理</a></li>
+
+    <li role="presentation"><a href="{{url('feeManager/feeExport')}}">津貼報表匯出</a></li>
 
     <li role="presentation"><a href="{{url('feeManager/period')}}">期號設定</a></li>
 

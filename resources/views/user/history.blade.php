@@ -12,6 +12,7 @@
 @section('content')
 @include('user.header')
 
+<input type="hidden" value="{{$productData}}" id="productData">
 <input type="hidden" value="{{Auth::user()->id}}" id="user_id">
 
 <div class="container">
@@ -32,7 +33,6 @@
                         <th>單位</th>
                         <th>數量</th>
                         <th>金額</th>
-                        <th>#</th>
                     </tr>
                 </thead>
                 <tbody></tbody>

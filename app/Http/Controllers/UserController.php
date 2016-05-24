@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use DB;
 
 // Model
 use App\Objects\Company;
@@ -25,8 +26,10 @@ class UserController extends Controller
 
     public function history() {
         $periods = Period::all();
+        $products = json_encode(DB::table('products')->get());
 
         return view('user.history')
+            ->with('productData', $products)
             ->with('periodData', $periods);
     }
 }

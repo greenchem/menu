@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use DB;
 
 // Modal
 use App\Objects\Company;
@@ -63,10 +64,16 @@ class FeeManagerController extends Controller
         return view('feeManager.period');
     }
 
+    public function feeExport() {
+        return view('feeManager.feeExport');
+    }
+
     public function booking() {
         $periods = Period::all();
+        $products = json_encode(DB::table('products')->get());
 
         return view('feeManager.booking')
+            ->with('productData', $products)
             ->with('periodData', $periods);
     }
 }

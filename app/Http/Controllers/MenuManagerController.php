@@ -43,6 +43,7 @@ class MenuManagerController extends Controller
     public function export() {
         $menus = Menu::where('company_id', Auth::user()->company->id)->get();
         $periods = Period::all();
+
         return view('menuManager.export')
             ->with('menuData', $menus)
             ->with('periodData', $periods);

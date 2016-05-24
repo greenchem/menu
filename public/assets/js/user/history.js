@@ -1,7 +1,18 @@
 $(function() {
+  init();
   changeEvent();
   $('#period').change();
 });
+
+var productData = {};
+
+function init() {
+  var temp = JSON.parse($('#productData').val());
+
+  $.each(temp, function(idx, val) {
+    productData[val.id] = val;
+  });
+}
 
 function changeEvent() {
   $('#period').unbind('change');
@@ -32,18 +43,16 @@ function produceTable(history) {
   var price;
   var unit_type;
   var unit_pricel
-  var status;
 
   for(i=0; i<history.length; i++) {
     e = history[i];
     id = e.product_id;
     price = e.price;
-    status = e.status;
     number = e.number;
 
-    name = e.product['name'];
-    unit_type = e.product['unit_type'];
-    unit_price = e.product['price'];
+    name = productData[id]['name'];
+    unit_type = productData[id]['unit_type'];
+    unit_price = productData[id]['price'];
 
     text += `<tr>`;
     text += `<td>${name}</td>`;
@@ -51,11 +60,6 @@ function produceTable(history) {
     text += `<td>${number}</td>`;
     text += `<td>${unit_price}</td>`;
     text += `<td>${price}</td>`;
-    if(status == 'confirmed') {
-      text += `<td><button class="btn btn-success">已銷帳</button></td>`;
-    }else {
-      text += `<td><button class="btn btn-warning">未核銷</button></td>`;
-    }
     text += `</tr>>`;
   }
 

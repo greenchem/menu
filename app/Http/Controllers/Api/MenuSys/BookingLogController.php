@@ -40,7 +40,7 @@ class BookingLogController extends Controller
         }
 
         $booking_logs = $booking_log_query
-            ->with('product')
+            ->with('user')
             ->get();
 
         return response()->json($booking_logs);

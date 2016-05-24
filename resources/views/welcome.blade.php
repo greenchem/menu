@@ -19,7 +19,7 @@
                 <p><a href="{{url('user/menu')}}">一般使用者系統</a></p>
                 <p><a href="{{url('menuManager/menu')}}">菜單管理系統</a></p>
                 <p><a href="{{url('accountManager/account')}}">帳號管理系統</a></p>
-                <p><a href="{{url('feeManager/parking')}}">津貼管理系統</a></p>
+                <p><a href="{{url('feeManager/meal')}}">津貼管理系統</a></p>
                 <p><a href="{{url('master/')}}">最高管理者系統</a></p>
             @else
                 <div class="form-signin">

@@ -38,6 +38,7 @@ function clickEvent() {
     data._token = $('meta[name="csrf-token"]').attr('content');
     data.company_id = $(this).data('company');
 
+    $('#productTable tbody').html(null);
     $.get('/api/menu_sys/menu/', data, function(menu) {
       console.log(menu);
       produceMenu(menu);
@@ -125,8 +126,7 @@ function produceMenu(menu) {
     id = e['id'];
 
     text += `<button class="btn btn-default menuList"`;
-    text += `data-id="${id}">`;
-    text += `${name}</button>`
+    text += `data-id="${id}">${name}</button>`;
   }
 
   // append
