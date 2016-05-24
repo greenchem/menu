@@ -42,6 +42,7 @@ Route::group(['middleware' => ['role:Accountant'], 'prefix'=>'feeManager'], func
     Route::get('feeExport', 'FeeManagerController@feeExport');
     Route::get('period', 'FeeManagerController@period');
     Route::get('booking', 'FeeManagerController@booking');
+    Route::get('setQuoda', 'FeeManagerController@setQuoda');
 });
 
 Route::group(['middleware' => ['role:AccountsManager'], 'prefix'=>'accountManager'], function() {

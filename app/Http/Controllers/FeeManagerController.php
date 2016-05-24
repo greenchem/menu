@@ -77,4 +77,15 @@ class FeeManagerController extends Controller
             ->with('productData', $products)
             ->with('periodData', $periods);
     }
+
+    public function setQuoda() {
+        $periods = Period::all();
+        $companies = Company::all();
+        $groups = Group::all();
+
+        return view('feeManager.setQuoda')
+            ->with('periodData', $periods)
+            ->with('companyData', $companies)
+            ->with('groupData', $groups);
+    }
 }

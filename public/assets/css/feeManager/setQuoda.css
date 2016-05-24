@@ -1,0 +1,25 @@
+#readyToCreate {
+    height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#checkCreateBtnDiv {
+    position: absolute;
+    top: 350px;
+    left: 50%;
+}
+
+
+#userInput {
+    margin-top: 50px;
+}
+#userInput .setQuodaInput {
+    width: 50%;
+}
+
+#userInput #accountContent tr th .add{
+    top: -34px;
+    position: relative;
+    margin-left: 55%;
+}
