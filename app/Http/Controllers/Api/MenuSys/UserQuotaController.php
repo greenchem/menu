@@ -19,7 +19,8 @@ class UserQuotaController extends Controller
      */
     public function index(Request $request)
     {
-        $user_quotas = UserQuota::where('period_id', $request->input('period_id'))->get();
+        //$user_quotas = UserQuota::where('period_id', $request->input('period_id'))->get();
+        $user_quotas = UserQuota::all();
 
         return response()->json($user_quotas);
     }

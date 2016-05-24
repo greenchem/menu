@@ -13,6 +13,9 @@
 @section('content')
     @include('feeManager.header')
 
+    @include('feeManager.fee.addShoppingCart')
+    @include('feeManager.fee.editShoppingCart')
+
     <input type="hidden" value="meal" id="type">
     <input type="hidden" value="{{$groupData}}" id="groupData">
     <input type="hidden" id="currentEditCreationStatus">

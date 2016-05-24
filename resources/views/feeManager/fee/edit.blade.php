@@ -11,10 +11,17 @@
             @endfor
       </select>
     </div>
+
     <div class="row">
       <label for="editGroup">部門</label>
       <select id="editGroup" class="form-control"></select>
     </div>
+
+    <br>
+    <div class="row text-right">
+        <button class="btn btn-primary" id="editModalBtn">暫存區</button>
+    </div>
+
     <div class="row">
       <table class="table table-striped" id="editTable">
         <thead>

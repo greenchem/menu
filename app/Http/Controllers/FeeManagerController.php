@@ -12,6 +12,7 @@ use App\Objects\Company;
 use App\Objects\Group;
 use App\Objects\Period;
 use App\Objects\CreationLog;
+use App\Objects\User;
 
 class FeeManagerController extends Controller
 {

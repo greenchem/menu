@@ -27,6 +27,12 @@
       <label for="addGroup">部門</label>
       <select id="addGroup" class="form-control"></select>
     </div>
+
+    <br>
+    <div class="row text-right">
+        <button class="btn btn-primary" id="addModalBtn">暫存區</button>
+    </div>
+
     <div class="row">
       <table class="table table-striped" id="addTable">
         <thead>

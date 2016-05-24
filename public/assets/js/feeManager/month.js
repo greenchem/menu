@@ -127,7 +127,9 @@ function clickEvent() {
 
     });
   });
+}
 
+function dataEvent() {
   $('#addBtn').unbind('click');
   $('#addBtn').click(function() {
     var year = $('#addYear').val();
@@ -314,5 +316,9 @@ function clickEvent() {
       }
     });
   });
+}
+
+function checkCreationLog(period_id) {
+
 }
 

@@ -10,6 +10,9 @@ use Auth;
 // Modal
 use App\Objects\Menu;
 use App\Objects\Period;
+use App\Objects\Company;
+use App\Objects\Group;
+use App\Objects\User;
 
 class MenuManagerController extends Controller
 {
