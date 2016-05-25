@@ -16,6 +16,10 @@
     <input type="hidden" id="currentEditId">
 
     <div class="container">
+
+        <div class="row">
+            <h4 style="color:red;">一次只能有 <b>一個期號</b> 開啟</h4>
+        </div>
       <div class="row text-right">
         <button id="addModalBtn" class="btn btn-primary">新增期號</button>
       </div>
@@ -24,6 +28,7 @@
           <thead>
             <tr>
               <th>期號名稱</th>
+              <th>狀態</th>
               <th>#</th>
             </tr>
           </thead>

@@ -3,12 +3,26 @@ $(function() {
   clickEvent();
 });
 
+var currentVisibleId;
+
 function getPeriod() {
   var data = {};
   data._token = $('meta[name="csrf-token"]').attr('content');
 
   $.get('/api/menu_sys/period', data, function(period) {
     console.log(period);
+
+    var i;
+    var e;
+
+    currentVisibleId = -1;
+    for(i=0; i<period.length; i++) {
+      e = period[i];
+      if(e.status == 'visible') {
+        currentVisibleId = e.id;
+      }
+    }
+
     produceTable(period);
   }).fail(function() {
 
@@ -28,6 +42,7 @@ function clickEvent() {
     var name = $(this).data('name');
     var id = $(this).data('id');
     var status = $(this).data('status');
+
 
     $('#editName').val(name);
     $(`#editStatus option[value="${status}"]`).prop('selected', true);
@@ -61,6 +76,14 @@ function clickEvent() {
     data._token = $('meta[name="csrf-token"]').attr('content');
     data.name = $('#editName').val();
     data.status = $('#editStatus').val();
+
+    if(currentVisibleId!=-1 && data.status == 'visible') {
+      id = parseInt(id);
+      if(currentVisibleId != id) {
+        toastr['warning']('一次只能有一個期號開啟');
+        return;
+      }
+    }
 
     $.ajax({
       url: `/api/menu_sys/period/${id}`,
@@ -115,6 +138,13 @@ function produceTable(period) {
 
     text += `<tr>`;
     text += `<td>${name}</td>`;
+
+    if(status == 'invisible') {
+      text += `<td>關閉</td>`;
+    }else if(status == 'visible') {
+      text += `<td>開啟</td>`;
+    }
+
     text += `<td>`;
     text += `<button class="btn btn-primary editModalBtn"`
     text += `data-name="${name}"`;
