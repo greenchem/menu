@@ -1,4 +1,4 @@
-function produceAddTable() {
+function produceAddTempTable() {
   // env
   var company = $('#addCompany').val();
   var group = $('#addGroup').val();
@@ -9,6 +9,7 @@ function produceAddTable() {
   var id;
   var username;
   var nickname;
+  var position;
 
   for(i=0; i<peopleData.length; i++) {
     e = peopleData[i];
@@ -19,21 +20,25 @@ function produceAddTable() {
     id = e.id;
     username = e.username;
     nickname = e.nickname;
+    position = e.position;
 
     text += `<tr>`;
     text += `<td>${username}</td>`;
     text += `<td>${nickname}</td>`;
+    text += `<td>${position}</td>`;
     text += `<td>`;
-    text += `<input type="text" class="form-control addFee" placeholder="金額" value="0"`;
+    text += `<input type="text" class="form-control addTempFee" placeholder="金額" value="0"`;
     text += `data-id="${id}">`;
     text += `</td>`;
+    text += `<td><button class="btn btn-danger deleteAddTempFee">刪除</button></td>`;
     text += `</tr>`;
   }
 
-  $('#addTable tbody').html(text);
+  $('#addTempTable tbody').html(text);
+  clickEvent();
 }
 
-function produceEditTable(log) {
+function produceEditTempTable(log) {
   var status = $('#currentEditCreationStatus').val();
   var text = '';
   var i;
@@ -41,6 +46,7 @@ function produceEditTable(log) {
   var id;
   var username;
   var nickname;
+  var position;
   var fee;
 
   for(i=0; i<log.length; i++) {
@@ -49,22 +55,27 @@ function produceEditTable(log) {
     fee = e.fee;
     username = e.user.username;
     nickname = e.user.nickname;
+    position = e.user.position;
 
     text += `<tr>`;
     text += `<td>${username}</td>`;
     text += `<td>${nickname}</td>`;
-    text += `<td>`;
     if(status == 'unlocked') {
-      text += `<input type="text" class="form-control editFee" value="${fee}"`;
+      text += `<td>`;
+      text += `<input type="text" class="form-control editTempFee" value="${fee}"`;
       text += `data-id="${id}">`;
+      text += `</td>`;
+      text += `<td><button class="btn btn-danger deleteEditTempFee">刪除</button></td>`;
     }else {
-      text += `<input type="text" class="form-control editFee" value="${fee}" disabled>`;
+      text += `<td>`;
+      text += `<input type="text" class="form-control" value="${fee}" disabled>`;
+      text += `</td>`;
+      text += `<td></td>`;
     }
-    text += `</td>`;
     text += `</tr>`;
   }
 
-  $('#editTable tbody').html(text);
+  $('#editTempTable tbody').html(text);
 }
 
 function produceGroup(target, company) {
@@ -107,5 +118,34 @@ function produceTimestamp() {
   }
 
   $('#editTimestamp').html(text);
+}
+
+function appendToAddTable() {
+  var username;
+  var nickname;
+  var position;
+  var text = '';
+
+  $.each(addData, function(idx, val) {
+    console.log(idx);
+    username = peopleDataById[idx].username;
+    nickname = peopleDataById[idx].nickname;
+    position = peopleDataById[idx].position;
+
+    text += `<tr>`;
+    text += `<td>${username}</td>`;
+    text += `<td>${nickname}</td>`;
+    text += `<td>${position}</td>`;
+    text += `<td>${val.fee}</td>`;
+    text += `<td><button class="btn btn-danger deleteAddFee" data-id="${idx}">刪除</button></td>`;
+    text += `</tr>`;
+  });
+
+  $('#addTable tbody').html(text);
+  clickEvent();
+}
+
+function appendToEditTable() {
+
 }
 

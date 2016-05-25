@@ -29,17 +29,16 @@
     </div>
 
     <br>
-    <div class="row text-right">
-        <button class="btn btn-primary" id="addModalBtn">暫存區</button>
-    </div>
 
     <div class="row">
-      <table class="table table-striped" id="addTable">
+      <table class="table table-striped" id="addTempTable">
         <thead>
           <tr>
             <th>員工ID</th>
             <th>員工姓名</th>
+            <th>職等</th>
             <th>金額</th>
+            <th>#</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -47,7 +46,28 @@
     </div>
 
     <div class="row text-center">
-      <button type="button" class="btn btn-primary" id="addBtn">新增</button>
+      <button type="button" class="btn btn-primary" id="addTempBtn">加到暫存區</button>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <table class="table table-striped" id="addTable">
+        <thead>
+          <tr>
+            <th>員工ID</th>
+            <th>員工姓名</th>
+            <th>職等</th>
+            <th>金額</th>
+            <th>#</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="row text-center">
+      <button type="button" class="btn btn-primary" id="addBtn">確認新增</button>
     </div>
 </div>
 

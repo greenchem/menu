@@ -7,14 +7,12 @@
 
 @section('js')
 <script src="{{url('assets/js/feeManager/month.js')}}"></script>
+<script src="{{url('assets/js/feeManager/dataCheck.js')}}"></script>
 <script src="{{url('assets/js/feeManager/produceHTML.js')}}"></script>
 @stop
 
 @section('content')
     @include('feeManager.header')
-
-    @include('feeManager.fee.addShoppingCart')
-    @include('feeManager.fee.editShoppingCart')
 
     <input type="hidden" value="meal" id="type">
     <input type="hidden" value="{{$groupData}}" id="groupData">
