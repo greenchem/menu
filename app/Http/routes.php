@@ -49,13 +49,10 @@ Route::group(['middleware' => ['role:Accountant'], 'prefix'=>'feeManager'], func
 Route::group(['middleware' => ['role:AccountsManager'], 'prefix'=>'accountManager'], function() {
     Route::get('account', 'AccountManagerController@account');
     Route::get('company', 'AccountManagerController@company');
-    Route::get('fee', 'AccountManagerController@fee');
 });
 
 Route::group(['middleware' => ['role:Admin'], 'prefix'=>'master'], function() {
-    Route::get('login', 'MasterController@login');
-    Route::get('account', 'MasterController@account');
-    Route::get('menu', 'MasterController@menu');
+    Route::get('editFeeSetting', 'MasterController@editFeeSetting');
 });
 
 Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {

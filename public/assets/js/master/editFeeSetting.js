@@ -1,3 +1,4 @@
+var creationData;
 var userData;
 var groupData;
 var companyID;
@@ -36,13 +37,26 @@ $(function () {
         }
     });
 
+    $.ajax({
+        url: '/api/accounting_sys/creation_log',
+        type: "GET",
+        error: function() {
+            toastr['error']('伺服器錯誤!');
+        },
+        success: function(result) {
+            creationData = result;
+        }
+    });
+
+
+
     var feeTypeSelect = $('#feeType');
     var yearSelect = $('#yearSelect');
     var monthSelect = $('#monthSelect');
     var groupSelect = $('#groupSelect');
     var companySelect = $('#companySelect');
 
-    for(var i = 2000; i <= yyyy; i++) {
+    for(var i = 2016; i <= yyyy; i++) {
         yearSelect.append("<option value=" + i + ">" + i + "</option>");
     }
     yearSelect.val('');
@@ -56,10 +70,12 @@ $(function () {
 
     //event
 
+    clickEvent();
+
     feeTypeSelect.change(function(){
         monthSelect.val('');
         feeType = $(this).val();
-        if(feeType == 'parking_logs') {
+        if(feeType == 'parking') {
             monthSelect.find('.month').addClass('hide');
             monthSelect.find('.quarter').removeClass('hide');
         } else {
@@ -76,6 +92,7 @@ $(function () {
         month = $(this).val();
     });
 
+    //useless
     companySelect.change(function(){
         companyID = $(this).val();
         groupSelect.find('option').each(function(){
@@ -86,6 +103,7 @@ $(function () {
         groupSelect.val('');
     });
 
+    //useless
     groupSelect.change(function(){
         groupID = $(this).val();
         var i;
@@ -110,14 +128,49 @@ $(function () {
 
 function clickEvent()
 {
-    $('#accountContent .createFeePermissionBtn').on('click', function(){
+    $('.createFeePermissionBtn').on('click', function(){
         if(!feeType || !year || !month) {
             toastr['error']('請確實填寫所有欄位!');
             return;
         }
-        console.log('type: ' + feeType);
-        console.log('year: ' + year);
-        console.log('month: ' + month);
-        console.log('user id: ' + $(this).parent().parent().data('userid'));
+        var i;
+        var timestamp = year + '-' + month;
+        if(feeType == 'parking')
+            timestamp = year + ' ' + month;
+
+        var creationID;
+        for(i=0; i<creationData.length; i++) {
+            if(timestamp == creationData[i]['timestamp'] && feeType == creationData[i]['type']) {
+                creationID = creationData[i]['id'];
+                break;
+            }
+        }
+
+        if(creationID) {
+            $.ajax({
+                url: '/api/accounting_sys/creation_log/unlock/' + creationID,
+                _method: 'put',
+                type: 'put',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                error: function(error) {
+                    toastr['error']('伺服器錯誤!');
+                },
+                success: function(result) {
+                    console.log(result);
+                    if(result['status'] == 0) {
+                        toastr['success']('新增成功!');
+                        setTimeout(function(){
+                            location.reload();
+                        }, 3000);
+                    } else {
+                        toastr['error']('新增失敗!');
+                    }
+                }
+            });
+        } else {
+            toastr['error']('查無紀錄!');
+        }
     });
 }

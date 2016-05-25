@@ -1,12 +1,12 @@
 @extends('init')
 
 @section('css')
-<title>帳號系統</title>
-<link rel="stylesheet" href="{{url('assets/css/accountManager/addCompanyGroup.css')}}">
+    <title>帳號系統</title>
+    <link rel="stylesheet" href="{{url('assets/css/accountManager/addCompanyGroup.css')}}">
 @stop
 
 @section('js')
-<script src="{{url('assets/js/accountManager/account.js')}}"></script>
+    <script src="{{url('assets/js/accountManager/account.js')}}"></script>
 @stop
 
 @section('content')

@@ -12,7 +12,7 @@
 @section('content')
     <div class="container">
         <div class="content">
-          <div class="title">嘉良特化 - 暫時入口</div>
+          <!--<div class="title">嘉良特化 - 暫時入口</div>-->
         </div>
         <div class="container">
             @if(Auth::check())
@@ -20,7 +20,7 @@
                 <p><a href="{{url('menuManager/menu')}}">菜單管理系統</a></p>
                 <p><a href="{{url('accountManager/account')}}">帳號管理系統</a></p>
                 <p><a href="{{url('feeManager/meal')}}">津貼管理系統</a></p>
-                <p><a href="{{url('master/')}}">最高管理者系統</a></p>
+                <p><a href="{{url('master/editFeeSetting')}}">最高管理者系統</a></p>
             @else
                 <div class="form-signin">
                     <h2 class="form-signin-heading">登入</h2>
