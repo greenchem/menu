@@ -39,6 +39,7 @@ Route::group(['middleware' => ['role:Accountant'], 'prefix'=>'feeManager'], func
     Route::get('attendance', 'FeeManagerController@attendance');
     Route::get('weekendAttendance', 'FeeManagerController@weekendAttendance');
 
+    Route::get('menuExport', 'FeeManagerController@menuExport');
     Route::get('feeExport', 'FeeManagerController@feeExport');
     Route::get('period', 'FeeManagerController@period');
     Route::get('booking', 'FeeManagerController@booking');

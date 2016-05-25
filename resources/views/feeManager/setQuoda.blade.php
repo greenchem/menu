@@ -1,7 +1,7 @@
 @extends('init')
 
 @section('css')
-    <title>帳號系統</title>
+    <title>津貼系統</title>
     <link rel="stylesheet" href="{{url('assets/css/feeManager/setQuoda.css')}}">
 @stop
 
@@ -9,6 +9,8 @@
     @include('feeManager.header')
 
     <div class="container">
+        <h1 class="text-center">津貼系統 - 購物津貼</h1>
+        <br/>
         <div id="readyToCreate" class="row">
             <table class="accountTable table table-striped" align=center>
                 <thead>

@@ -1,17 +1,14 @@
 @extends('init')
 
 @section('css')
-    <title>菜單系統 - 報表匯出</title>
+    <title>津貼系統 - 報表匯出</title>
 @stop
 
-@section('js')
-<script src="{{url('assets/js/menuManager/export.js')}}"></script>
-@stop
 
 @section('content')
-    @include('menuManager.header')
+    @include('feeManager.header')
+    <h1 class="text-center">所有公司禮品報表匯出</h1>
     <div class="container">
-        <h1 class="text-center">禮品報表匯出</h1>
         <br/>
         <div class="row">
             <label for="period">期號</label>
@@ -24,18 +21,13 @@
         </div>
 
         <br/>
-        <div class="row">
-            <label for="type">報表類型</label>
-            <select class="form-control" id="type">
-                <option disabled>報表類型</option>
-                <option value="stocking_form">備貨單</option>
-                <option value="accounting_form">核銷單</option>
-            </select>
-        </div>
-        <br>
+
         <div class="row text-center">
             <button id="exportBtn" class="btn btn-primary">匯出</button>
         </div>
     </div>
 @stop
 
+@section('js')
+    <script src="{{url('assets/js/feeManager/menuExport.js')}}"></script>
+@stop

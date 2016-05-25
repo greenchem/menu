@@ -69,6 +69,13 @@ class FeeManagerController extends Controller
         return view('feeManager.feeExport');
     }
 
+    public function menuExport() {
+        $periods = Period::all();
+        return view('feeManager.menuExport')
+            ->with('periodData', $periods);
+    }
+
+
     public function booking() {
         $periods = Period::all();
         $products = json_encode(DB::table('products')->get());
