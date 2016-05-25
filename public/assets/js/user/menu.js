@@ -5,7 +5,7 @@ $(function() {
 });
 
 var shoppingList;
-var quota = 20000;
+var quota = $('#currentQuota').val() - $('#paid').val();
 
 function init() {
   if(sessionStorage.shoppingList != null) {

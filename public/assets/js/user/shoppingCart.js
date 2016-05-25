@@ -1,8 +1,10 @@
 $(function() {
   init();
+  calQuota();
 });
 
 var shoppingList;
+var quota = $('#currentQuota').val() - $('#paid').val();
 
 function init() {
   if(sessionStorage.shoppingList != null) {
@@ -14,6 +16,23 @@ function init() {
   console.log(shoppingList);
   produceShoppingTable();
 }
+
+function calQuota() {
+  var sum = 0;
+  var price;
+  var value;
+
+  $.each(shoppingList, function(idx) {
+    price = shoppingList[idx]['price'];
+    value = shoppingList[idx]['value'];
+
+    sum += price*value;
+  });
+
+  $('#quota').html(quota-sum);
+}
+
+
 
 function produceShoppingTable() {
   var i;
