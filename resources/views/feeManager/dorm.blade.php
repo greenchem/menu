@@ -7,6 +7,7 @@
 
 @section('js')
 <script src="{{url('assets/js/feeManager/month.js')}}"></script>
+<script src="{{url('assets/js/feeManager/dataCheck.js')}}"></script>
 <script src="{{url('assets/js/feeManager/produceHTML.js')}}"></script>
 @stop
 
@@ -43,8 +44,8 @@ onclick="window.location = '{{url('feeManager/weekendAttendance')}}'">假日值�
 
         <div id="feeContentDiv" class="col-lg-9 col-md-9 col-sm-9">
             <ul id="feeClassBG" class="nav nav-tabs">
-                <li role="presentation" class="active addDiv"><a href="#">新增</a></li>
-                <li role="presentation" class="editDiv"><a href="#">管理</a></li>
+              <li role="presentation" class="active addRecordDiv"><a href="#">新增</a></li>
+                <li role="presentation" class="manageDiv"><a href="#">管理</a></li>
             </ul>
 
             @include('feeManager.fee.month_add')

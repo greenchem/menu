@@ -37,8 +37,6 @@ function init() {
 function changeEvent() {
   $('#addYear, #addMonth').unbind('change');
   $('#addYear, #addMonth').change(function() {
-    if(checkMonthTimestamp() == 'exist') { return; }
-
     addData = {};
     $('#addTempTable tbody').html(null);
     $('#addCompany').change();
@@ -46,8 +44,6 @@ function changeEvent() {
 
   $('#addCompany').unbind('change');
   $('#addCompany').change(function() {
-    if(checkMonthTimestamp() == 'exist') { return; }
-
     var company = $('#addCompany').val();
 
     produceGroup($('#addGroup'), company);
@@ -64,26 +60,12 @@ function changeEvent() {
 
   $('#addGroup').unbind('change');
   $('#addGroup').change(function() {
-    if(checkMonthTimestamp() == 'exist') { return; }
-
     produceAddTempTable();
   });
 
   $('#editGroup').unbind('change');
   $('#editGroup').change(function() {
-    var group = $(this).val();
-    var i;
-    var e;
-    var log = [];
-
-    for(i=0; i<feelogData.length; i++) {
-      e = feelogData[i];
-      if(e.user.group_id == group) {
-        log.push(e);
-      }
-    }
-
-    produceEditTempTable(log);
+    produceEditTempTable();
   });
 
   $('#editTimestamp').unbind('change');
@@ -103,6 +85,13 @@ function changeEvent() {
       console.log(result);
       feelogData = result;
 
+      editData = {};
+      $.each(result, function(idx, val) {
+        var id = val.user_id;
+        editData[id] = val;
+      });
+
+      appendToEditTable();
       $('#editCompany').change();
     });
   });
@@ -151,6 +140,36 @@ function clickEvent() {
     });
   });
 
+  $('#addTempBtn').unbind('click');
+  $('#addTempBtn').click(function() {
+    if(checkMonthTimestamp() == 'exist') { return; }
+
+    $('.addTempFee').each(function() {
+      var id = $(this).data('id');
+
+      addData[id] = {};
+      addData[id]['fee'] = $(this).val();
+    });
+
+    appendToAddTable();
+  });
+
+  $('#editTempBtn').unbind('click');
+  $('#editTempBtn').click(function() {
+    if(checkTimestampStatus() != 'unlocked') { return; }
+
+    $('.editTempFee').each(function() {
+      var id = $(this).data('id');
+
+      editData[id] = {};
+      editData[id]['fee'] = $(this).val();
+    });
+
+    appendToEditTable();
+  });
+}
+
+function tableEvent() {
   $('.deleteAddTempFee').unbind('click');
   $('.deleteAddTempFee').click(function() {
     $(this).parent().parent().remove();
@@ -164,16 +183,17 @@ function clickEvent() {
     delete addData[id];
   });
 
-  $('#addTempBtn').unbind('click');
-  $('#addTempBtn').click(function() {
-    $('.addTempFee').each(function() {
-      var id = $(this).data('id');
+  $('.deleteEditTempFee').unbind('click');
+  $('.deleteEditTempFee').click(function() {
+    $(this).parent().parent().remove();
+  });
 
-      addData[id] = {};
-      addData[id]['fee'] = $(this).val();
-    });
+  $('.deleteAddFee').unbind('click');
+  $('.deleteAddFee').click(function() {
+    var id = $(this).data('id');
 
-    appendToAddTable();
+    $(this).parent().parent().remove();
+    delete editData[id];
   });
 }
 
@@ -217,32 +237,7 @@ function dataEvent() {
 
   $('#editBtn').unbind('click');
   $('#editBtn').click(function() {
-    var status = $('#currentEditCreationStatus').val();
-
-    if(status != 'unlocked') {
-      toastr['warning']('此筆紀錄已被鎖住，無法被編輯');
-      return;
-    }
-
-    var edit = [];
-    $('.editFee').each(function() {
-      var e;
-      var current = $(this).data('id');// current user id
-      var fee = $(this).val();
-
-      for(i=0; i<feelogData.length; i++) {
-        e = feelogData[i];
-        if(e.user_id == current) {// remove user log from history
-          feelogData.splice(i, 1);
-          break;
-        }
-      }
-
-      e = [];
-      e[0] = current;
-      e[1] = fee;
-      edit.push(e);
-    });
+    if(checkTimestampStatus() != 'unlocked') { return; }
 
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
@@ -253,24 +248,19 @@ function dataEvent() {
       data: data,
       method: 'delete',
       success: function(result) {
-        data.type = $('#type').val();
         var id = $('#editTimestamp').val();
         data.timestamp = $(`#editTimestamp option[value="${id}"]`).html();
+
+        data.type = $('#type').val();
         data.fee_logs = [];
 
-        for(i=0; i<feelogData.length; i++) {// insert not change data
-          e = feelogData[i];
-          e1 = [];
-          e1[0] = e.user_id;
-          e1[1] = e.fee;
+        $.each(editData, function(idx, val) {
+          var e = [];
+          e[0] = idx;
+          e[1] = val.fee;
 
-          data.fee_logs.push(e1);
-        }
-
-        for(i=0; i<edit.length; i++) {
-          e = edit[i];
           data.fee_logs.push(e);
-        }
+        });
 
         console.log(data);
         data.fee_logs = JSON.stringify(data.fee_logs);

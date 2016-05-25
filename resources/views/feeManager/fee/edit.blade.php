@@ -1,4 +1,21 @@
 <div class="feeContent manageDiv">
+    <div class="row readyWrapper">
+      <table class="table table-striped" id="editTable">
+        <thead>
+          <tr>
+            <th>員工ID</th>
+            <th>員工姓名</th>
+            <th>職等</th>
+            <th>金額</th>
+            <th>#</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="row text-center">
+      <button type="button" class="btn btn-primary" id="editBtn">確認修改</button>
+    </div>
     <div class="row">
       <label for="editTimestamp">紀錄</label>
       <select class="form-control" id="editTimestamp"></select>
@@ -34,25 +51,8 @@
     <div class="row text-center">
       <button type="button" class="btn btn-primary" id="editTempBtn">加到暫存區</button>
     </div>
-
-    <hr>
-
-    <div class="row">
-      <table class="table table-striped" id="editTable">
-        <thead>
-          <tr>
-            <th>員工ID</th>
-            <th>員工姓名</th>
-            <th>職等</th>
-            <th>金額</th>
-            <th>#</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="row text-center">
-      <button type="button" class="btn btn-primary" id="editBtn">確認修改</button>
-    </div>
 </div>
+
+<br>
+<br>
 

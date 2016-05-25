@@ -38,8 +38,11 @@ function produceAddTempTable() {
   clickEvent();
 }
 
-function produceEditTempTable(log) {
+function produceEditTempTable() {
   var status = $('#currentEditCreationStatus').val();
+  var company = $('#editCompany').val();
+  var group = $('#editGroup').val();
+
   var text = '';
   var i;
   var e;
@@ -49,13 +52,22 @@ function produceEditTempTable(log) {
   var position;
   var fee;
 
-  for(i=0; i<log.length; i++) {
-    e = log[i];
-    id = e.user_id;
-    fee = e.fee;
-    username = e.user.username;
-    nickname = e.user.nickname;
-    position = e.user.position;
+  for(i=0; i<peopleData.length; i++) {
+    e = peopleData[i];
+    if(company != e.company_id || group != e.group_id) {
+      continue;
+    }
+
+    id = e.id;
+    username = e.username;
+    nickname = e.nickname;
+    position = e.position;
+
+    if(editData[id] != null) {
+      fee = editData[id]['fee'];
+    }else {
+      fee = 0;
+    }
 
     text += `<tr>`;
     text += `<td>${username}</td>`;
@@ -76,6 +88,7 @@ function produceEditTempTable(log) {
   }
 
   $('#editTempTable tbody').html(text);
+  tableEvent();
 }
 
 function produceGroup(target, company) {
@@ -142,10 +155,31 @@ function appendToAddTable() {
   });
 
   $('#addTable tbody').html(text);
-  clickEvent();
+  tableEvent();
 }
 
 function appendToEditTable() {
+  var username;
+  var nickname;
+  var position;
+  var text = '';
 
+  $.each(editData, function(idx, val) {
+    console.log(idx);
+    username = peopleDataById[idx].username;
+    nickname = peopleDataById[idx].nickname;
+    position = peopleDataById[idx].position;
+
+    text += `<tr>`;
+    text += `<td>${username}</td>`;
+    text += `<td>${nickname}</td>`;
+    text += `<td>${position}</td>`;
+    text += `<td>${val.fee}</td>`;
+    text += `<td><button class="btn btn-danger deleteAddFee" data-id="${idx}">刪除</button></td>`;
+    text += `</tr>`;
+  });
+
+  $('#editTable tbody').html(text);
+  clickEvent();
 }
 

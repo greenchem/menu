@@ -1,6 +1,7 @@
 $(function() {
   clickEvent();
   changeEvent();
+  dataEvent();
 
   init();
 });
@@ -9,6 +10,9 @@ var groupData = JSON.parse($('#groupData').val());
 var creationData;
 var feelogData;
 var peopleData;
+var peopleDataById;
+var addData;
+var editData;
 
 function init() {
   var data = {};
@@ -18,6 +22,11 @@ function init() {
   $.get('/api/account_sys/user/', data, function(people) {// get People
     console.log(people);
     peopleData = people;
+    peopleDataById = {};
+    $.each(peopleData, function(idx, val) {
+      var id = val.id;
+      peopleDataById[id] = val;
+    });
 
     $('#feeClassBG li:first').click();
   }).fail(function() {
@@ -26,6 +35,13 @@ function init() {
 }
 
 function changeEvent() {
+  $('#addYear, #addSeason').unbind('change');
+  $('#addYear, #addSeason').change(function() {
+    addData = {};
+    $('#addTempTable tbody').html(null);
+    $('#addCompany').change();
+  });
+
   $('#addCompany').unbind('change');
   $('#addCompany').change(function() {
     var company = $('#addCompany').val();
@@ -44,24 +60,12 @@ function changeEvent() {
 
   $('#addGroup').unbind('change');
   $('#addGroup').change(function() {
-    produceAddTable();
+    produceAddTempTable();
   });
 
   $('#editGroup').unbind('change');
   $('#editGroup').change(function() {
-    var group = $(this).val();
-    var i;
-    var e;
-    var log = [];
-
-    for(i=0; i<feelogData.length; i++) {
-      e = feelogData[i];
-      if(e.user.group_id == group) {
-        log.push(e);
-      }
-    }
-
-    produceEditTable(log);
+    produceEditTempTable();
   });
 
   $('#editTimestamp').unbind('change');
@@ -81,6 +85,13 @@ function changeEvent() {
       console.log(result);
       feelogData = result;
 
+      editData = {};
+      $.each(result, function(idx, val) {
+        var id = val.user_id;
+        editData[id] = val;
+      });
+
+      appendToEditTable();
       $('#editCompany').change();
     });
   });
@@ -110,7 +121,8 @@ function clickEvent() {
       var targetClass = outsideThis.attr('class');
 
       if(targetClass == 'addRecordDiv') {// choose add
-        $('#addCompany').change();
+        resetAdd();
+        $('#addYear').change();
       }else if(targetClass == 'manageDiv') {// choose edit
         if(creationData.length == 0) {
           toastr['warning']('目前沒有任何紀錄');
@@ -128,145 +140,104 @@ function clickEvent() {
     });
   });
 
+  $('#addTempBtn').unbind('click');
+  $('#addTempBtn').click(function() {
+    if(checkSeasonTimestamp() == 'exist') { return; }
+
+    $('.addTempFee').each(function() {
+      var id = $(this).data('id');
+
+      addData[id] = {};
+      addData[id]['fee'] = $(this).val();
+    });
+
+    appendToAddTable();
+  });
+
+  $('#editTempBtn').unbind('click');
+  $('#editTempBtn').click(function() {
+    if(checkTimestampStatus() != 'unlocked') { return; }
+
+    $('.editTempFee').each(function() {
+      var id = $(this).data('id');
+
+      editData[id] = {};
+      editData[id]['fee'] = $(this).val();
+    });
+
+    appendToEditTable();
+  });
+}
+
+function tableEvent() {
+  $('.deleteAddTempFee').unbind('click');
+  $('.deleteAddTempFee').click(function() {
+    $(this).parent().parent().remove();
+  });
+
+  $('.deleteAddFee').unbind('click');
+  $('.deleteAddFee').click(function() {
+    var id = $(this).data('id');
+
+    $(this).parent().parent().remove();
+    delete addData[id];
+  });
+
+  $('.deleteEditTempFee').unbind('click');
+  $('.deleteEditTempFee').click(function() {
+    $(this).parent().parent().remove();
+  });
+
+  $('.deleteAddFee').unbind('click');
+  $('.deleteAddFee').click(function() {
+    var id = $(this).data('id');
+
+    $(this).parent().parent().remove();
+    delete editData[id];
+  });
+}
+
+function dataEvent() {
   $('#addBtn').unbind('click');
   $('#addBtn').click(function() {
+    if(checkSeasonTimestamp() == 'exist') { return; }
+    if(checkAddData() == 'zero') { return;  }
+
     var year = $('#addYear').val();
-    var season = $('#addSeason').val();
-    var timestamp = `${year}-${season}`;
-    var type = $('#type').val();
-    var i;
-    var j;
-    var e;
-    var e1;
-    var originLength;
-    var creationLogId;
-    var exist = 'nothing';// nothing means nothing, exist means exist
-    var data;
+    var season = $('#addSeason').val()
+    var timestamp = `${year} ${season}`;
+    var data = {};
 
-    for(i=0; i<creationData.length; i++) {
-      e = creationData[i];
-      if(e.timestamp == timestamp && e.type == type) {
-        exist = 'exist';
-        creationLogId = e.id;
-        break;
+    data._token = $('meta[name="csrf-token"]').attr('content');
+    data.type = $('#type').val();
+    data.timestamp = timestamp;
+    data.fee_logs = [];
+    $.each(addData, function(idx, val) {
+      var e = [];
+      e[0] = idx;
+      e[1] = val.fee;
+
+      data.fee_logs.push(e);
+    });
+
+    data.fee_logs = JSON.stringify(data.fee_logs);
+    console.log(data);
+    $.post('/api/accounting_sys/creation_log', data, function(result) {// create new creation log and fee log
+      console.log(result);
+      if(result.status == 0) {
+        toastr['success']('新增成功');
+        $('#feeClassBG li:first').click();
+      }else {
+        toastr['warning']('您權限不足，無法新增');
       }
-    }
+    }).fail(function() {
 
-    if(exist == 'exist') {// CreationLog Exist
-      console.log('exist');
-      data = {};
-      data._token = $('meta[name="csrf-token"]').attr('content');
-      data.creation_log_id = creationLogId;
-
-      // get feelogs that belong this creation log
-      $.get('/api/accounting_sys/fee_log', data, function(feelogData) {
-        console.log(feelogData);
-        data.fee_logs = [];
-        $('.addFee').each(function() {
-          var e = [];
-          e[0] = $(this).data('id');
-          e[1] = $(this).val();
-
-          data.fee_logs.push(e);
-        });
-        originLength = data.fee_logs.length;
-
-        // check user_id and creation_log_id unique?
-        for(i=0; i<feelogData.length; i++) {
-          e = feelogData[i];
-          for(j=0; j<data.fee_logs.length; j++) {
-            e1 = data.fee_logs[j];
-            if(e.user_id == e1[0]) {
-              data.fee_logs.splice(j, 1);// remove this
-              break;
-            }
-          }
-        }
-
-        if(data.fee_logs.length > 0) {// some not yet insert
-          if(data.fee_logs.length != originLength) {
-            toastr['warning']('仍有部份帳號未新增過津貼紀錄，系統仍幫您新增，但不包含已新增過的帳號，已新增過津貼紀錄的帳號，只能修改而不是新增');
-          }
-          data.fee_logs = JSON.stringify(data.fee_logs);
-          data.type = type;
-          data.timestamp = timestamp;
-
-          $.post('/api/accounting_sys/creation_log', data, function(result) {
-            console.log(result);
-            if(result.status == 0) {
-              toastr['success']('新增成功');
-            }else {
-              toastr['warning']('您權限不足，無法新增');
-            }
-          }).fail(function() {
-
-          });
-        }else {// conflict
-          toastr['warning']('此次填寫的所有帳號都已新增過此類津貼，無法再次新增');
-        }
-      });
-    }else {// new CreationLog and FeeLog
-      data = {};
-      data._token = $('meta[name="csrf-token"]').attr('content');
-      data.type = type;
-      data.timestamp = timestamp;
-      data.fee_logs = [];
-      $('.addFee').each(function() {
-        var e = [];
-        e[0] = $(this).data('id');
-        e[1] = $(this).val();
-
-        data.fee_logs.push(e);
-      });
-
-      data.fee_logs = JSON.stringify(data.fee_logs);
-      console.log(data);
-      $.post('/api/accounting_sys/creation_log', data, function(result) {// create new creation log and fee log
-        console.log(result);
-        if(result.status == 0) {
-          toastr['success']('新增成功');
-          $.get('/api/accounting_sys/creation_log', data, function(result) {// get new creation data
-            creationData = result;
-          });
-        }else {
-          toastr['warning']('您權限不足，無法新增');
-        }
-      }).fail(function() {
-
-      });
-    }
+    });
   });
 
   $('#editBtn').unbind('click');
   $('#editBtn').click(function() {
-    var status = $('#currentEditCreationStatus').val();
-
-    if(status != 'unlocked') {
-      toastr['warning']('此筆紀錄已被鎖住，無法被編輯');
-      return;
-    }
-
-    var i;
-    var e;
-    var e1;
-    var edit = [];
-    $('.editFee').each(function() {
-      var current = $(this).data('id');// current user id
-      var fee = $(this).val();
-
-      for(i=0; i<feelogData.length; i++) {
-        e = feelogData[i];
-        if(e.user_id == current) {// remove user log from history
-          feelogData.splice(i, 1);
-          break;
-        }
-      }
-
-      e = [];
-      e[0] = current;
-      e[1] = fee;
-      edit.push(e);
-    });
+    if(checkTimestampStatus() != 'unlocked') { return; }
 
     var data = {};
     data._token = $('meta[name="csrf-token"]').attr('content');
@@ -277,24 +248,19 @@ function clickEvent() {
       data: data,
       method: 'delete',
       success: function(result) {
-        data.type = $('#type').val();
         var id = $('#editTimestamp').val();
         data.timestamp = $(`#editTimestamp option[value="${id}"]`).html();
+
+        data.type = $('#type').val();
         data.fee_logs = [];
 
-        for(i=0; i<feelogData.length; i++) {// insert not change data
-          e = feelogData[i];
-          e1 = [];
-          e1[0] = e.user_id;
-          e1[1] = e.fee;
+        $.each(editData, function(idx, val) {
+          var e = [];
+          e[0] = idx;
+          e[1] = val.fee;
 
-          data.fee_logs.push(e1);
-        }
-
-        for(i=0; i<edit.length; i++) {
-          e = edit[i];
           data.fee_logs.push(e);
-        }
+        });
 
         console.log(data);
         data.fee_logs = JSON.stringify(data.fee_logs);
@@ -315,4 +281,5 @@ function clickEvent() {
     });
   });
 }
+
 

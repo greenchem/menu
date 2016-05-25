@@ -1,4 +1,25 @@
-<div class="feeContent addRecordDiv" >
+<div class="feeContent addRecordDiv">
+
+    <div class="row readyWrapper">
+      <table class="table table-striped" id="addTable">
+        <thead>
+          <tr>
+            <th>員工ID</th>
+            <th>員工姓名</th>
+            <th>職等</th>
+            <th>金額</th>
+            <th>#</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="row text-center">
+      <button type="button" class="btn btn-primary" id="addBtn">確認新增</button>
+    </div>
+
+
     <div class="row text-left">
       <label for="addYear">年</label>
       <select class="form-control" id="addYear">
@@ -49,25 +70,9 @@
       <button type="button" class="btn btn-primary" id="addTempBtn">加到暫存區</button>
     </div>
 
-    <hr>
-
-    <div class="row">
-      <table class="table table-striped" id="addTable">
-        <thead>
-          <tr>
-            <th>員工ID</th>
-            <th>員工姓名</th>
-            <th>職等</th>
-            <th>金額</th>
-            <th>#</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <div class="row text-center">
-      <button type="button" class="btn btn-primary" id="addBtn">確認新增</button>
-    </div>
 </div>
+
+<br>
+<br>
+
 

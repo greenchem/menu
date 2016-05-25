@@ -19,3 +19,10 @@ table th{
   font-size: 20px;
   background: red;
 }
+
+.readyWrapper {
+    height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+

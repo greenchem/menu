@@ -7,6 +7,7 @@
 
 @section('js')
 <script src="{{url('assets/js/feeManager/month.js')}}"></script>
+<script src="{{url('assets/js/feeManager/dataCheck.js')}}"></script>
 <script src="{{url('assets/js/feeManager/produceHTML.js')}}"></script>
 @stop
 
