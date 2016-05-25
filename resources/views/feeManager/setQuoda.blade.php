@@ -10,20 +10,20 @@
 
     <div class="container">
         <div id="readyToCreate" class="row">
-                <table class="accountTable table table-striped" align=center>
-                    <thead>
-                    <tr>
-                        <th>帳號</th>
-                        <th>姓名</th>
-                        <th>公司</th>
-                        <th>單位</th>
-                        <th>職等</th>
-                        <th>購物津貼</th>
-                    </tr>
-                    </thead>
-                    <tbody class="quodaContent text-center">
-                    </tbody>
-                </table>
+            <table class="accountTable table table-striped" align=center>
+                <thead>
+                <tr>
+                    <th>帳號</th>
+                    <th>姓名</th>
+                    <th>公司</th>
+                    <th>單位</th>
+                    <th>職等</th>
+                    <th>購物津貼</th>
+                </tr>
+                </thead>
+                <tbody class="quodaContent text-center">
+                </tbody>
+            </table>
 
             <div id="checkCreateBtnDiv" class="row text-center">
                 <button type="button" id="checkCreateBtn" class="btn btn-danger">確定新增</button>

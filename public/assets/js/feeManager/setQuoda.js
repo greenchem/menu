@@ -10,6 +10,12 @@ var year;
 var CreateData = [];
 var UpdateData = [];
 
+Array.prototype.remove = function(from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+};
+
 
 $(function () {
     // init
@@ -110,6 +116,7 @@ $(function () {
 
 function clickEvent()
 {
+    $('#accountContent .add').unbind('click');
     $('#accountContent .add').on('click', function(){
         var parent = $(this).parent().parent();
         var userID = parent.data('userid');
@@ -161,11 +168,54 @@ function clickEvent()
         });
         if(swit) return;
 
-        var str = '<tr data-userid="' + userID + '"><th>' + userName + '</th><th>' + nickname + '</th><th>' + companyName + '</th><th>' + groupName + '</th><th>' + position +'</th><th class="quoda">' + quoda + '</th></tr>';
+        console.log(isUpdate);
+        var str = '<tr data-userid="' + userID +
+            '"><th>' + userName +
+            '</th><th>' + nickname +
+            '</th><th>' + companyName +
+            '</th><th>' + groupName +
+            '</th><th>' + position +
+            '</th><th class="quoda">' + quoda;
+            if(isCreate)
+                str += '<button data-user_id = "' + userID + '" type="button" class="delete create btn btn-danger">刪除</button></th></tr>';
+            else if(isUpdate)
+                str += '<button data-qouda_id="' + quodaData[PeriodID][userID]['id'] + '" type="button" class="delete update btn btn-danger">刪除</button></th></tr>';
         content.append(str);
+        clickEvent();
     });
 
+    $('#readyToCreate .quodaContent .quoda .delete ').unbind('click');
+    $('#readyToCreate .quodaContent .quoda .delete ').on('click', function(){
+        var i;
+        if($(this).hasClass('create')) {
+            var userID = $(this).data('user_id');
+            for(i=0; i<CreateData.length; i++) {
+                if(CreateData[i]['userID'] == userID) {
+                    CreateData.remove(i);
+                }
+            }
+        } else if($(this).hasClass('update')) {
+            var qID = $(this).data('qouda_id');
+            for(i=0; i<UpdateData.length; i++) {
+                if(UpdateData[i]['id'] == qID) {
+                    UpdateData.remove(i);
+                }
+            }
+        }
+
+        $(this).parent().parent().remove();
+
+        console.log('create:', CreateData);
+        console.log('update:', UpdateData);
+    });
+
+    $('#checkCreateBtn').unbind('click');
     $('#checkCreateBtn').on('click', function(){
+        if($(this).hasClass('disabled'))
+            return;
+
+        var ele = $(this);
+
         $(this).addClass('disabled');
         var i;
         for(i=0; i<CreateData.length; i++) {
@@ -184,16 +234,19 @@ function clickEvent()
                 success: function(result) {
                     console.log('post Create:', result);
                     if(result['status'] == 0) {
-                        //location.reload();
+                        setTimeout(function(){
+                            location.reload();
+                        }, 3000);
                     } else {
                         toastr['error']('新增失敗!');
-                        $(this).removeClass('disabled');
                     }
+                    ele.removeClass('disabled');
                 }
             });
         }
 
         for(i=0; i<UpdateData.length; i++) {
+            console.log(i);
             $.ajax({
                 url: '/api/menu_sys/user_quota/' + UpdateData[i]['id'],
                 _method: 'put',
@@ -208,13 +261,20 @@ function clickEvent()
                 success: function(result) {
                     console.log('put Update:', result);
                     if(result['status'] == 0) {
-                        //location.reload();
+                        toastr['success']('成功');
+                        setTimeout(function(){
+                            location.reload();
+                        }, 3000);
                     } else {
                         toastr['error']('編輯失敗!');
-                        $(this).removeClass('disabled');
                     }
+                    ele.removeClass('disabled');
                 }
             });
         }
+
+        setTimeout(function(){
+            ele.removeClass('disabled');
+        }, 5000);
     });
 }
