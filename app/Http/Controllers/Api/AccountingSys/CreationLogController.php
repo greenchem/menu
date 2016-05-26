@@ -46,7 +46,7 @@ class CreationLogController extends Controller
             return response()->json(['status' => 2]);
         }
 
-        $creation_log->status = 'unlocked';
+        $creation_log->status = 'locked';
         $creation_log->save();
 
         foreach (json_decode($request->input('fee_logs')) as $fee_log) {

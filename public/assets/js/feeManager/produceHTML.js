@@ -163,9 +163,9 @@ function appendToEditTable() {
   var nickname;
   var position;
   var text = '';
+  var status = $('#currentEditCreationStatus').val();
 
   $.each(editData, function(idx, val) {
-    console.log(idx);
     username = peopleDataById[idx].username;
     nickname = peopleDataById[idx].nickname;
     position = peopleDataById[idx].position;
@@ -175,7 +175,9 @@ function appendToEditTable() {
     text += `<td>${nickname}</td>`;
     text += `<td>${position}</td>`;
     text += `<td>${val.fee}</td>`;
-    text += `<td><button class="btn btn-danger deleteAddFee" data-id="${idx}">刪除</button></td>`;
+    if(status=='unlocked') {
+      text += `<td><button class="btn btn-danger deleteAddFee" data-id="${idx}">刪除</button></td>`;
+    }
     text += `</tr>`;
   });
 

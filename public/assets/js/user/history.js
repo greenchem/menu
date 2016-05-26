@@ -63,6 +63,6 @@ function produceTable(history) {
     text += `</tr>>`;
   }
 
-  $('#menuTable').html(text);
+  $('#menuTable tbody').html(text);
 }
 

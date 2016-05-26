@@ -19,6 +19,8 @@
 
         <div class="row">
             <h4 style="color:red;">一次只能有 <b>一個期號</b> 開啟</h4>
+            <h4 style="color:red;">一個期號也只有 <b>一次</b> 開啟機會</h4>
+            <h4 style="color:red;">之後就會過期</h4>
         </div>
       <div class="row text-right">
         <button id="addModalBtn" class="btn btn-primary">新增期號</button>

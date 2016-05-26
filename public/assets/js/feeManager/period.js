@@ -80,7 +80,7 @@ function clickEvent() {
     if(currentVisibleId!=-1 && data.status == 'visible') {
       id = parseInt(id);
       if(currentVisibleId != id) {
-        toastr['warning']('一次只能有一個期號開啟');
+        toastr['warning']('一次只能有一個期號開啟，請先把原本的期號下架');
         return;
       }
     }
@@ -121,6 +121,31 @@ function clickEvent() {
       }
     });
   });
+
+  $('.expiredBtn').unbind('click');
+  $('.expiredBtn').click(function() {
+    var id = $(this).data('id');
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+    data.name = $(this).data('name');
+    data.status = 'expired';
+
+    $.ajax({
+      url: `/api/menu_sys/period/${id}`,
+      data: data,
+      method: 'put',
+      success: function(result) {
+        console.log(result);
+        getPeriod();
+        $('#editPeriodModal').modal('hide');
+
+        toastr['success']('下架成功');
+      },
+      fail: function() {
+
+      }
+    });
+  });
 }
 
 function produceTable(period) {
@@ -143,15 +168,26 @@ function produceTable(period) {
       text += `<td>關閉</td>`;
     }else if(status == 'visible') {
       text += `<td>開啟</td>`;
+    }else if(status == 'expired') {
+      text += `<td>過期</td>`;
     }
 
     text += `<td>`;
-    text += `<button class="btn btn-primary editModalBtn"`
-    text += `data-name="${name}"`;
-    text += `data-id="${id}"`;
-    text += `data-status="${status}">`;
-    text += `編輯</button>`;
-    text += `<button class="btn btn-danger deleteBtn" data-id="${id}">刪除</button>`
+
+    if(status == 'invisible') {
+      text += `<button class="btn btn-primary editModalBtn"`
+      text += `data-name="${name}"`;
+      text += `data-id="${id}"`;
+      text += `data-status="${status}">`;
+      text += `編輯</button>`;
+      text += `<button class="btn btn-danger deleteBtn" data-id="${id}">刪除</button>`
+    }else if(status == 'visible') {
+      text += `<button class="btn btn-primary expiredBtn"`
+      text += `data-name="${name}"`;
+      text += `data-id="${id}">`;
+      text += `期號下架</button>`;
+    }
+
     text += `</td>`;
     text += `</tr>`;
   }

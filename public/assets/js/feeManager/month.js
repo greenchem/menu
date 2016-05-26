@@ -269,7 +269,7 @@ function dataEvent() {
             toastr['warning']('更新失敗');
           }else if(result.status == 0) {
             toastr['success']('更新成功');
-            $('#editTimestamp').change();
+            $('#feeClassBG li.manageDiv').click();
           }
         }).fail(function() {
 
