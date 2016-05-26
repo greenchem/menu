@@ -87,7 +87,7 @@ class CreationLogController extends Controller
     public function export(Request $request)
     {
         $timestamp = $request->input('timestamp', "201607");
-        $period_id = $request->input('period_id', 1);
+        $period_id = $request->input('period_id');
 
         Excel::create($timestamp.'津貼報表', function ($excel) use ($timestamp, $period_id) {
             $excel->setTitle($timestamp.'津貼報表');
