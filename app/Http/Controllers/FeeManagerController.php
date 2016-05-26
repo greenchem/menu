@@ -66,7 +66,10 @@ class FeeManagerController extends Controller
     }
 
     public function feeExport() {
-        return view('feeManager.feeExport');
+        $creationLog = CreationLog::all();
+
+        return view('feeManager.feeExport')
+            ->with('creationLog', $creationLog);
     }
 
     public function menuExport() {

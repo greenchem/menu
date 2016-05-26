@@ -19,20 +19,24 @@ Route::get('login', function() {
     return Auth::loginUsingId(1);
 });
 
-Route::group(['middleware' => ['role:User'], 'prefix'=>'user'], function() {
+Route::get('error', function() {
+    return view('error');
+});
+
+Route::group(['middleware' => ['error:User'], 'prefix'=>'user'], function() {
     Route::get('menu', 'UserController@menu');
     Route::get('shoppingCart', 'UserController@shoppingCart');
     Route::get('history', 'UserController@history');
 });
 
-Route::group(['middleware' => ['role:MenuManager'], 'prefix'=>'menuManager'], function() {
+Route::group(['middleware' => ['error:MenuManager'], 'prefix'=>'menuManager'], function() {
     Route::get('menu', 'MenuManagerController@menu');
     Route::get('export', 'MenuManagerController@export');
     Route::get('add', 'MenuManagerController@add');
     Route::get('edit/{id}', 'MenuManagerController@edit');
 });
 
-Route::group(['middleware' => ['role:Accountant'], 'prefix'=>'feeManager'], function() {
+Route::group(['middleware' => ['error:Accountant'], 'prefix'=>'feeManager'], function() {
     Route::get('meal', 'FeeManagerController@meal');
     Route::get('dorm', 'FeeManagerController@dorm');
     Route::get('parking', 'FeeManagerController@parking');
@@ -46,12 +50,12 @@ Route::group(['middleware' => ['role:Accountant'], 'prefix'=>'feeManager'], func
     Route::get('setQuoda', 'FeeManagerController@setQuoda');
 });
 
-Route::group(['middleware' => ['role:AccountsManager'], 'prefix'=>'accountManager'], function() {
+Route::group(['middleware' => ['error:AccountsManager'], 'prefix'=>'accountManager'], function() {
     Route::get('account', 'AccountManagerController@account');
     Route::get('company', 'AccountManagerController@company');
 });
 
-Route::group(['middleware' => ['role:Admin'], 'prefix'=>'master'], function() {
+Route::group(['middleware' => ['error:Admin'], 'prefix'=>'master'], function() {
     Route::get('editFeeSetting', 'MasterController@editFeeSetting');
 });
 

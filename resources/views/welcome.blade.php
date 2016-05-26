@@ -21,6 +21,8 @@
                 <p><a href="{{url('accountManager/account')}}">帳號管理系統</a></p>
                 <p><a href="{{url('feeManager/meal')}}">津貼管理系統</a></p>
                 <p><a href="{{url('master/editFeeSetting')}}">最高管理者系統</a></p>
+
+                <p><a href="{{url('/api/account_sys/auth/logout')}}">登出</a></p>
             @else
                 <div class="form-signin">
                     <h2 class="form-signin-heading">登入</h2>
