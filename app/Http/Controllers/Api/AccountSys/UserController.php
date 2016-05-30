@@ -92,7 +92,6 @@ class UserController extends Controller
 
         // Update user profile.
         $user->username = $request->input('username');
-        $user->password = bcrypt($request->input('password'));
         $user->nickname = $request->input('nickname');
         $user->position = $request->input('position');
         $user->company_id = $request->input('company_id');
