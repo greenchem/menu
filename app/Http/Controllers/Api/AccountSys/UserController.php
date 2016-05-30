@@ -124,6 +124,26 @@ class UserController extends Controller
     }
 
     /**
+     * Update the role for specified resource
+     *
+     * @param int $id (user_id)
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(Request $request, $id)
+    {
+        $user = User::viewable(Auth::user())->find($id);
+
+        if ($user === null) {
+            return response()->json(['status' => 2]);
+        }
+
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+
+        return response()->json(['status' => 0]);
+    }
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int $id

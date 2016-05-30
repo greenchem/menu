@@ -70,8 +70,9 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
             Route::get('/', 'UserController@index');
             Route::post('/', 'UserController@create');
             Route::get('/{id}', 'UserController@show');
-            Route::put('/{id}', 'UserController@update');
-            Route::put('/{id}/{role_id}', 'UserController@updateRole');
+            Route::put('/user/{id}', 'UserController@update');
+            Route::put('/role/{id}/{role_id}', 'UserController@updateRole');
+            Route::put('/password/{id}', 'UserController@updatePassword');
             Route::delete('/{id}', 'UserController@destroy');
             Route::delete('/{id}/{role_id}', 'UserController@destroyRole');
         });
