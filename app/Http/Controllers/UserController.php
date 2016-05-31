@@ -99,5 +99,9 @@ class UserController extends Controller
             ->with('productData', $products)
             ->with('periodData', $periods);
     }
+
+    public function password() {
+        return view('user.password');
+    }
 }
 

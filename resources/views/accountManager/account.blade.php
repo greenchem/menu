@@ -14,6 +14,7 @@
     @include('accountManager.account.addModal')
     @include('accountManager.account.editModal')
     @include('accountManager.account.roleModal')
+    @include('accountManager.account.passwordModal')
 
     <input type="hidden" id="groupData" value="{{$groupData}}">
     <input type="hidden" id="currentEditId">

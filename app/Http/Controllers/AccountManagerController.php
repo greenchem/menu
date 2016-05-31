@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Auth;
 
 // Model
 use App\Objects\Company;
 use App\Objects\Group;
+use App\Objects\User;
 
 class AccountManagerController extends Controller
 {
@@ -30,7 +32,21 @@ class AccountManagerController extends Controller
             }
         }
 
+        $user_id = Auth::user()->id;
+        $user = User::where('id', '=', $user_id)
+            ->with('roles')
+            ->get();
+        $user = json_decode($user);
+
+        $admin = 0;
+        for($i=0; $i<count($user[0]->roles); $i++) {
+            if($user[0]->roles[$i]->name == 'Admin') {
+                $admin = 1;// check now is admin or not?
+            }
+        }
+
         return view('accountManager.account')
+            ->with('admin', $admin)
             ->with('companyData', $companies)
             ->with('groupData', $groups);
     }

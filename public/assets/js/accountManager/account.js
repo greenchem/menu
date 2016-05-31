@@ -78,6 +78,34 @@ function changeEvent() {
 }
 
 function clickEvent() {
+  $('#passwordBtn').unbind('click');
+  $('#passwordBtn').click(function() {
+    var id = $('#currentEditId').val();
+    var data = {};
+    data._token = $('meta[name="csrf-token"]').attr('content');
+    data.password = $('#updatePassword').val();
+
+    if(_.trim(data.password) == '' ) {
+      toastr['warning']('密碼不能為空');
+      return;
+    }
+
+    console.log(data);
+    $.ajax({
+      url: `/api/account_sys/user/password/${id}`,
+      method: 'put',
+      data: data,
+      success: function(result) {
+        toastr['success']('修改密碼成功');
+        $('#passwordModal').modal('hide');
+        getPeople();
+      },
+      fail: function() {
+        toastr['warning']('修改失敗，應該是權限不足');
+      }
+    });
+  });
+
   $('#addModalBtn').unbind('click');
   $('#addModalBtn').click(function() {
     // reset
@@ -240,8 +268,11 @@ function produceTable(people) {
     text += `data-id="${id}"`;
     text += `>修改帳號資料</button>`;
     text += `<button class="btn btn-warning editRoleModalBtn"`
-      text += `data-id="${id}"`
-      text += `>修改帳號權限</button>`;
+    text += `data-id="${id}"`
+    text += `>修改帳號權限</button>`;
+    text += `<button class="btn btn-info passwordModalBtn"`
+    text += `data-id="${id}"`
+    text += `>修改帳號密碼</button>`;
     text += `<button class="btn btn-danger deleteBtn" data-id="${id}">刪除</button>`;
     text += `</td>`;
     text += `</tr>`;
@@ -252,6 +283,16 @@ function produceTable(people) {
 }
 
 function tableEvent() {
+  $('.passwordModalBtn').unbind('click');
+  $('.passwordModalBtn').click(function() {
+    var id = $(this).data('id');
+    $('#currentEditId').val(id);
+
+    $('#updatePassword').val(null);
+    $('#passwordModal').modal('show');
+  });
+
+
   $('.deleteBtn').unbind('click');
   $('.deleteBtn').click(function() {
     var id = $(this).data('id');
@@ -361,7 +402,7 @@ function roleAdd(id, role, current_index, final_index) {
   data._token = $('meta[name="csrf-token"]').attr('content');
 
   $.ajax({
-    url: `/api/account_sys/user/${id}/${role_id}`,
+    url: `/api/account_sys/user/role/${id}/${role_id}`,
     data: data,
     method: 'put',
     success: function(result) {

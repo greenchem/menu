@@ -21,9 +21,12 @@
                   <label>
                     <input type="checkbox" name="role" value="2">帳號管理者
                   </label>
+                @if($admin == 0)
+                @else
                   <label>
                     <input type="checkbox" name="role" value="1">系統管理員
                   </label>
+                @endif
                 </div>
               </div>
               @include('accountManager.account.roleREADME')

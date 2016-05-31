@@ -5,6 +5,8 @@
 
   <li role="presentation"><a href="{{url('user/history')}}">購物紀錄</a></li>
 
+  <li role="presentation"><a href="{{url('user/password')}}">修改密碼</a></li>
+
   <li role="presentation"  style="float: right"><a href="{{url('/api/account_sys/auth/logout')}}">登出</a></li>
   <li role="presentation" style="float: right"><a href="{{url('')}}">回首頁</a></li>
 </ul>

@@ -27,6 +27,7 @@ Route::group(['middleware' => ['error:User'], 'prefix'=>'user'], function() {
     Route::get('menu', 'UserController@menu');
     Route::get('shoppingCart', 'UserController@shoppingCart');
     Route::get('history', 'UserController@history');
+    Route::get('password', 'UserController@password');
 });
 
 Route::group(['middleware' => ['error:MenuManager'], 'prefix'=>'menuManager'], function() {
