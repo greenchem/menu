@@ -29,7 +29,7 @@ function companyEvent()
       return;
     }
     $.ajax({
-      url: '/api/account_sys/company/',
+      url: '/api/account_sys/company',
       type: "POST",
       data: {
         name: $('#addCompany-companyName').val(),
@@ -138,7 +138,7 @@ function groupEvent()
 
 
     $.ajax({
-      url: '/api/account_sys/group/',
+      url: '/api/account_sys/group',
       type: "POST",
       data: {
         name: groupName,
